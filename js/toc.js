@@ -1,4 +1,4 @@
-/* TOC: scroll-spy (IntersectionObserver), smooth-scroll, next-section */
+/* TOC: scroll-spy (IntersectionObserver), smooth-scroll, назад/далее */
 
 (() => {
   'use strict';

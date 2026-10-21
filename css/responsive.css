@@ -58,6 +58,7 @@
   .welcome, .prereq { padding: 20px 18px; }
   .modal { padding: 26px 22px; }
   .mark-read { font-size: .82rem; padding: 10px 20px; }
-  .next-section { font-size: .78rem; padding: 7px 13px; }
+  .section-nav-link .ttl { font-size: .78rem; }
+.section-nav { flex-direction: column; }
   #toast { font-size: .82rem; padding: 11px 20px; bottom: 84px; }
 }
