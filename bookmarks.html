@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Полный гайд: Django + DRF + React на РЕД ОС без sudo">
+<meta name="description" content="Закладки гайда Django + DRF + React: разделы, сохранённые в этом браузере.">
 <meta name="theme-color" content="#fdf2f6" id="metaThemeColor">
 <title>⭐ Закладки — Full-Stack гайд Django + DRF + React</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,89 +39,16 @@
   </div>
 </header>
 
-<div class="layout">
-
-  <nav class="toc" aria-label="Содержание гайда">
-    <h3>Содержание</h3>
-    <ul>
-      <li><a href="#intro-all" class="toc-part">Введение</a></li>
-      <li><a href="#prerequisites" data-track>Prerequisites</a></li>
-      <li><a href="#architecture" data-track>Архитектура</a></li>
-
-      <li><a href="#part1" class="toc-part">Часть 1. Бэкенд</a></li>
-      <li><a href="#intro" data-track>1. Введение в бэкенд</a></li>
-      <li><a href="#no-sudo" data-track>2. Почему без sudo</a></li>
-      <li><a href="#python" data-track>3. Python и venv</a></li>
-      <li><a href="#django" data-track>4. Django-проект</a></li>
-      <li><a href="#django-admin" data-track>5. Django Admin</a></li>
-      <li><a href="#django-bootstrap5" data-track>6. Django + Bootstrap 5</a></li>
-      <li><a href="#api" data-track>7. Модель и API</a></li>
-      <li><a href="#test-api" data-track>8. Тестирование API</a></li>
-      <li><a href="#jsonplaceholder" data-track>9. JSONPlaceholder</a></li>
-      <li><a href="#deeper" data-track>10. Что под капотом DRF</a></li>
-
-      <li><a href="#part2" class="toc-part">Часть 2. Фронтенд</a></li>
-      <li><a href="#nvm" data-track>11. Node.js через nvm</a></li>
-      <li><a href="#react" data-track>12. React-приложение</a></li>
-      <li><a href="#proxy" data-track>13. Прокси Vite</a></li>
-      <li><a href="#react-code" data-track>14. Код React</a></li>
-      <li><a href="#jwt" data-track>15. JWT и jwt.io</a></li>
-      <li><a href="#test" data-track>16. Тестирование</a></li>
-      <li><a href="#run-all" data-track>17. Запуск одним скриптом</a></li>
-
-      <li><span class="toc-part">Продвинутое</span></li>
-      <li><a href="#git-intro" data-track>18. Git</a></li>
-      <li><a href="#extended-model" data-track>19. Теги и категории</a></li>
-      <li><a href="#auth-register" data-track>20. Регистрация</a></li>
-      <li><a href="#tests" data-track>21. Тесты Django</a></li>
-      <li><a href="#env-config" data-track>22. Переменные окружения</a></li>
-      <li><a href="#db-schema" data-track>23. Схема БД</a></li>
-      <li><a href="#auth-compare" data-track>24. Сравнение auth</a></li>
-      <li><a href="#db-python" data-track>25. База данных на Python</a></li>
-      <li><a href="#postgresql" data-track>26. PostgreSQL</a></li>
-      <li><a href="#deploy" data-track>27. Деплой</a></li>
-      <li><a href="#cors-deep" data-track>28. CORS глубоко</a></li>
-
-      <li><span class="toc-part">Справочник</span></li>
-      <li><a href="#troubleshooting" data-track>29. Troubleshooting</a></li>
-      <li><a href="#glossary" data-track>30. Глоссарий</a></li>
-      <li><a href="#faq" data-track>31. FAQ</a></li>
-      <li><a href="#cheatsheet" data-track>32. Cheat sheet</a></li>
-      <li><a href="#summary" data-track>33. Итог</a></li>
-      <li><a href="#export" data-track>34. Экспорт</a></li>
-    </ul>
-  </nav>
-
-<body>
-
-<a href="#content" class="skip-link">Перейти к содержимому</a>
-
-<div id="readingBar" aria-hidden="true"><div id="readingBarFill"></div></div>
-
-<header>
-  <div class="brand"><span>Django + DRF + React</span></div>
-  <input type="text" id="search" placeholder="Поиск... (Ctrl+K)" autocomplete="off" aria-label="Поиск по гайду">
-  <div class="header-btns">
-    <button type="button" class="icon-btn" id="fontBtn" title="Шрифт" aria-label="Выбрать шрифт">Aa</button>
-    <button type="button" class="icon-btn" id="hotkeysBtn" title="Горячие клавиши" aria-label="Показать горячие клавиши">⌨</button>
-    <div class="theme-switch" role="group" aria-label="Цветовая тема">
-      <button type="button" class="theme-btn" data-theme-btn="rose" title="Розовая" aria-label="Розовая тема">🌸</button>
-      <button type="button" class="theme-btn" data-theme-btn="rose-dark" title="Тёмно-розовая" aria-label="Тёмно-розовая тема">🌺</button>
-      <button type="button" class="theme-btn" data-theme-btn="light" title="Светлая" aria-label="Светлая тема">☀️</button>
-      <button type="button" class="theme-btn" data-theme-btn="dark" title="Тёмная" aria-label="Тёмная тема">🌙</button>
-    </div>
-  </div>
-</header>
-
+<!-- Одна колонка: сайдбар на этой странице не нужен (класс layout-single) -->
 <div class="layout layout-single">
 
-  <main id="content" tabindex="-1">
+  <main id="content">
     <section class="hero">
       <h1>⭐ Закладки</h1>
       <p>Разделы гайда, которые вы отметили для быстрого возврата</p>
       <div class="meta-info">
         <span>💾 Хранятся в этом браузере</span>
-        <span>⌨ Ставятся клавишей <code>B</code> в гайде</span>
+        <span>⌨ Ставятся клавишей <code>B</code> или ☆ в оглавлении гайда</span>
       </div>
     </section>
 
@@ -130,11 +57,15 @@
       <a class="btn-secondary" href="index.html">← Вернуться к гайду</a>
     </div>
 
-    <div class="callout tip" id="bmPageEmpty">
-      <p><strong>Пока пусто.</strong> Откройте <a href="index.html">гайд</a>, дойдите до нужного раздела и нажмите клавишу <kbd>B</kbd> — раздел появится здесь. Быстро заложить текущий раздел можно также звёздочкой <b>☆ Закладки</b> в меню слева.</p>
-    </div>
-
+    <!-- Список рендерит js/bookmarks-page.js из localStorage -->
     <ul class="bm-page-list" id="bmPageList"></ul>
+
+    <!-- Пустое состояние: hidden управляется скриптом -->
+    <div class="callout tip" id="bmPageEmpty" hidden>
+      <p><strong>Пока пусто.</strong> Откройте <a href="index.html">гайд</a>, найдите нужный раздел
+      в оглавлении слева и нажмите на звёздочку <b>☆</b> рядом с его названием (или клавишу
+      <kbd>B</kbd>, когда раздел открыт) — он появится здесь.</p>
+    </div>
 
     <div class="bm-page-actions">
       <button type="button" class="mark-read danger" id="bmPageClear">🗑 Очистить все закладки</button>
@@ -151,7 +82,7 @@
 <div class="modal-overlay" id="hotkeysModal" role="dialog" aria-modal="true" aria-label="Горячие клавиши">
   <div class="modal">
     <h2>Горячие клавиши</h2>
-    <div class="hotkey-row"><span>Открыть гайд</span><kbd>G</kbd></div>
+    <div class="hotkey-row"><span>Поиск по странице</span><kbd>Ctrl</kbd> + <kbd>K</kbd></div>
     <div class="hotkey-row"><span>Показать это окно</span><kbd>?</kbd></div>
     <div class="hotkey-row"><span>Печать / PDF</span><kbd>Ctrl</kbd> + <kbd>P</kbd></div>
     <div class="hotkey-row"><span>Наверх страницы</span><kbd>Home</kbd></div>
@@ -188,6 +119,8 @@
 
 <script src="js/ui.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script src="js/progress.js" defer></script>
+<script src="js/search.js" defer></script>
 <script src="js/bookmarks-page.js" defer></script>
 <script src="js/main.js" defer></script>
 
