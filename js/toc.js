@@ -6,7 +6,7 @@
   // Согласовано с CSS: html { scroll-padding-top: 120px; }
   const SCROLL_OFFSET = 110;
 
-  const tocLinks = document.querySelectorAll('nav.toc a');
+  const tocLinks = document.querySelectorAll('nav.toc a[href^="#"]');
   const sections = [...tocLinks]
     .map(a => document.querySelector(a.getAttribute('href')))
     .filter(Boolean);

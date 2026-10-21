@@ -22,7 +22,7 @@
 
   /* ─── Звёздочки в оглавлении (по одной на ссылку toc) ─── */
   // Вставляются внутрь <a> как <span>, поэтому layout оглавления не меняется.
-  const tocAnchors = [...document.querySelectorAll('nav.toc ul a[data-track]')];
+  const tocAnchors = [...document.querySelectorAll('nav.toc ul a[data-star]')];
 
   tocAnchors.forEach(a => {
     if (a.querySelector('.bm-star')) return;

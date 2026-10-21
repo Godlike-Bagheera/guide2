@@ -13,8 +13,11 @@
     max-height: none;
     padding: 16px 10px;
   }
-  nav.toc ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  nav.toc > ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   nav.toc a.toc-part { grid-column: 1 / -1; }
+  /* на узких экранах дерево остаётся вертикальным списком — все пункты видны */
+  nav.toc ul.toc-site { display: block; }
+  nav.toc .toc-sub a { padding-left: 24px; }
   main { padding: 30px 24px; }
   header {
     padding: 10px 14px;

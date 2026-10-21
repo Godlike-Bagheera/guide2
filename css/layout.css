@@ -234,6 +234,31 @@ nav.toc .toc-part.active::before { display: none; }
 
 nav.toc .ico { display: none; }
 
+/* ═══════════ ДВУХУРОВНЕВОЕ ДРЕВО (всё раскрыто по умолчанию) ═══════════ */
+nav.toc ul.toc-site > li.toc-group { margin: 0; }
+nav.toc .toc-sub {
+  list-style: none;
+  padding: 0 0 4px 0;
+  margin: 2px 0 6px;
+}
+nav.toc .toc-sub a {
+  padding: 5px 10px 5px 20px;
+  font-size: .8rem;
+}
+
+nav.toc .toc-current > .toc-part {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+nav.toc .cur-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 nav.toc::-webkit-scrollbar { width: 6px; }
 nav.toc::-webkit-scrollbar-thumb {
   background: var(--border-strong);

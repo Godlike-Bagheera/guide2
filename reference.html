@@ -45,14 +45,129 @@
 
   <nav class="toc" aria-label="Содержание страницы">
     <h3>Содержание</h3>
-    <ul>
-      <li><a href="#troubleshooting" class="toc-part">29. Troubleshooting: типичные ошибки</a></li>
-      <li><a href="#glossary" class="toc-part">30. Глоссарий</a></li>
-      <li><a href="#faq" class="toc-part">31. FAQ — частые вопросы</a></li>
-      <li><a href="#cheatsheet" class="toc-part">32. Cheat sheet — все команды в одном месте</a></li>
-      <li><a href="#summary" class="toc-part">33. Итог</a></li>
-      <li><a href="#export" class="toc-part">34. Экспорт гайда</a></li>
-      <li><a href="index.html">← Все страницы</a></li>
+    <ul class="toc-site">
+      <li class="toc-group">
+        <a href="intro.html" class="toc-part">Введение</a>
+        <ul class="toc-sub">
+          <li><a href="intro.html#intro-all">Введение</a></li>
+          <li><a href="intro.html#prerequisites">Prerequisites — что нужно знать до старта</a></li>
+          <li><a href="intro.html#architecture">Архитектура приложения</a></li>
+        </ul>
+      </li>
+      <li class="toc-group">
+        <a href="part1-django.html" class="toc-part">Часть 1. Бэкенд</a>
+        <ul class="toc-sub">
+          <li><a href="part1-django.html#part1">Часть 1. Бэкенд на Django</a></li>
+          <li><a href="part1-django.html#intro">1. Введение в бэкенд</a></li>
+          <li><a href="part1-django.html#no-sudo">2. Почему без sudo и как это работает</a></li>
+          <li><a href="part1-django.html#python">3. Проверка Python и создание виртуального окружения</a></li>
+          <li><a href="part1-django.html#django">4. Создание Django-проекта</a></li>
+          <li><a href="part1-django.html#django-admin">5. Django Admin — готовая админка из коробки</a></li>
+          <li><a href="part1-django.html#django-bootstrap5">6. Django + Bootstrap 5 — django_bootstrap5</a></li>
+          <li><a href="part1-django.html#api">7. Модель, сериализатор, представления</a></li>
+          <li><a href="part1-django.html#test-api">8. Тестирование API через curl</a></li>
+          <li><a href="part1-django.html#jsonplaceholder">9. JSONPlaceholder</a></li>
+          <li><a href="part1-django.html#deeper">10. Углубляемся: что такое DRF под капотом</a></li>
+        </ul>
+      </li>
+      <li class="toc-group">
+        <a href="part2-react.html" class="toc-part">Часть 2. Фронтенд</a>
+        <ul class="toc-sub">
+          <li><a href="part2-react.html#part2">Часть 2. Фронтенд на React</a></li>
+          <li><a href="part2-react.html#nvm">11. Установка Node.js через nvm (без sudo)</a></li>
+          <li><a href="part2-react.html#react">12. Создание React-приложения</a></li>
+          <li><a href="part2-react.html#proxy">13. Настройка прокси Vite к Django API</a></li>
+          <li><a href="part2-react.html#react-code">14. Код React-приложения</a></li>
+          <li><a href="part2-react.html#jwt">15. Что такое JWT — разбор на примере jwt.io</a></li>
+          <li><a href="part2-react.html#test">16. Тестирование полного цикла</a></li>
+          <li><a href="part2-react.html#run-all">17. Запуск одним скриптом</a></li>
+        </ul>
+      </li>
+      <li class="toc-group">
+        <a href="advanced.html" class="toc-part">Продвинутое</a>
+        <ul class="toc-sub">
+          <li><a href="advanced.html#git-intro">18. Git с самого начала</a></li>
+          <li><a href="advanced.html#extended-model">19. Расширенная модель: теги и категории</a></li>
+          <li><a href="advanced.html#auth-register">20. Регистрация пользователей</a></li>
+          <li><a href="advanced.html#tests">21. Тесты Django</a></li>
+          <li><a href="advanced.html#env-config">22. Переменные окружения (.env)</a></li>
+          <li><a href="advanced.html#db-schema">23. Схема БД и жизненный цикл запроса</a></li>
+          <li><a href="advanced.html#auth-compare">24. Аутентификация: сравнение подходов</a></li>
+          <li><a href="advanced.html#db-python">25. База данных «на Python»: модели и миграции</a></li>
+          <li><a href="advanced.html#postgresql">26. PostgreSQL — серьёзная база данных для продакшена</a></li>
+          <li><a href="advanced.html#deploy">27. Деплой: выкладываем сайт в интернет</a></li>
+          <li><a href="advanced.html#cors-deep">28. CORS глубоко: как браузер решает, кому можно ходить на ваш API</a></li>
+        </ul>
+      </li>
+      <li class="toc-group toc-current">
+        <a href="#troubleshooting" class="toc-part">Справочник <span class="cur-dot" aria-hidden="true"></span></a>
+        <ul class="toc-sub">
+          <li><a href="#troubleshooting" data-star>29. Troubleshooting: типичные ошибки</a></li>
+          <li><a href="#glossary" data-star>30. Глоссарий</a></li>
+          <li><a href="#faq" data-star>31. FAQ — частые вопросы</a></li>
+          <li><a href="#cheatsheet" data-star>32. Cheat sheet — все команды в одном месте</a></li>
+          <li><a href="#summary" data-star>33. Итог</a></li>
+          <li><a href="#export" data-star>34. Экспорт гайда</a></li>
+        </ul>
+      </li>
+    </ul>
+      </li>
+      <li class="toc-group">
+        <a href="part1-django.html" class="toc-part">Часть 1. Бэкенд</a>
+        <ul class="toc-sub">
+          <li><a href="part1-django.html#part1">Часть 1. Бэкенд на Django</a></li>
+          <li><a href="part1-django.html#intro">1. Введение в бэкенд</a></li>
+          <li><a href="part1-django.html#no-sudo">2. Почему без sudo и как это работает</a></li>
+          <li><a href="part1-django.html#python">3. Проверка Python и создание виртуального окружения</a></li>
+          <li><a href="part1-django.html#django">4. Создание Django-проекта</a></li>
+          <li><a href="part1-django.html#django-admin">5. Django Admin — готовая админка из коробки</a></li>
+          <li><a href="part1-django.html#django-bootstrap5">6. Django + Bootstrap 5 — django_bootstrap5</a></li>
+          <li><a href="part1-django.html#api">7. Модель, сериализатор, представления</a></li>
+          <li><a href="part1-django.html#test-api">8. Тестирование API через curl</a></li>
+          <li><a href="part1-django.html#jsonplaceholder">9. JSONPlaceholder</a></li>
+          <li><a href="part1-django.html#deeper">10. Углубляемся: что такое DRF под капотом</a></li>
+        </ul>
+      </li>
+      <li class="toc-group">
+        <a href="part2-react.html" class="toc-part">Часть 2. Фронтенд</a>
+        <ul class="toc-sub">
+          <li><a href="part2-react.html#part2">Часть 2. Фронтенд на React</a></li>
+          <li><a href="part2-react.html#nvm">11. Установка Node.js через nvm (без sudo)</a></li>
+          <li><a href="part2-react.html#react">12. Создание React-приложения</a></li>
+          <li><a href="part2-react.html#proxy">13. Настройка прокси Vite к Django API</a></li>
+          <li><a href="part2-react.html#react-code">14. Код React-приложения</a></li>
+          <li><a href="part2-react.html#jwt">15. Что такое JWT — разбор на примере jwt.io</a></li>
+          <li><a href="part2-react.html#test">16. Тестирование полного цикла</a></li>
+          <li><a href="part2-react.html#run-all">17. Запуск одним скриптом</a></li>
+        </ul>
+      </li>
+      <li class="toc-group">
+        <a href="advanced.html" class="toc-part">Продвинутое</a>
+        <ul class="toc-sub">
+          <li><a href="advanced.html#git-intro">18. Git с самого начала</a></li>
+          <li><a href="advanced.html#extended-model">19. Расширенная модель: теги и категории</a></li>
+          <li><a href="advanced.html#auth-register">20. Регистрация пользователей</a></li>
+          <li><a href="advanced.html#tests">21. Тесты Django</a></li>
+          <li><a href="advanced.html#env-config">22. Переменные окружения (.env)</a></li>
+          <li><a href="advanced.html#db-schema">23. Схема БД и жизненный цикл запроса</a></li>
+          <li><a href="advanced.html#auth-compare">24. Аутентификация: сравнение подходов</a></li>
+          <li><a href="advanced.html#db-python">25. База данных «на Python»: модели и миграции</a></li>
+          <li><a href="advanced.html#postgresql">26. PostgreSQL — серьёзная база данных для продакшена</a></li>
+          <li><a href="advanced.html#deploy">27. Деплой: выкладываем сайт в интернет</a></li>
+          <li><a href="advanced.html#cors-deep">28. CORS глубоко: как браузер решает, кому можно ходить на ваш API</a></li>
+        </ul>
+      </li>
+      <li class="toc-group toc-current">
+        <a href="#troubleshooting" data-current class="toc-part">Справочник <span class="cur-dot" aria-hidden="true"></span></a>
+        <ul class="toc-sub">
+          <li><a href="#troubleshooting" data-track>29. Troubleshooting: типичные ошибки</a></li>
+          <li><a href="#glossary" data-track>30. Глоссарий</a></li>
+          <li><a href="#faq" data-track>31. FAQ — частые вопросы</a></li>
+          <li><a href="#cheatsheet" data-track>32. Cheat sheet — все команды в одном месте</a></li>
+          <li><a href="#summary" data-track>33. Итог</a></li>
+          <li><a href="#export" data-track>34. Экспорт гайда</a></li>
+        </ul>
+      </li>
     </ul>
     <div class="toc-bookmarks">
       <a href="bookmarks.html" id="tocBookmarksLink">⭐ Закладки <span class="bm-badge" id="tocBmCount"></span></a>

@@ -386,7 +386,7 @@ pre .copy-btn.copied::before { content: "✓"; }
 .section-nav-link.next { text-align: right; margin-left: auto; }
 
 /* ═══════════ ЗАКЛАДКИ (звёздочки в оглавлении) ═══════════ */
-nav.toc ul a[data-track] { padding-right: 34px; } /* место под звёздочку */
+nav.toc ul a[data-star] { padding-right: 34px; } /* место под звёздочку */
 .bm-star {
   position: absolute;
   right: 8px;
@@ -400,7 +400,7 @@ nav.toc ul a[data-track] { padding-right: 34px; } /* место под звёз�
   user-select: none;
   transition: opacity .15s, color .15s, transform .15s;
 }
-nav.toc ul a[data-track]:hover .bm-star { opacity: .9; }
+nav.toc ul a[data-star]:hover .bm-star { opacity: .9; }
 .bm-star:hover {
   color: #f59e0b;
   opacity: 1 !important;
