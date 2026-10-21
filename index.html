@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="rose" data-font="modern">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Полный гайд: Django + DRF + React на РЕД ОС без sudo">
+<meta name="theme-color" content="#fdf2f6" id="metaThemeColor">
+<title>Full-Stack гайд: Django + DRF + React на РЕД ОС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Manrope:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<a href="#content" class="skip-link">Перейти к содержимому</a>
+
+<div id="readingBar" aria-hidden="true"><div id="readingBarFill"></div></div>
+
+<header>
+  <div class="brand"><span>Django + DRF + React</span></div>
+  <input type="text" id="search" placeholder="Поиск... (Ctrl+K)" autocomplete="off" aria-label="Поиск по гайду">
+  <div class="header-btns">
+    <button type="button" class="icon-btn" id="fontBtn" title="Шрифт" aria-label="Выбрать шрифт">Aa</button>
+    <button type="button" class="icon-btn" id="hotkeysBtn" title="Горячие клавиши" aria-label="Показать горячие клавиши">⌨</button>
+    <div class="theme-switch" role="group" aria-label="Цветовая тема">
+      <button type="button" class="theme-btn" data-theme-btn="rose" title="Розовая" aria-label="Розовая тема">🌸</button>
+      <button type="button" class="theme-btn" data-theme-btn="rose-dark" title="Тёмно-розовая" aria-label="Тёмно-розовая тема">🌺</button>
+      <button type="button" class="theme-btn" data-theme-btn="light" title="Светлая" aria-label="Светлая тема">☀️</button>
+      <button type="button" class="theme-btn" data-theme-btn="dark" title="Тёмная" aria-label="Тёмная тема">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="toc" aria-label="Содержание гайда">
+    <h3>Содержание</h3>
+    <ul>
+      <li><a href="#intro-all" class="toc-part">Введение</a></li>
+      <li><a href="#prerequisites" data-track>Prerequisites</a></li>
+      <li><a href="#architecture" data-track>Архитектура</a></li>
+
+      <li><a href="#part1" class="toc-part">Часть 1. Бэкенд</a></li>
+      <li><a href="#intro" data-track>1. Введение в бэкенд</a></li>
+      <li><a href="#no-sudo" data-track>2. Почему без sudo</a></li>
+      <li><a href="#python" data-track>3. Python и venv</a></li>
+      <li><a href="#django" data-track>4. Django-проект</a></li>
+      <li><a href="#api" data-track>5. Модель и API</a></li>
+      <li><a href="#test-api" data-track>6. Тестирование API</a></li>
+      <li><a href="#jsonplaceholder" data-track>7. JSONPlaceholder</a></li>
+      <li><a href="#deeper" data-track>8. Что под капотом DRF</a></li>
+
+      <li><a href="#part2" class="toc-part">Часть 2. Фронтенд</a></li>
+      <li><a href="#nvm" data-track>9. Node.js через nvm</a></li>
+      <li><a href="#react" data-track>10. React-приложение</a></li>
+      <li><a href="#proxy" data-track>11. Прокси Vite</a></li>
+      <li><a href="#react-code" data-track>12. Код React</a></li>
+      <li><a href="#jwt" data-track>13. JWT и jwt.io</a></li>
+      <li><a href="#test" data-track>14. Тестирование</a></li>
+      <li><a href="#run-all" data-track>15. Запуск одним скриптом</a></li>
+
+      <li><span class="toc-part">Продвинутое</span></li>
+      <li><a href="#git-intro" data-track>22. Git</a></li>
+      <li><a href="#extended-model" data-track>23. Теги и категории</a></li>
+      <li><a href="#auth-register" data-track>24. Регистрация</a></li>
+      <li><a href="#tests" data-track>25. Тесты Django</a></li>
+      <li><a href="#env-config" data-track>26. Переменные окружения</a></li>
+      <li><a href="#db-schema" data-track>27. Схема БД</a></li>
+      <li><a href="#auth-compare" data-track>28. Сравнение auth</a></li>
+
+      <li><span class="toc-part">Справочник</span></li>
+      <li><a href="#troubleshooting" data-track>16. Troubleshooting</a></li>
+      <li><a href="#glossary" data-track>17. Глоссарий</a></li>
+      <li><a href="#faq" data-track>18. FAQ</a></li>
+      <li><a href="#cheatsheet" data-track>19. Cheat sheet</a></li>
+      <li><a href="#summary" data-track>20. Итог</a></li>
+      <li><a href="#export" data-track>21. Экспорт</a></li>
+    </ul>
+  </nav>
+
+  <main id="content" tabindex="-1">
+    <section class="hero">
+      <h1>Django + DRF + React на РЕД ОС</h1>
+      <p>Полный гайд: от нуля до работающего full-stack приложения без sudo</p>
+      <div class="meta-info">
+        <span>🎯 Для новичка</span>
+        <span>🛠️ 3 терминала</span>
+        <span>🔓 0 команд sudo</span>
+        <span>📄 ~2000 строк кода</span>
+      </div>
+      <div class="badges">
+        <span class="badge">🐍 Django</span>
+        <span class="badge">🔌 DRF</span>
+        <span class="badge">⚛️ React</span>
+        <span class="badge">🔐 JWT</span>
+        <span class="badge">🚀 Vite</span>
+        <span class="badge">🐧 РЕД ОС</span>
+        <span class="badge">🌐 JSONPlaceholder</span>
+      </div>
+    </section>
+
+
+
+    <div class="welcome">
+      <h3><span class="h-icon" aria-hidden="true">👋</span>Как пользоваться гайдом</h3>
+      <div class="welcome-grid">
+        <div class="welcome-item"><b>📖 Читайте сверху вниз</b>Разделы идут по порядку — от установки Python до готового приложения.</div>
+        <div class="welcome-item"><b>✅ Отмечайте изученное</b>В конце каждого раздела — кнопка «Отметить как изученное».</div>
+        <div class="welcome-item"><b>🔍 Ищите по гайду</b>Нажмите <code>Ctrl+K</code> — откроется поиск по всем разделам.</div>
+        <div class="welcome-item"><b>📋 Копируйте код</b>Наведите на блок кода — появится кнопка «Копировать».</div>
+        <div class="welcome-item"><b>🎨 Меняйте тему</b>🌸 розовая, 🌺 тёмно-розовая, ☀️ светлая, 🌙 тёмная.</div>
+        <div class="welcome-item"><b>🔤 Меняйте шрифт</b>Кнопка <code>Aa</code> в шапке — 4 пресета на выбор.</div>
+        <div class="welcome-item"><b>⌨️ Горячие клавиши</b>Нажмите <code>?</code> — увидите все шорткаты.</div>
+        <div class="welcome-item"><b>📥 Экспорт прогресса</b>Кнопка внизу — скачать прогресс в JSON.</div>
+      </div>
+    </div>
+
+    <h2 id="intro-all">Введение</h2>
+    <p>Этот гайд рассчитан на новичка, который хочет создать полноценное веб-приложение на <strong>РЕД ОС</strong> — российском Linux-дистрибутиве на базе RPM — <strong>не используя sudo</strong> (права администратора).</p>
+    <p>Мы построим классическую связку:</p>
+    <ul>
+      <li><strong>Бэкенд</strong>: Django + Django REST Framework (DRF) — Python-фреймворки для создания REST API</li>
+      <li><strong>Фронтенд</strong>: React — JavaScript-библиотека для пользовательских интерфейсов</li>
+      <li><strong>Аутентификация</strong>: JWT (JSON Web Tokens) через <code>djangorestframework-simplejwt</code></li>
+      <li><strong>Тестирование API</strong>: JSONPlaceholder — бесплатный фейковый REST API</li>
+    </ul>
+
+    <div class="callout warn">
+      <p><strong>Важно:</strong> Все команды выполняются от имени обычного пользователя. Если команда требует <code>sudo</code> — мы ищем альтернативу. РЕД ОС — RPM-дистрибутив, но мы обойдём системный <code>dnf</code>, установив всё в домашнюю директорию.</p>
+    </div>
+
+    <h3 id="prerequisites">Prerequisites — что нужно знать до старта</h3>
+    <div class="prereq">
+      <h3><span class="h-icon" aria-hidden="true">🎓</span>Минимальные требования</h3>
+      <ul>
+        <li><strong>Базовое владение терминалом</strong> — команды <code>cd</code>, <code>ls</code>, <code>mkdir</code>, <code>cat</code></li>
+        <li><strong>Понимание, что такое файл и папка</strong> — куда что сохраняется</li>
+        <li><strong>Умение открыть текстовый редактор</strong> — nano, gedit или VS Code</li>
+        <li><strong>Браузер с DevTools</strong> — Firefox или Chromium, доступный по F12</li>
+        <li><strong>Установленный Python 3.9+</strong> — обычно есть в РЕД ОС по умолчанию</li>
+        <li><strong>~5 ГБ свободного места</strong> — для venv, node_modules, БД</li>
+      </ul>
+      <p class="muted small mt-md"><strong>Не требуется:</strong> опыт в Django, React, JWT, DRF. Мы разберём всё с нуля.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="prerequisites">Отметить как изученное</button>
+
+    <h3 id="architecture">Архитектура приложения</h3>
+    <p>Прежде чем начать, посмотрим на общую картину. Наше приложение состоит из <strong>двух частей</strong>, которые общаются по HTTP:</p>
+
+    <div class="arch">
+<pre>┌──────────────────────────────────────────────────────────────────┐
+│                         БРАУЗЕР (localhost)                      │
+│                                                                  │
+│  ┌────────────────────────┐         ┌────────────────────────┐   │
+│  │  React SPA (Vite)      │  HTTP   │  Django REST API       │   │
+│  │  http://localhost:5173 │◄───────►│  http://127.0.0.1:8000 │   │
+│  │                        │  JSON   │                        │   │
+│  │  • Login.jsx           │         │  • /api/token/         │   │
+│  │  • Notes.jsx           │         │  • /api/token/refresh/ │   │
+│  │  • AuthContext         │         │  • /api/notes/         │   │
+│  │  • axios + JWT         │         │  • /api/notes/:id/     │   │
+│  └───────────┬────────────┘         └───────────┬────────────┘   │
+│              │                                  │                │
+│              │ localStorage                     │ ORM            │
+│              ▼                                  ▼                │
+│     ┌────────────────┐                 ┌────────────────┐        │
+│     │ access_token   │                 │  SQLite DB     │        │
+│     │ refresh_token  │                 │  (db.sqlite3)  │        │
+│     └────────────────┘                 └────────────────┘        │
+└──────────────────────────────────────────────────────────────────┘
+
+     ПОТОК АУТЕНТИФИКАЦИИ:
+     1. Пользователь вводит логин/пароль в React
+     2. POST /api/token/ → сервер выдаёт {access, refresh}
+     3. React сохраняет оба токена в localStorage
+     4. Каждый запрос: заголовок Authorization: Bearer &lt;access&gt;
+     5. Через 60 минут access истекает → 401
+     6. axios автоматически POST /api/token/refresh/ → новый access
+     7. Всё работает без перелогина пользователя</pre>
+    </div>
+
+    <div class="callout warn">
+      <p><strong>Про хранение токенов.</strong> В этом гайде мы используем <code>localStorage</code> — так проще для новичка и работает из коробки. Но в проде так делать не стоит: любой XSS украдёт токен. Реальный продакшн-паттерн — гибрид:</p>
+      <ul>
+        <li><code>access_token</code> (5–15 мин) — в <strong>памяти JS</strong> (React state), не в localStorage</li>
+        <li><code>refresh_token</code> (7 дней) — в <strong>httpOnly Secure SameSite=Strict cookie</strong></li>
+        <li><code>csrf_token</code> (double submit) — в обычной cookie, читается JS</li>
+      </ul>
+      <p>Плюсы: XSS не доберётся до refresh-токена, access быстро протухает и при утечке почти бесполезен, CSRF защищён отдельным токеном.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card"><h4>🐍 Бэкенд</h4><p>Django + Django REST Framework — Python-фреймворки для REST API</p></div>
+      <div class="card"><h4>⚛️ Фронтенд</h4><p>React — JavaScript-библиотека для пользовательских интерфейсов</p></div>
+      <div class="card"><h4>🔐 Аутентификация</h4><p>JWT через <code>djangorestframework-simplejwt</code></p></div>
+      <div class="card"><h4>🌐 Тестовый API</h4><p>JSONPlaceholder — бесплатная заглушка для прототипирования</p></div>
+    </div>
+    <button type="button" class="mark-read" data-section="architecture">Отметить как изученное</button>
+
+    <h2 id="part1">Часть 1. Бэкенд на Django</h2>
+
+    <h3 id="intro">1. Введение в бэкенд</h3>
+    <p>Мы создадим REST API для управления заметками. Каждая заметка имеет:</p>
+    <ul>
+      <li><strong>ID</strong> — автоматический идентификатор (создаёт Django)</li>
+      <li><strong>title</strong> — короткий заголовок (до 200 символов)</li>
+      <li><strong>content</strong> — текст заметки (без ограничения)</li>
+      <li><strong>created_at</strong> — дата создания (проставляется автоматически)</li>
+      <li><strong>owner</strong> — ссылка на пользователя-создателя</li>
+    </ul>
+    <p>API будет поддерживать 5 операций — классический <strong>CRUD</strong>:</p>
+    <div class="table-wrap">
+      <table>
+        <caption class="sr-only">CRUD-операции API заметок</caption>
+        <thead><tr><th>Операция</th><th>Метод HTTP</th><th>URL</th><th>Что делает</th></tr></thead>
+        <tbody>
+          <tr><td>Create</td><td><code>POST</code></td><td><code>/api/notes/</code></td><td>Создать заметку</td></tr>
+          <tr><td>Read (list)</td><td><code>GET</code></td><td><code>/api/notes/</code></td><td>Список всех заметок</td></tr>
+          <tr><td>Read (one)</td><td><code>GET</code></td><td><code>/api/notes/1/</code></td><td>Одна заметка по ID</td></tr>
+          <tr><td>Update</td><td><code>PUT/PATCH</code></td><td><code>/api/notes/1/</code></td><td>Обновить заметку</td></tr>
+          <tr><td>Delete</td><td><code>DELETE</code></td><td><code>/api/notes/1/</code></td><td>Удалить заметку</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="mark-read" data-section="intro">Отметить как изученное</button>
+
+    <h3 id="no-sudo">2. Почему без sudo и как это работает</h3>
+    <p>В РЕД ОС команда <code>dnf install</code> <strong>требует прав суперпользователя</strong> — при попытке запуска без sudo вы получите ошибку: <em>«Эту команду нужно запускать с привилегиями суперпользователя»</em>. Поэтому мы не будем использовать системный менеджер пакетов вообще.</p>
+    <p><strong>Наш подход</strong>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Компонент</th><th>Как ставим</th><th>Где живёт</th></tr></thead>
+        <tbody>
+          <tr><td>Python и зависимости</td><td><code>venv</code></td><td><code>~/projects/fullstack-app/venv/</code></td></tr>
+          <tr><td>Node.js и npm</td><td><code>nvm</code></td><td><code>~/.nvm/</code></td></tr>
+          <tr><td>Django-проект</td><td><code>django-admin</code></td><td><code>~/projects/fullstack-app/backend/</code></td></tr>
+          <tr><td>React-проект</td><td><code>vite</code></td><td><code>~/projects/fullstack-app/frontend/</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout ok">
+      <p><strong>Бонус:</strong> изолированное окружение — вы не сломаете систему и не получите конфликтов версий с уже установленными пакетами.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="no-sudo">Отметить как изученное</button>
+
+    <h3 id="python">3. Проверка Python и создание виртуального окружения</h3>
+
+    <h4>3.1. Проверьте, есть ли Python 3</h4>
+    <p>Откройте терминал (в РЕД ОС это обычно GNOME Terminal) и выполните:</p>
+<pre><code>python3 --version</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Если Python не установлен, возможно, он есть под другим именем:</p>
+<pre><code>python3.11 --version
+# или
+python3.12 --version</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout info">
+      <p>РЕД ОС обычно поставляется с Python 3.10 или 3.11. Если ничего не работает — попросите администратора установить только Python, остальное мы сделаем сами.</p>
+    </div>
+
+    <h4>3.2. Создайте папку проекта</h4>
+<pre><code>mkdir -p ~/projects/fullstack-app
+cd ~/projects/fullstack-app
+pwd</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p><code>pwd</code> должен показать <code>/home/ваш_логин/projects/fullstack-app</code>.</p>
+
+    <h4>3.3. Создайте виртуальное окружение</h4>
+<pre><code>python3 -m venv venv</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout tip">
+      <p><strong>Что такое venv?</strong> Это изолированная среда Python. Всё, что вы установите внутри неё (через <code>pip</code>), будет лежать в папке <code>venv/</code> и не затронет системный Python. Никакого sudo не нужно.</p>
+    </div>
+
+    <h4>3.4. Активируйте окружение</h4>
+<pre><code>source venv/bin/activate</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Вы увидите, что приглашение терминала изменилось — появился префикс <code>(venv)</code>:</p>
+<pre><code>(venv) user@redos:~/projects/fullstack-app$</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout tip">
+      <p><strong>Совет:</strong> Чтобы выйти из окружения, введите <code>deactivate</code>. Чтобы вернуться — <code>source venv/bin/activate</code> из папки проекта.</p>
+    </div>
+
+    <h4>3.5. Обновите pip и установите зависимости</h4>
+<pre><code>pip install --upgrade pip
+pip install django djangorestframework djangorestframework-simplejwt django-cors-headers</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Что мы установили:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Пакет</th><th>Для чего</th></tr></thead>
+        <tbody>
+          <tr><td><code>django</code></td><td>Веб-фреймворк — модели, URL, шаблоны, ORM</td></tr>
+          <tr><td><code>djangorestframework</code></td><td>DRF — сериализаторы, viewsets, permissions</td></tr>
+          <tr><td><code>djangorestframework-simplejwt</code></td><td>JWT-аутентификация — эндпоинты token/refresh</td></tr>
+          <tr><td><code>django-cors-headers</code></td><td>Разрешения CORS — React с другого порта</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Сохраните зависимости в файл (пригодится при деплое):</p>
+<pre><code>pip freeze &gt; requirements.txt
+cat requirements.txt</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <button type="button" class="mark-read" data-section="python">Отметить как изученное</button>
+
+    <h3 id="django">4. Создание Django-проекта</h3>
+
+    <h4>4.1. Создайте проект и приложение</h4>
+<pre><code>django-admin startproject backend
+cd backend
+python manage.py startapp api</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Структура после этих команд:</p>
+<pre><code>backend/
+├── manage.py
+├── backend/          # настройки проекта
+│   ├── __init__.py
+│   ├── settings.py   # ← здесь будем править
+│   ├── urls.py       # ← и здесь
+│   ├── asgi.py
+│   └── wsgi.py
+└── api/              # наше приложение
+    ├── __init__.py
+    ├── admin.py      # ← регистрация в админке
+    ├── apps.py
+    ├── models.py     # ← модель Note
+    ├── tests.py
+    ├── views.py      # ← представления
+    └── migrations/</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
+
+    <h4>4.2. Настройте settings.py</h4>
+    <p>Откройте файл <code>backend/backend/settings.py</code> в редакторе:</p>
+<pre><code>nano backend/backend/settings.py</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Найдите переменную <code>INSTALLED_APPS</code> и добавьте:</p>
+<pre><code>INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Сторонние
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    # Наше
+    'api',
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <p>Найдите <code>MIDDLEWARE</code> и добавьте <code>CorsMiddleware</code> <strong>первым</strong>:</p>
+<pre><code>MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',   # ← первым!
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <div class="callout warn">
+      <p><strong>Почему первым?</strong> CORS должен обрабатывать запрос до того, как Django начнёт его маршрутизировать. Если поставить его позже — preflight-запросы OPTIONS будут отбиваться раньше, чем до них доберётся обработчик CORS.</p>
+    </div>
+
+    <p>В самый конец файла добавьте:</p>
+<pre><code># CORS — какие origins могут обращаться к нашему API
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",   # Vite по умолчанию
+    "http://127.0.0.1:5173",
+]
+
+# Настройки DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+}
+
+# Настройки JWT
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <div class="callout info">
+      <p><strong>Что такое JWT?</strong> JSON Web Token — стандарт передачи данных между сторонами в виде JSON-объекта. Сервер выдаёт клиенту <strong>access token</strong> (короткоживущий) и <strong>refresh token</strong> (долгоживущий). Клиент прикладывает access token к каждому запросу в заголовке <code>Authorization: Bearer &lt;token&gt;</code>. Когда access истекает — использует refresh. Разбор на <a href="https://www.jwt.io/" target="_blank" rel="noopener">jwt.io</a>.</p>
+    </div>
+
+    <h4>4.3. Примените миграции</h4>
+<pre><code>python manage.py migrate</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Вы увидите список применённых миграций — это создаст стандартные таблицы Django (пользователи, сессии, права).</p>
+
+    <h4>4.4. Создайте суперпользователя</h4>
+<pre><code>python manage.py createsuperuser</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Введите:</p>
+    <ul>
+      <li><strong>Username</strong> — например, <code>admin</code></li>
+      <li><strong>Email</strong> — можно пропустить (нажать Enter)</li>
+      <li><strong>Password</strong> — минимум 8 символов, не должен быть слишком простым</li>
+    </ul>
+    <div class="callout ok">
+      <p><strong>Проверка:</strong> запустите <code>python manage.py runserver</code> и откройте <code>http://127.0.0.1:8000/admin/</code> — увидите форму входа. Войдите под созданным пользователем.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="django">Отметить как изученное</button>
+
+    <h3 id="api">5. Модель, сериализатор, представления</h3>
+
+    <h4>5.1. Модель <code>api/models.py</code></h4>
+    <p>Модель — это Python-класс, который описывает таблицу в БД. Django сам создаёт SQL-таблицу на основе класса.</p>
+<pre><code>from django.db import models
+
+
+class Note(models.Model):
+    """Заметка пользователя."""
+    title = models.CharField(
+        max_length=200,
+        verbose_name='Заголовок',
+    )
+    content = models.TextField(
+        verbose_name='Содержание',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Создано',
+    )
+    owner = models.ForeignKey(
+        'auth.User',
+        on_delete=models.CASCADE,
+        related_name='notes',
+        verbose_name='Владелец',
+    )
+
+    class Meta:
+        verbose_name = 'Заметка'
+        verbose_name_plural = 'Заметки'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout tip">
+      <p><code>ForeignKey</code> создаёт связь «многие к одному» — у одного пользователя много заметок. <code>on_delete=CASCADE</code> означает: при удалении пользователя удалятся его заметки. <code>related_name='notes'</code> позволяет обращаться к заметкам как <code>user.notes.all()</code>.</p>
+    </div>
+
+    <h4>5.2. Сериализатор <code>api/serializers.py</code></h4>
+    <p>Создайте файл <code>api/serializers.py</code>. Сериализатор конвертирует объекты Python ↔ JSON.</p>
+<pre><code>from rest_framework import serializers
+from .models import Note
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+
+    class Meta:
+        model = Note
+        fields = ['id', 'title', 'content', 'created_at', 'owner']
+        read_only_fields = ['id', 'created_at', 'owner']</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout tip">
+      <p><code>ReadOnlyField</code> для <code>owner</code> означает: клиент не может подделать владельца — он всегда берётся из <code>request.user</code> на сервере.</p>
+    </div>
+
+    <h4>5.3. Представления <code>api/views.py</code></h4>
+<pre><code>from rest_framework import generics, permissions
+from .models import Note
+from .serializers import NoteSerializer
+
+
+class NoteListCreateView(generics.ListCreateAPIView):
+    """GET /api/notes/  — список; POST /api/notes/ — создание."""
+    serializer_class = NoteSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return Note.objects.all().order_by('-created_at')
+
+    def perform_create(self, serializer):
+        # Владелец всегда текущий пользователь — подделать нельзя
+        serializer.save(owner=self.request.user)
+
+
+class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """GET/PUT/PATCH/DELETE /api/notes/:id/."""
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>5.4. URL-маршруты <code>api/urls.py</code></h4>
+    <p>Создайте файл <code>api/urls.py</code>:</p>
+<pre><code>from django.urls import path
+from .views import NoteListCreateView, NoteDetailView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
+urlpatterns = [
+    # Заметки
+    path('notes/', NoteListCreateView.as_view(), name='note-list'),
+    path('notes/&lt;int:pk&gt;/', NoteDetailView.as_view(), name='note-detail'),
+    # JWT-аутентификация
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>5.5. Подключите URL-ы в главном <code>backend/urls.py</code></h4>
+<pre><code>from django.contrib import admin
+from django.urls import path, include
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),   # ← все маршруты api
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>5.6. Регистрация в админке <code>api/admin.py</code></h4>
+<pre><code>from django.contrib import admin
+from .models import Note
+
+
+@admin.register(Note)
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'owner', 'created_at']
+    list_filter = ['created_at', 'owner']
+    search_fields = ['title', 'content']</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>5.7. Миграции и запуск</h4>
+<pre><code>python manage.py makemigrations api
+python manage.py migrate
+python manage.py runserver</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Откройте <code>http://127.0.0.1:8000/admin/</code> — под «API» появится раздел «Заметки».</p>
+    <div class="callout ok">
+      <p>Если админка работает и модель видна — значит, бэкенд настроен правильно. Переходим к тестированию API.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="api">Отметить как изученное</button>
+
+    <h3 id="test-api">6. Тестирование API через curl</h3>
+    <p>Откройте <strong>второй терминал</strong> (не закрывая тот, где работает Django). Проверим все 5 операций CRUD.</p>
+
+    <h4>6.1. Получение JWT-токена</h4>
+<pre><code>curl -X POST http://127.0.0.1:8000/api/token/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "ваш_пароль"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Ответ:</p>
+<pre><code>{
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">json</span></pre>
+    <p>Скопируйте <code>access</code> в переменную окружения, чтобы не повторять:</p>
+<pre><code>TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+echo $TOKEN</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>6.2. Create — создание заметки</h4>
+<pre><code>curl -X POST http://127.0.0.1:8000/api/notes/ \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"title": "Первая заметка", "content": "Привет, мир!"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Ответ — созданный объект с ID:</p>
+<pre><code>{"id": 1, "title": "Первая заметка", "content": "Привет, мир!",
+ "created_at": "2026-01-15T12:34:56Z", "owner": "admin"}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">json</span></pre>
+
+    <h4>6.3. Read — список заметок</h4>
+<pre><code>curl http://127.0.0.1:8000/api/notes/ \
+  -H "Authorization: Bearer $TOKEN"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>6.4. Read — одна заметка</h4>
+<pre><code>curl http://127.0.0.1:8000/api/notes/1/ \
+  -H "Authorization: Bearer $TOKEN"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>6.5. Update — редактирование</h4>
+<pre><code>curl -X PATCH http://127.0.0.1:8000/api/notes/1/ \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"title": "Обновлённый заголовок"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>6.6. Delete — удаление</h4>
+<pre><code>curl -X DELETE http://127.0.0.1:8000/api/notes/1/ \
+  -H "Authorization: Bearer $TOKEN"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>6.7. Проверка защиты</h4>
+    <p>Попробуйте создать заметку <strong>без токена</strong> — получите 401:</p>
+<pre><code>curl -X POST http://127.0.0.1:8000/api/notes/ \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Хакер", "content": "..."}'
+# {"detail":"Authentication credentials were not provided."}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout ok">
+      <p><strong>Всё работает!</strong> Теперь у нас есть рабочий REST API. Переходим к знакомству с JSONPlaceholder и углублению в DRF.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="test-api">Отметить как изученное</button>
+
+    <h3 id="jsonplaceholder">7. JSONPlaceholder</h3>
+    <p><strong>JSONPlaceholder</strong> (<a href="https://jsonplaceholder.typicode.com/" target="_blank" rel="noopener">jsonplaceholder.typicode.com</a>) — бесплатный фейковый REST API для тестирования и прототипирования. Не требует регистрации и API-ключей.</p>
+
+    <h4>7.1. Основные эндпоинты</h4>
+<pre><code># Список постов (100 штук)
+curl https://jsonplaceholder.typicode.com/posts
+
+# Один пост
+curl https://jsonplaceholder.typicode.com/posts/1
+
+# Комментарии к посту
+curl https://jsonplaceholder.typicode.com/posts/1/comments
+
+# Пользователи
+curl https://jsonplaceholder.typicode.com/users
+
+# Пагинация через query-параметры
+curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>7.2. Таблица возможностей</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Метод</th><th>URL</th><th>Что делает</th><th>Сохраняет?</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET</code></td><td><code>/posts</code></td><td>Список постов</td><td>—</td></tr>
+          <tr><td><code>GET</code></td><td><code>/posts/1</code></td><td>Один пост</td><td>—</td></tr>
+          <tr><td><code>GET</code></td><td><code>/posts/1/comments</code></td><td>Комментарии поста</td><td>—</td></tr>
+          <tr><td><code>GET</code></td><td><code>/users</code></td><td>Список пользователей</td><td>—</td></tr>
+          <tr><td><code>POST</code></td><td><code>/posts</code></td><td>Создать пост</td><td>❌ фейк</td></tr>
+          <tr><td><code>PUT</code></td><td><code>/posts/1</code></td><td>Обновить</td><td>❌ фейк</td></tr>
+          <tr><td><code>DELETE</code></td><td><code>/posts/1</code></td><td>Удалить</td><td>❌ фейк</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>7.3. Пример POST-запроса</h4>
+<pre><code>curl -X POST https://jsonplaceholder.typicode.com/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Тест", "body": "Содержимое", "userId": 1}'
+
+# Ответ (сервер вернёт «успех», но не сохранит):
+# {"id": 101, "title": "Тест", "body": "Содержимое", "userId": 1}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <div class="callout tip">
+      <p><strong>Зачем это вам?</strong> Пока разрабатываете фронтенд, бэкенд может быть не готов. JSONPlaceholder даёт «заглушку», чтобы верстка и логика фронтенда работали уже сейчас.</p>
+    </div>
+    <div class="callout warn">
+      <p><strong>Важно:</strong> JSONPlaceholder <strong>не сохраняет</strong> изменения. POST/PUT/DELETE возвращают «успешный» ответ, но данные на сервере не меняются. Это чисто учебный/тестовый инструмент.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="jsonplaceholder">Отметить как изученное</button>
+
+    <h3 id="deeper">8. Углубляемся: что такое DRF под капотом</h3>
+    <p>Разберёмся, что именно делают <code>generics.ListCreateAPIView</code> и <code>ModelSerializer</code> — вы будете видеть их постоянно.</p>
+
+    <h4>8.1. Что делает <code>ListCreateAPIView</code></h4>
+    <p>Он объединяет два класса: <code>ListModelMixin</code> (GET-список) и <code>CreateModelMixin</code> (POST). Когда приходит запрос:</p>
+    <ol>
+      <li>Срабатывает <code>get_queryset()</code> — возвращает объекты из БД</li>
+      <li><code>serializer_class</code> конвертирует их в JSON</li>
+      <li><code>permission_classes</code> проверяет права</li>
+      <li>Для POST вызывается <code>perform_create()</code> — там мы задаём <code>owner</code></li>
+    </ol>
+
+    <h4>8.2. Что делает <code>ModelSerializer</code></h4>
+    <p>Он автоматически:</p>
+    <ul>
+      <li>Читает поля из модели (title, content, created_at...)</li>
+      <li>Создаёт валидаторы (CharField → max_length=200)</li>
+      <li>Реализует <code>create()</code> и <code>update()</code></li>
+      <li>Валидирует данные по типам</li>
+    </ul>
+    <p>Ручной сериализатор для той же модели выглядел бы так (для сравнения):</p>
+<pre><code>class NoteSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=200)
+    content = serializers.CharField()
+    created_at = serializers.DateTimeField(read_only=True)
+    owner = serializers.CharField(source='owner.username', read_only=True)
+
+    def create(self, validated_data):
+        return Note.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.content = validated_data.get('content', instance.content)
+        instance.save()
+        return instance</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <p>ModelSerializer делает то же самое за 5 строк вместо 15 — и это только для одной модели.</p>
+
+    <h4>8.3. Permission-классы</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Класс</th><th>Кто может</th></tr></thead>
+        <tbody>
+          <tr><td><code>AllowAny</code></td><td>Все, даже без авторизации</td></tr>
+          <tr><td><code>IsAuthenticated</code></td><td>Только авторизованные</td></tr>
+          <tr><td><code>IsAuthenticatedOrReadOnly</code></td><td>Читать — все, писать — только авторизованные</td></tr>
+          <tr><td><code>IsAdminUser</code></td><td>Только staff-пользователи</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="mark-read" data-section="deeper">Отметить как изученное</button>
+
+    <h2 id="part2">Часть 2. Фронтенд на React</h2>
+
+    <h3 id="nvm">9. Установка Node.js через nvm (без sudo)</h3>
+    <p>Системный Node.js в РЕД ОС ставится через <code>dnf</code> — а это требует sudo. Используем <strong>nvm (Node Version Manager)</strong> — устанавливается в <code>~/.nvm</code>, позволяет держать несколько версий Node одновременно.</p>
+
+    <h4>9.1. Проверьте, нет ли Node</h4>
+<pre><code>node --version
+npm --version</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>9.2. Установите nvm</h4>
+<pre><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Если curl не установлен — попробуйте <code>wget -qO- ...</code>. Скрипт добавит строки в <code>~/.bashrc</code>. Активируйте их:</p>
+<pre><code>source ~/.bashrc
+nvm --version   # 0.40.1</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>9.3. Установите LTS Node</h4>
+<pre><code>nvm install --lts
+nvm use --lts
+nvm alias default 'lts/*'
+
+node --version   # v20.x или v22.x
+npm --version    # 10.x или выше</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout ok">
+      <p><strong>Плюс nvm:</strong> всё лежит в <code>~/.nvm</code>, никакого sudo. Хотите другую версию Node — <code>nvm install 18</code> и <code>nvm use 18</code>.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="nvm">Отметить как изученное</button>
+
+    <h3 id="react">10. Создание React-приложения</h3>
+
+    <h4>10.1. Возвращайтесь в папку проекта</h4>
+<pre><code>cd ~/projects/fullstack-app</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>10.2. Создайте проект через Vite</h4>
+<pre><code>npm create vite@latest frontend -- --template react
+cd frontend
+npm install</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Vite быстрее и современнее, чем <code>create-react-app</code> (последний официально устарел в 2023).</p>
+
+    <h4>10.3. Дополнительные библиотеки</h4>
+<pre><code>npm install axios react-router-dom</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <ul>
+      <li><code>axios</code> — HTTP-клиент с интерцепторами (удобнее fetch)</li>
+      <li><code>react-router-dom</code> — маршрутизация SPA</li>
+    </ul>
+
+    <h4>10.4. Запустите dev-сервер</h4>
+<pre><code>npm run dev</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Откройте <code>http://localhost:5173/</code> — увидите страницу с логотипами Vite + React.</p>
+    <div class="callout tip">
+      <p><strong>Оставьте терминал открытым.</strong> У вас теперь три терминала: Django, React dev-сервер и свободный.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="react">Отметить как изученное</button>
+
+    <h3 id="proxy">11. Настройка прокси Vite к Django API</h3>
+    <p>Чтобы React (порт 5173) мог обращаться к Django (порт 8000) без CORS-проблем, настроим прокси в Vite.</p>
+    <p>Откройте <code>frontend/vite.config.js</code>:</p>
+<pre><code>import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+    },
+  },
+})</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">javascript</span></pre>
+    <p>Теперь из React можно писать <code>axios.get('/api/notes/')</code> — Vite переправит на Django.</p>
+    <div class="callout warn">
+      <p>🔁 <strong>Перезапустите</strong> <code>npm run dev</code> после изменения <code>vite.config.js</code> — конфиг читается только при старте.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="proxy">Отметить как изученное</button>
+
+    <h3 id="react-code">12. Код React-приложения</h3>
+    <p>Структура файлов, которую мы создадим:</p>
+<pre><code>frontend/src/
+├── api/
+│   └── client.js           # axios с интерцепторами JWT
+├── context/
+│   └── AuthContext.jsx     # состояние авторизации
+├── components/
+│   └── PrivateRoute.jsx    # защита приватных роутов
+├── pages/
+│   ├── Login.jsx           # страница входа
+│   └── Notes.jsx           # страница заметок
+├── App.jsx                 # роутинг
+├── main.jsx                # точка входа
+└── index.css               # глобальные стили</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
+
+    <h4>12.1. axios-клиент с интерцепторами <code>src/api/client.js</code></h4>
+<pre><code>import axios from 'axios';
+
+const api = axios.create({
+  baseURL: '/api',
+});
+
+// ────────────────────────────────────────────
+// REQUEST-интерцептор: добавляем Bearer-токен
+// ────────────────────────────────────────────
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// ────────────────────────────────────────────
+// RESPONSE-интерцептор: обновляем access при 401
+// ────────────────────────────────────────────
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const original = error.config;
+
+    // Если 401 и мы ещё не пробовали обновить
+    if (error.response?.status === 401 &amp;&amp; !original._retry) {
+      original._retry = true;
+      const refresh = localStorage.getItem('refresh_token');
+
+      if (refresh) {
+        try {
+          const { data } = await axios.post('/api/token/refresh/', { refresh });
+          localStorage.setItem('access_token', data.access);
+          original.headers.Authorization = `Bearer ${data.access}`;
+          return api(original);   // ← повторяем исходный запрос
+        } catch (e) {
+          // refresh тоже протух — разлогиниваем
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          window.location.href = '/login';
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">javascript</span></pre>
+    <div class="callout tip">
+      <p><strong>Как это работает:</strong> интерцепторы — это middleware для axios. Request-интерцептор выполняется <em>до</em> каждого запроса, response-интерцептор — <em>после</em> каждого ответа. Мы используем их, чтобы не дублировать логику работы с токенами в каждом компоненте.</p>
+    </div>
+
+    <h4>12.2. Контекст аутентификации <code>src/context/AuthContext.jsx</code></h4>
+<pre><code>import { createContext, useContext, useState } from 'react';
+import api from '../api/client';
+
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(
+    localStorage.getItem('access_token')
+  );
+
+  const login = async (username, password) => {
+    const { data } = await api.post('/token/', { username, password });
+    localStorage.setItem('access_token', data.access);
+    localStorage.setItem('refresh_token', data.refresh);
+    setToken(data.access);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    setToken(null);
+  };
+
+  return (
+    &lt;AuthContext.Provider value={{ token, login, logout }}&gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
+
+    <h4>12.3. Приватный маршрут <code>src/components/PrivateRoute.jsx</code></h4>
+<pre><code>import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+export default function PrivateRoute({ children }) {
+  const { token } = useAuth();
+  return token ? children : &lt;Navigate to="/login" replace /&gt;;
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
+
+    <h4>12.4. Страница входа <code>src/pages/Login.jsx</code></h4>
+<pre><code>import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      await login(username, password);
+      navigate('/notes');
+    } catch (err) {
+      setError('Неверный логин или пароль');
+    }
+  };
+
+  return (
+    &lt;div style={{ maxWidth: 400, margin: '50px auto', padding: 20 }}&gt;
+      &lt;h1&gt;Вход&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input
+          placeholder="Логин"
+          value={username}
+          onChange={(e) =&gt; setUsername(e.target.value)}
+          style={{ display: 'block', width: '100%', marginBottom: 8, padding: 10 }}
+        /&gt;
+        &lt;input
+          type="password"
+          placeholder="Пароль"
+          value={password}
+          onChange={(e) =&gt; setPassword(e.target.value)}
+          style={{ display: 'block', width: '100%', marginBottom: 8, padding: 10 }}
+        /&gt;
+        &lt;button type="submit" style={{ padding: '10px 20px' }}&gt;
+          Войти
+        &lt;/button&gt;
+      &lt;/form&gt;
+      {error &amp;&amp; &lt;p style={{ color: 'red' }}&gt;{error}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
+
+    <h4>12.5. Страница заметок <code>src/pages/Notes.jsx</code></h4>
+<pre><code>import { useEffect, useState } from 'react';
+import api from '../api/client';
+import { useAuth } from '../context/AuthContext';
+
+export default function Notes() {
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const { logout } = useAuth();
+
+  const load = async () => {
+    try {
+      const { data } = await api.get('/notes/');
+      setNotes(data);
+    } catch (e) {
+      console.error('Не удалось загрузить заметки', e);
+    }
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const create = async (e) => {
+    e.preventDefault();
+    if (!title || !content) return;
+    await api.post('/notes/', { title, content });
+    setTitle('');
+    setContent('');
+    load();
+  };
+
+  const remove = async (id) => {
+    if (!confirm('Удалить заметку?')) return;
+    await api.delete(`/notes/${id}/`);
+    load();
+  };
+
+  return (
+    &lt;div style={{ maxWidth: 700, margin: '30px auto', padding: 20 }}&gt;
+      &lt;div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}&gt;
+        &lt;h1&gt;Мои заметки&lt;/h1&gt;
+        &lt;button onClick={logout}&gt;Выйти&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;form onSubmit={create} style={{ marginBottom: 20 }}&gt;
+        &lt;input
+          placeholder="Заголовок"
+          value={title}
+          onChange={(e) =&gt; setTitle(e.target.value)}
+          style={{ display: 'block', width: '100%', marginBottom: 8, padding: 10 }}
+        /&gt;
+        &lt;textarea
+          placeholder="Содержание"
+          value={content}
+          onChange={(e) =&gt; setContent(e.target.value)}
+          rows={4}
+          style={{ display: 'block', width: '100%', marginBottom: 8, padding: 10 }}
+        /&gt;
+        &lt;button type="submit"&gt;Добавить&lt;/button&gt;
+      &lt;/form&gt;
+
+      &lt;ul style={{ listStyle: 'none', padding: 0 }}&gt;
+        {notes.map((n) =&gt; (
+          &lt;li key={n.id} style={{ border: '1px solid #ddd', padding: 16,
+                                    marginBottom: 12, borderRadius: 8 }}&gt;
+            &lt;strong&gt;{n.title}&lt;/strong&gt; &lt;em&gt;({n.owner})&lt;/em&gt;
+            &lt;p&gt;{n.content}&lt;/p&gt;
+            &lt;button onClick={() =&gt; remove(n.id)}&gt;Удалить&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
+
+    <h4>12.6. App.jsx — роутинг</h4>
+<pre><code>import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
+import Login from './pages/Login';
+import Notes from './pages/Notes';
+
+export default function App() {
+  return (
+    &lt;AuthProvider&gt;
+      &lt;BrowserRouter&gt;
+        &lt;Routes&gt;
+          &lt;Route path="/login" element={&lt;Login /&gt;} /&gt;
+          &lt;Route
+            path="/notes"
+            element={
+              &lt;PrivateRoute&gt;
+                &lt;Notes /&gt;
+              &lt;/PrivateRoute&gt;
+            }
+          /&gt;
+          &lt;Route path="*" element={&lt;Navigate to="/notes" replace /&gt;} /&gt;
+        &lt;/Routes&gt;
+      &lt;/BrowserRouter&gt;
+    &lt;/AuthProvider&gt;
+  );
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
+
+    <h4>12.7. main.jsx — точка входа</h4>
+<pre><code>import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './index.css';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+);</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
+
+    <p>После сохранения файлов Vite перезагрузит браузер автоматически. Откройте <code>http://localhost:5173/</code> — вас перекинет на <code>/login</code>.</p>
+    <button type="button" class="mark-read" data-section="react-code">Отметить как изученное</button>
+
+    <h3 id="jwt">13. Что такое JWT — разбор на примере jwt.io</h3>
+    <p>Откройте <a href="https://www.jwt.io/" target="_blank" rel="noopener">jwt.io</a> — это официальный сайт со встроенным <strong>декодером JWT</strong>.</p>
+
+    <h4>13.1. Скопируйте свой access-токен</h4>
+    <p>После логина откройте DevTools (F12) → Application → Local Storage → скопируйте значение <code>access_token</code>. Или через <code>curl</code>:</p>
+<pre><code>curl -X POST http://127.0.0.1:8000/api/token/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "ваш_логин", "password": "ваш_пароль"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>13.2. Вставьте токен в jwt.io</h4>
+    <p>Вы увидите три части, разделённые точками:</p>
+<pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 . eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM4... . SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+       HEADER                                        PAYLOAD                              SIGNATURE</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
+
+    <ul>
+      <li><strong>Header</strong> — алгоритм подписи (HS256) и тип токена (JWT)</li>
+      <li><strong>Payload</strong> — данные: <code>user_id</code>, <code>exp</code>, <code>iat</code>, <code>token_type</code></li>
+      <li><strong>Signature</strong> — подпись. Если поменять хоть один символ в payload — подпись станет невалидной</li>
+    </ul>
+
+    <h4>13.3. Что внутри</h4>
+    <p><strong>Header:</strong></p>
+<pre><code>{
+  "alg": "HS256",
+  "typ": "JWT"
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">json</span></pre>
+
+    <p><strong>Payload</strong> (у SimpleJWT по умолчанию):</p>
+<pre><code>{
+  "token_type": "access",
+  "exp": 1738617600,
+  "iat": 1738614000,
+  "jti": "abc123...",
+  "user_id": 1
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">json</span></pre>
+
+    <div class="callout warn">
+      <p><strong>Не храните в JWT секретные данные</strong> — payload легко декодируется любым человеком (сайт jwt.io это демонстрирует). Подпись лишь гарантирует, что токен выдан вашим сервером и не был изменён.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="jwt">Отметить как изученное</button>
+
+    <h3 id="test">14. Тестирование полного цикла</h3>
+    <p>У вас работают три терминала. Пройдите сценарий:</p>
+    <ol>
+      <li><strong>Терминал 1</strong>: Django на <code>http://127.0.0.1:8000</code></li>
+      <li><strong>Терминал 2</strong>: React на <code>http://localhost:5173</code></li>
+      <li><strong>Терминал 3</strong>: свободен для curl/git</li>
+    </ol>
+    <p>Откройте браузер:</p>
+    <ol>
+      <li>Переход на <code>http://localhost:5173/</code> → редирект на <code>/login</code></li>
+      <li>Вводите логин/пароль суперпользователя из Django</li>
+      <li>Успех → попадаете на <code>/notes</code>, видите пустой список</li>
+      <li>Создаёте заметку — она появляется в списке</li>
+      <li>Удаляете — исчезает</li>
+      <li>Откройте DevTools (F12) → Network — увидите реальные HTTP-запросы</li>
+      <li>Откройте DevTools → Application → Local Storage — там токены</li>
+    </ol>
+    <div class="callout ok">
+      <p>Если всё работает — <strong>поздравляем, у вас готовый full-stack!</strong> Дальше — только улучшения.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="test">Отметить как изученное</button>
+
+    <h3 id="run-all">15. Запуск одним скриптом</h3>
+    <p>Создайте файл <code>~/projects/fullstack-app/run-all.sh</code>:</p>
+<pre><code>#!/bin/bash
+# Запуск Django и React одновременно в текущем терминале
+
+set -e
+cd "$(dirname "$0")"
+
+echo "🚀 Запускаем Django-бэкенд..."
+cd backend
+source ../venv/bin/activate
+python manage.py runserver &amp;
+DJANGO_PID=$!
+cd ..
+
+echo "⚛️  Запускаем React-фронтенд..."
+cd frontend
+npm run dev &amp;
+REACT_PID=$!
+cd ..
+
+echo ""
+echo "✅ Оба сервера запущены!"
+echo "   Backend:  http://127.0.0.1:8000"
+echo "   Frontend: http://localhost:5173"
+echo ""
+echo "Нажмите Ctrl+C для остановки обоих."
+
+# При Ctrl+C убиваем оба процесса
+trap "kill $DJANGO_PID $REACT_PID 2&gt;/dev/null; exit" INT TERM
+wait</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Сделайте его исполняемым и запустите:</p>
+<pre><code>chmod +x run-all.sh
+./run-all.sh</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <button type="button" class="mark-read" data-section="run-all">Отметить как изученное</button>
+
+    <h3 id="git-intro">22. Git с самого начала</h3>
+    <p>Инициализируйте репозиторий <strong>до</strong> установки пакетов — так вы сразу зафиксируете «нулевую точку» проекта.</p>
+
+    <h4>22.1. Первый коммит</h4>
+<pre><code>cd ~/projects/fullstack-app
+git init
+git config user.name "Ваше Имя"
+git config user.email "you@example.com"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <p>Создайте <code>.gitignore</code> в корне проекта:</p>
+<pre><code>cat &gt; .gitignore &lt;&lt; 'EOF'
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+EOF
+
+git add .
+git commit -m "Initial commit"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>22.2. Типичный workflow</h4>
+<pre><code>git status                    # что изменилось
+git diff                      # построчный diff
+git add backend/api/views.py  # добавить файл в индекс
+git commit -m "Add Note CRUD" # закоммитить
+git log --oneline             # история
+git checkout -b feature/tags  # новая ветка
+git push origin main          # в удалённый репо</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <div class="callout tip">
+      <p><strong>Правило хорошего коммита:</strong> одно логическое изменение = один коммит. Не смешивайте «добавил кнопку» и «поправил опечатку в settings.py» в один коммит.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="git-intro">Отметить как изученное</button>
+
+    <h3 id="extended-model">23. Расширенная модель: теги и категории</h3>
+    <p>Плоский список заметок — это скучно. Добавим <strong>категории</strong> (Many-to-One) и <strong>теги</strong> (Many-to-Many), чтобы понять, как работать со связями в Django ORM.</p>
+
+    <h4>23.1. Обновлённая модель <code>api/models.py</code></h4>
+<pre><code>from django.db import models
+from django.utils.text import slugify
+
+
+class Category(models.Model):
+    """Категория заметок — одна на много заметок."""
+    name = models.CharField(max_length=80, unique=True)
+    slug = models.SlugField(max_length=80, unique=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ['name']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    """Тег — многие-ко-многим с заметками."""
+    name = models.CharField(max_length=40, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Note(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_pinned = models.BooleanField(default=False)
+
+    owner = models.ForeignKey(
+        'auth.User',
+        on_delete=models.CASCADE,
+        related_name='notes',
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='notes',
+    )
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+        related_name='notes',
+    )
+
+    class Meta:
+        ordering = ['-is_pinned', '-created_at']
+        indexes = [
+            models.Index(fields=['-created_at']),
+            models.Index(fields=['owner', '-created_at']),
+        ]
+
+    def __str__(self):
+        return self.title</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <div class="callout tip">
+      <p><strong>Что тут нового:</strong><br>
+      • <code>ForeignKey</code> с <code>SET_NULL</code> — при удалении категории заметки остаются, у них просто очищается поле.<br>
+      • <code>ManyToManyField</code> — Django сам создаёт промежуточную таблицу <code>api_note_tags</code>.<br>
+      • <code>Index</code> в Meta — ускоряет сортировку и фильтрацию на больших таблицах.<br>
+      • <code>auto_now=True</code> — поле обновляется при каждом <code>save()</code>.</p>
+    </div>
+
+    <h4>23.2. Обновлённый сериализатор</h4>
+<pre><code>from rest_framework import serializers
+from .models import Note, Category, Tag
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'slug']
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name']
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        source='category',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    tags = TagSerializer(many=True, read_only=True)
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(),
+        source='tags',
+        write_only=True,
+        many=True,
+        required=False,
+    )
+
+    class Meta:
+        model = Note
+        fields = [
+            'id', 'title', 'content',
+            'created_at', 'updated_at', 'is_pinned',
+            'owner', 'category', 'category_id', 'tags', 'tag_ids',
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'owner']
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags', [])
+        note = Note.objects.create(**validated_data)
+        note.tags.set(tags)
+        return note
+
+    def update(self, instance, validated_data):
+        tags = validated_data.pop('tags', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if tags is not None:
+            instance.tags.set(tags)
+        return instance</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>23.3. Пагинация и фильтрация</h4>
+<pre><code># settings.py — добавьте в REST_FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+<pre><code># api/views.py — обновлённый NoteListCreateView
+from rest_framework import generics, permissions
+from .models import Note, Category, Tag
+from .serializers import NoteSerializer, CategorySerializer, TagSerializer
+
+
+class NoteListCreateView(generics.ListCreateAPIView):
+    serializer_class = NoteSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    search_fields = ['title', 'content']
+    ordering_fields = ['created_at', 'updated_at', 'title']
+    ordering = ['-is_pinned', '-created_at']
+
+    def get_queryset(self):
+        qs = Note.objects.select_related('owner', 'category').prefetch_related('tags')
+        if self.request.query_params.get('mine') == '1' and self.request.user.is_authenticated:
+            qs = qs.filter(owner=self.request.user)
+        cat = self.request.query_params.get('category')
+        if cat:
+            qs = qs.filter(category__slug=cat)
+        tag = self.request.query_params.get('tag')
+        if tag:
+            qs = qs.filter(tags__name=tag)
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class CategoryListCreateView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class TagListCreateView(generics.ListCreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <div class="callout ok">
+      <p><strong>Как это работает:</strong><br>
+      • <code>?search=django</code> — поиск по title и content<br>
+      • <code>?ordering=-created_at</code> — сортировка<br>
+      • <code>?page=2</code> — вторая страница по 10 записей<br>
+      • <code>?mine=1</code> — только свои заметки<br>
+      • <code>?category=work</code> — только из категории<br>
+      • <code>?tag=python</code> — только с тегом</p>
+    </div>
+
+    <h4>23.4. Обновлённые URL-ы</h4>
+<pre><code># api/urls.py
+from django.urls import path
+from .views import (
+    NoteListCreateView, NoteDetailView,
+    CategoryListCreateView, TagListCreateView,
+)
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+urlpatterns = [
+    path('notes/', NoteListCreateView.as_view(), name='note-list'),
+    path('notes/&lt;int:pk&gt;/', NoteDetailView.as_view(), name='note-detail'),
+    path('categories/', CategoryListCreateView.as_view(), name='category-list'),
+    path('tags/', TagListCreateView.as_view(), name='tag-list'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+<pre><code>python manage.py makemigrations api
+python manage.py migrate</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <button type="button" class="mark-read" data-section="extended-model">Отметить как изученное</button>
+
+    <h3 id="auth-register">24. Регистрация пользователей</h3>
+    <p>Пока пользователи создаются только через админку. Добавим публичную регистрацию.</p>
+
+    <h4>24.1. Сериализатор регистрации <code>api/serializers.py</code></h4>
+<pre><code>from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+        style={'input_type': 'password'},
+    )
+    password2 = serializers.CharField(
+        write_only=True,
+        required=True,
+        style={'input_type': 'password'},
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'password2']
+        extra_kwargs = {
+            'email': {'required': True},
+        }
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({'password': 'Пароли не совпадают'})
+        return attrs
+
+    def create(self, validated_data):
+        validated_data.pop('password2')
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+        )
+        return user</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>24.2. View и URL</h4>
+<pre><code># api/views.py
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User
+from .serializers import RegisterSerializer
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            'user': {'id': user.id, 'username': user.username, 'email': user.email},
+            'message': 'Пользователь создан. Теперь можно войти.',
+        }, status=status.HTTP_201_CREATED)</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+<pre><code># api/urls.py — добавьте
+from .views import RegisterView
+
+path('register/', RegisterView.as_view(), name='register'),</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>24.3. Проверка через curl</h4>
+<pre><code>curl -X POST http://127.0.0.1:8000/api/register/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "alice", "email": "alice@example.com", "password": "SecurePass123!", "password2": "SecurePass123!"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <div class="callout warn">
+      <p><strong>Пароль проверяется валидаторами Django</strong> — минимум 8 символов, не только цифры, не слишком похож на username. Если пароль слабый, вернётся 400 с описанием ошибок.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="auth-register">Отметить как изученное</button>
+
+    <h3 id="tests">25. Тесты Django</h3>
+    <p>Тесты — то, что отличает пет-проект от рабочего кода. Django даёт готовый TestCase, для DRF — APITestCase.</p>
+
+    <h4>25.1. Установка и настройка</h4>
+<pre><code>pip install pytest pytest-django pytest-cov</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+<pre><code># pytest.ini — создайте в корне проекта (рядом с manage.py)
+[pytest]
+DJANGO_SETTINGS_MODULE = backend.settings
+python_files = tests.py test_*.py *_tests.py
+addopts = --reuse-db -q --cov=api --cov-report=term-missing</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">ini</span></pre>
+
+    <h4>25.2. Первые тесты <code>api/tests.py</code></h4>
+<pre><code>import pytest
+from django.contrib.auth.models import User
+from rest_framework.test import APIClient
+from rest_framework import status
+from .models import Note
+
+
+@pytest.fixture
+def api_client():
+    return APIClient()
+
+
+@pytest.fixture
+def user(db):
+    return User.objects.create_user(
+        username='alice', password='secret123'
+    )
+
+
+@pytest.fixture
+def auth_client(api_client, user):
+    api_client.force_authenticate(user=user)
+    return api_client
+
+
+@pytest.fixture
+def note(db, user):
+    return Note.objects.create(
+        title='Test note',
+        content='Lorem ipsum',
+        owner=user,
+    )
+
+
+class TestNoteAPI:
+    def test_list_unauthenticated(self, api_client, note):
+        """Список доступен даже неавторизованным."""
+        r = api_client.get('/api/notes/')
+        assert r.status_code == status.HTTP_200_OK
+
+    def test_create_requires_auth(self, api_client):
+        """Создать без токена нельзя."""
+        r = api_client.post('/api/notes/', {'title': 'X', 'content': 'Y'})
+        assert r.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_create_with_auth(self, auth_client, user):
+        """Авторизованный создаёт заметку — owner подставляется."""
+        r = auth_client.post('/api/notes/', {
+            'title': 'New', 'content': 'Content'
+        })
+        assert r.status_code == status.HTTP_201_CREATED
+        assert r.data['owner'] == user.username
+        assert Note.objects.filter(owner=user).count() == 1
+
+    def test_pin_note(self, auth_client, note):
+        """PATCH меняет is_pinned."""
+        r = auth_client.patch(f'/api/notes/{note.id}/', {'is_pinned': True})
+        assert r.status_code == status.HTTP_200_OK
+        note.refresh_from_db()
+        assert note.is_pinned is True
+
+
+class TestRegisterAPI:
+    def test_register_success(self, api_client):
+        r = api_client.post('/api/register/', {
+            'username': 'newbie',
+            'email': 'nb@example.com',
+            'password': 'StrongPass123!',
+            'password2': 'StrongPass123!',
+        })
+        assert r.status_code == status.HTTP_201_CREATED
+        assert User.objects.filter(username='newbie').exists()
+
+    def test_register_password_mismatch(self, api_client):
+        r = api_client.post('/api/register/', {
+            'username': 'x',
+            'email': 'x@example.com',
+            'password': 'abc12345',
+            'password2': 'different',
+        })
+        assert r.status_code == status.HTTP_400_BAD_REQUEST</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>25.3. Запуск тестов</h4>
+<pre><code>pytest                    # все тесты
+pytest api/tests.py       # конкретный файл
+pytest -k register        # только тесты с "register" в имени
+pytest -v                 # подробный вывод
+pytest --cov=api          # с покрытием</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <div class="callout ok">
+      <p><strong>Что дают тесты:</strong><br>
+      • Ловите регрессии — изменили код, тесты упали, знаете где<br>
+      • Смелее рефакторите — тесты подстрахуют<br>
+      • Документируют поведение — новый разработчик читает тесты вместо документации</p>
+    </div>
+    <button type="button" class="mark-read" data-section="tests">Отметить как изученное</button>
+
+    <h3 id="env-config">26. Переменные окружения (.env)</h3>
+    <p>SECRET_KEY, DEBUG, пароль БД — не должны попадать в git. Используем <code>.env</code> и <code>python-decouple</code>.</p>
+
+<pre><code>pip install python-decouple</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+<pre><code># .env — в корне backend/, добавьте в .gitignore!
+SECRET_KEY=change-me-in-production-abc123xyz789
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+ACCESS_TOKEN_LIFETIME_MIN=60
+REFRESH_TOKEN_LIFETIME_DAYS=7</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">env</span></pre>
+
+<pre><code># backend/backend/settings.py — замените начало
+from pathlib import Path
+from datetime import timedelta
+from decouple import config, Csv
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
+
+CORS_ALLOWED_ORIGINS = config('CORS_ORIGINS', default='', cast=Csv())
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=config('ACCESS_TOKEN_LIFETIME_MIN', default=60, cast=int)),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=config('REFRESH_TOKEN_LIFETIME_DAYS', default=7, cast=int)),
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <p>Создайте рядом <code>.env.example</code> — шаблон без секретов, который коммитим:</p>
+<pre><code>SECRET_KEY=your-secret-here
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
+CORS_ORIGINS=http://localhost:5173</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">env</span></pre>
+    <button type="button" class="mark-read" data-section="env-config">Отметить как изученное</button>
+
+    <h3 id="db-schema">27. Схема БД и жизненный цикл запроса</h3>
+
+    <h4>27.1. Таблицы в БД</h4>
+    <div class="arch">
+<pre>┌──────────────────┐         ┌──────────────────────┐
+│  auth_user       │         │  api_category        │
+├──────────────────┤         ├──────────────────────┤
+│  id (PK)         │         │  id (PK)             │
+│  username        │         │  name (unique)       │
+│  password (hash) │         │  slug (unique)       │
+│  email           │         └──────────┬───────────┘
+└────────┬─────────┘                    │
+         │                              │
+         │ owner_id                     │ category_id (nullable)
+         │ 1:N                          │ N:1
+         ▼                              ▼
+      ┌──────────────────────────────────────────┐
+      │  api_note                                │
+      ├──────────────────────────────────────────┤
+      │  id (PK)                                 │
+      │  title           varchar(200)            │
+      │  content         text                    │
+      │  created_at      datetime                │
+      │  updated_at      datetime                │
+      │  is_pinned       boolean                 │
+      │  owner_id        → auth_user.id          │
+      │  category_id     → api_category.id       │
+      └─────────────┬────────────────────────────┘
+                    │
+                    │ N:M
+                    ▼
+      ┌─────────────────────────┐       ┌──────────────────┐
+      │  api_note_tags          │       │  api_tag         │
+      ├─────────────────────────┤       ├──────────────────┤
+      │  id (PK)                │       │  id (PK)         │
+      │  note_id  → api_note    │◄──────│  name (unique)   │
+      │  tag_id   → api_tag     │       └──────────────────┘
+      └─────────────────────────┘</pre>
+    </div>
+
+    <h4>27.2. Что происходит при POST /api/notes/</h4>
+    <div class="arch">
+<pre>1. Браузер (React)
+   └─► axios.post('/api/notes/', {title, content}, headers={Authorization})
+                │
+                ▼
+2. Vite dev-сервер (proxy)
+   └─► переадресует на http://127.0.0.1:8000/api/notes/
+                │
+                ▼
+3. Django MIDDLEWARE (по порядку):
+   • CorsMiddleware        → пропускает OPTIONS, добавляет CORS-заголовки
+   • SecurityMiddleware    → HTTPS-редиректы, HSTS
+   • SessionMiddleware     → читает cookie-сессию (не используется у нас)
+   • AuthenticationMiddleware → кладёт request.user
+   • CsrfViewMiddleware    → для JWT не срабатывает
+                │
+                ▼
+4. URL Router (backend/urls.py → api/urls.py)
+   └─► находит NoteListCreateView для /api/notes/
+                │
+                ▼
+5. DRF Authentication
+   └─► JWTAuthentication читает заголовок Authorization: Bearer ...
+   └─► валидирует подпись, проверяет exp
+   └─► устанавливает request.user = User(id=1)
+                │
+                ▼
+6. DRF Permissions
+   └─► IsAuthenticatedOrReadOnly: POST → нужна авторизация
+                │
+                ▼
+7. View: NoteListCreateView.create()
+   ├─► serializer = NoteSerializer(data=request.data)
+   ├─► serializer.is_valid() → валидация полей
+   ├─► perform_create(serializer)
+   │     └─► serializer.save(owner=request.user)
+   │           ├─► Note.objects.create(...)   ← INSERT в БД
+   │           ├─► note.tags.set(tag_ids)     ← INSERT в api_note_tags
+   │           └─► return note
+   └─► Response(serializer.data, status=201)
+                │
+                ▼
+8. JSON-ответ:
+   {
+     "id": 42,
+     "title": "Первая заметка",
+     "content": "Привет",
+     "created_at": "2026-01-15T12:34:56Z",
+     "owner": "alice",
+     "category": null,
+     "tags": [],
+     "is_pinned": false
+   }
+                │
+                ▼
+9. Браузер
+   └─► axios-интерцептор (response) → возвращает данные в компонент
+   └─► React обновляет state → UI перерисовывается</pre>
+    </div>
+
+    <h4>27.3. HTTP-коды, которые вы встретите</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Код</th><th>Что значит</th><th>Где сработает</th></tr></thead>
+        <tbody>
+          <tr><td><code>200</code></td><td>OK</td><td>GET, PATCH, DELETE</td></tr>
+          <tr><td><code>201</code></td><td>Created</td><td>POST успешно</td></tr>
+          <tr><td><code>204</code></td><td>No Content</td><td>DELETE успешно</td></tr>
+          <tr><td><code>301</code> / <code>302</code></td><td>Redirect</td><td>Устаревшие URL-ы</td></tr>
+          <tr><td><code>400</code></td><td>Bad Request</td><td>Валидация провалилась</td></tr>
+          <tr><td><code>401</code></td><td>Unauthorized</td><td>Нет токена или истёк</td></tr>
+          <tr><td><code>403</code></td><td>Forbidden</td><td>Токен есть, прав нет</td></tr>
+          <tr><td><code>404</code></td><td>Not Found</td><td>Объекта нет</td></tr>
+          <tr><td><code>405</code></td><td>Method Not Allowed</td><td>PUT на URL, где только GET</td></tr>
+          <tr><td><code>429</code></td><td>Too Many Requests</td><td>Rate limit (если включён)</td></tr>
+          <tr><td><code>500</code></td><td>Internal Server Error</td><td>Ошибка в коде Django</td></tr>
+          <tr><td><code>502</code></td><td>Bad Gateway</td><td>Nginx не достучался до Gunicorn</td></tr>
+          <tr><td><code>503</code></td><td>Service Unavailable</td><td>Сервер перегружен/перезапускается</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="mark-read" data-section="db-schema">Отметить как изученное</button>
+
+    <h3 id="auth-compare">28. Аутентификация: сравнение подходов</h3>
+    <p>JWT — не единственный способ. Вот три самых популярных:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Подход</th><th>Плюсы</th><th>Минусы</th><th>Когда использовать</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Session cookies</strong></td>
+            <td>Простой, безопасный (httpOnly), CSRF-защита встроена</td>
+            <td>Плохо для мобильных, нужен sticky session на балансировщике</td>
+            <td>Классический веб-сайт</td>
+          </tr>
+          <tr>
+            <td><strong>JWT (то, что у нас)</strong></td>
+            <td>Stateless, работает с мобильными, легко масштабируется</td>
+            <td>localStorage уязвим для XSS, нельзя отозвать токен</td>
+            <td>SPA + API, мобильные приложения</td>
+          </tr>
+          <tr>
+            <td><strong>OAuth2 / OpenID</strong></td>
+            <td>Позволяет вход через Google/GitHub, стандарт</td>
+            <td>Сложнее настраивается</td>
+            <td>Если нужен «Вход через Google»</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <p><strong>Про безопасность JWT в проде:</strong><br>
+      • Хранить access в <code>httpOnly cookie</code>, а не localStorage<br>
+      • Короткий access (5–15 мин), refresh в БД с возможностью отзыва<br>
+      • Использовать <code>RefreshToken.blacklist()</code> из simplejwt для logout<br>
+      • HTTPS обязателен, иначе любой может перехватить токен</p>
+    </div>
+
+    <h4>28.1. Как добавить blacklist refresh-токенов</h4>
+<pre><code># settings.py
+INSTALLED_APPS += ['rest_framework_simplejwt.token_blacklist']
+
+SIMPLE_JWT = {
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    # ...
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+<pre><code>python manage.py migrate   # создаст таблицы для blacklist</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+<pre><code># api/views.py — эндпоинт logout
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import permissions
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
+
+
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh = request.data.get('refresh')
+            token = RefreshToken(refresh)
+            token.blacklist()
+            return Response({'detail': 'Вы вышли'}, status=205)
+        except TokenError:
+            return Response({'detail': 'Токен невалиден'}, status=400)</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <button type="button" class="mark-read" data-section="auth-compare">Отметить как изученное</button>
+
+    <h2 id="troubleshooting">16. Troubleshooting: типичные ошибки</h2>
+    <p>Собрали все проблемы, с которыми вы столкнётесь при первом запуске. Если что-то не работает — сначала ищите здесь.</p>
+
+    <p>В колонке «Сторона» — где искать причину:</p>
+    <ul>
+      <li>🐍 <strong>Бэкенд</strong> — Django, DRF, настройки API</li>
+      <li>⚛️ <strong>Фронтенд</strong> — React, axios, Vite</li>
+      <li>🐧 <strong>Система</strong> — окружение, терминал, порты, процессы</li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <caption class="sr-only">Типичные ошибки и их решения</caption>
+        <thead>
+          <tr>
+            <th>Симптом</th>
+            <th>Сторона</th>
+            <th>Причина</th>
+            <th>Решение</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>CORS policy blocked</code></td><td>🐍 Бэкенд</td><td><code>corsheaders</code> не первым в MIDDLEWARE</td><td>Поставьте <code>corsheaders.middleware.CorsMiddleware</code> первым</td></tr>
+          <tr><td><code>401 Unauthorized</code></td><td>⚛️ Фронтенд</td><td>Access-токен истёк или отсутствует</td><td>Проверьте localStorage, работает ли refresh-интерцептор</td></tr>
+          <tr><td><code>403 Forbidden</code></td><td>🐍 Бэкенд</td><td>Токен валиден, но permission не пропускает</td><td>Проверьте <code>permission_classes</code> во view и роль пользователя</td></tr>
+          <tr><td>React не видит <code>/api</code></td><td>⚛️ Фронтенд</td><td>Прокси не настроен или Vite не перезапущен</td><td>Перезапустите <code>npm run dev</code></td></tr>
+          <tr><td><code>ModuleNotFoundError: rest_framework</code></td><td>🐍 Бэкенд</td><td>venv не активирован</td><td><code>source venv/bin/activate</code></td></tr>
+          <tr><td><code>command not found: nvm</code></td><td>🐧 Система</td><td><code>~/.bashrc</code> не перезагружен</td><td><code>source ~/.bashrc</code> или новый терминал</td></tr>
+          <tr><td>Django видит запросы, но React — нет ответа</td><td>⚛️ Фронтенд</td><td>Запрос идёт на другой порт/URL</td><td>Проверьте Network tab в DevTools</td></tr>
+          <tr><td><code>relation "api_note" does not exist</code></td><td>🐍 Бэкенд</td><td>Миграции не применены</td><td><code>python manage.py migrate</code></td></tr>
+          <tr><td><code>no such table: auth_user</code></td><td>🐍 Бэкенд</td><td>База не создана</td><td><code>python manage.py migrate</code> в первый раз</td></tr>
+          <tr><td><code>DisallowedHost</code></td><td>🐍 Бэкенд</td><td>Домен не в <code>ALLOWED_HOSTS</code></td><td>Добавьте <code>127.0.0.1</code> и <code>localhost</code></td></tr>
+          <tr><td><code>Port 8000 already in use</code></td><td>🐧 Система</td><td>Старый процесс Django жив</td><td><code>python manage.py runserver 8001</code> или <code>pkill -f runserver</code></td></tr>
+          <tr><td><code>vite: command not found</code></td><td>⚛️ Фронтенд</td><td>npm-пакеты не установлены</td><td><code>npm install</code> в папке frontend</td></tr>
+          <tr><td>Токен не обновляется</td><td>⚛️ Фронтенд</td><td>Интерцептор настроен неправильно</td><td>Проверьте, что <code>_retry</code> не мешает повтору</td></tr>
+          <tr><td><code>CSRF verification failed</code></td><td>🐍 Бэкенд</td><td>Используете session auth вместе с JWT</td><td>Используйте только JWT, не смешивайте</td></tr>
+          <tr><td><code>refused to connect</code> в DevTools</td><td>🐧 Система</td><td>Django-сервер не запущен</td><td>Проверьте терминал 1 — там должен быть <code>Starting development server</code></td></tr>
+          <tr><td>Заметки видны всем пользователям</td><td>🐍 Бэкенд</td><td>Нет фильтра по owner в queryset</td><td>Добавьте <code>?mine=1</code> или <code>filter(owner=self.request.user)</code></td></tr>
+          <tr><td><code>Network Error</code> в браузере</td><td>🐧 Система</td><td>Сервер упал или не запущен</td><td>Проверьте оба терминала — Django и Vite должны быть живы</td></tr>
+          <tr><td><code>Method Not Allowed</code> (405)</td><td>🐍 Бэкенд</td><td>URL не поддерживает метод</td><td>Проверьте <code>urls.py</code> — POST должен быть на list-endpoint, а не detail</td></tr>
+          <tr><td>Данные не сохраняются в БД</td><td>🐍 Бэкенд</td><td>Нет <code>perform_create</code> или <code>serializer.save()</code></td><td>Проверьте <code>views.py</code>, что <code>serializer.save()</code> вызывается</td></tr>
+          <tr><td>Стили не подгружаются после сборки</td><td>⚛️ Фронтенд</td><td>Неправильный <code>base</code> в <code>vite.config.js</code></td><td>Для деплоя в подпапку — <code>base: '/myapp/'</code></td></tr>
+          <tr><td>Ошибка <code>Hydration failed</code> (Next.js)</td><td>⚛️ Фронтенд</td><td>Сервер и клиент рендерят разное</td><td>Не используйте <code>window</code>/<code>localStorage</code> при SSR-рендере</td></tr>
+          <tr><td><code>CORS: credentials not supported</code></td><td>🐍 Бэкенд</td><td>При <code>withCredentials: true</code> нельзя <code>Access-Control-Allow-Origin: *</code></td><td>Укажите конкретные origins + <code>CORS_ALLOW_CREDENTIALS = True</code></td></tr>
+          <tr><td>Прогресс изучения не сохраняется</td><td>⚛️ Фронтенд</td><td>localStorage заблокирован (приватный режим)</td><td>Откройте в обычном окне или разрешите cookies/localStorage</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout tip">
+      <p><strong>Как читать ошибки Django:</strong> когда Django падает с ошибкой, в консоли браузера и терминала вы увидите полный traceback — от строки с ошибкой до места, где она возникла. Читайте снизу вверх: сначала само сообщение, потом где именно в коде, потом цепочку вызовов.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="troubleshooting">Отметить как изученное</button>
+
+    <h2 id="glossary">17. Глоссарий</h2>
+    <div class="card-grid">
+      <div class="card"><h4>venv</h4><p>Virtual Environment — изолированная папка с Python-зависимостями, не засоряет системный Python.</p></div>
+      <div class="card"><h4>nvm</h4><p>Node Version Manager — менеджер версий Node.js, устанавливается в <code>~/.nvm</code> без sudo.</p></div>
+      <div class="card"><h4>DRF</h4><p>Django REST Framework — библиотека для создания REST API. Даёт сериализаторы, viewsets, permissions.</p></div>
+      <div class="card"><h4>JWT</h4><p>JSON Web Token — самодостаточный токен с подписью. Состоит из header, payload, signature.</p></div>
+      <div class="card"><h4>CORS</h4><p>Cross-Origin Resource Sharing — правила, разрешающие браузеру делать запросы между доменами.</p></div>
+      <div class="card"><h4>SPA</h4><p>Single Page Application — одностраничное приложение. React загружает HTML один раз, дальше меняет DOM.</p></div>
+      <div class="card"><h4>Прокси</h4><p>Промежуточный сервер. Vite проксирует <code>/api</code> на Django — обход CORS в разработке.</p></div>
+      <div class="card"><h4>Middleware</h4><p>Прослойка обработки запроса в Django. Срабатывает до view и после.</p></div>
+      <div class="card"><h4>Serializer</h4><p>DRF-класс, конвертирующий объекты Python ↔ JSON. Также валидирует входящие данные.</p></div>
+      <div class="card"><h4>ViewSet / GenericView</h4><p>Классы представлений DRF. Generic — на каждое действие свой класс. ViewSet — всё в одном.</p></div>
+      <div class="card"><h4>CBV (Class-Based Views)</h4><p>Представления Django в виде классов. Дают наследование, миксины и переиспользование. В коде гайда: <code>ListCreateAPIView</code>, <code>RetrieveUpdateDestroyAPIView</code> — всё это CBV из DRF. Противоположность — <code>FBV</code> (function-based views), обычные функции.</p></div>
+      <div class="card"><h4>Интерцептор</h4><p>Функция axios, срабатывающая до или после каждого запроса. Мы используем для JWT.</p></div>
+      <div class="card"><h4>ORM</h4><p>Object-Relational Mapping. Django ORM превращает Python-классы в SQL-таблицы.</p></div>
+      <div class="card"><h4>Миграция</h4><p>Файл с описанием изменений схемы БД. Создаётся <code>makemigrations</code>, применяется <code>migrate</code>.</p></div>
+      <div class="card"><h4>Queryset</h4><p>Ленивый запрос к БД в Django. Не выполняется, пока не обратитесь к данным.</p></div>
+      <div class="card"><h4>Rootless Docker</h4><p>Docker, работающий без root. Можно запускать контейнеры без sudo на РЕД ОС.</p></div>
+      <div class="card"><h4>Хук (React Hook)</h4><p>Функция вроде <code>useState</code>, <code>useEffect</code> — добавляет состояние и жизненный цикл в функциональные компоненты.</p></div>
+    </div>
+    <button type="button" class="mark-read" data-section="glossary">Отметить как изученное</button>
+
+    <h2 id="faq">18. FAQ — частые вопросы</h2>
+    <div class="faq">
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Нужны ли права sudo вообще?</button>
+        <div class="faq-a">Нет. Мы всё делаем в домашней папке. Единственное, что может потребоваться от админа — установить Python 3, если его нет. В РЕД ОС Python обычно уже предустановлен.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Можно ли использовать PostgreSQL вместо SQLite?</button>
+        <div class="faq-a">Да, но PostgreSQL обычно требует установки через dnf (sudo). Без sudo можно использовать SQLite (по умолчанию) или PostgreSQL в rootless Docker. Для продакшена рекомендуется PostgreSQL — там больше возможностей: параллельные транзакции, JSON-поля, полнотекстовый поиск.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Чем Vite лучше create-react-app?</button>
+        <div class="faq-a">Vite запускается в разы быстрее, HMR (hot module replacement) почти мгновенный, меньше конфигурации. create-react-app официально устарел и больше не поддерживается командой React с 2023 года.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Как деплоить без sudo?</button>
+        <div class="faq-a">Варианты: (1) rootless Docker — контейнеры без root; (2) PaaS типа Railway, Render, Fly.io — загружаете код, они хостят; (3) статика React на GitHub Pages + бэк на бесплатном хостинге. Полноценный VPS обычно требует sudo для настройки Nginx/Gunicorn.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Почему JSONPlaceholder не сохраняет мои данные?</button>
+        <div class="faq-a">Это фейковый API для тестов. POST/PUT/DELETE возвращают «успех», но данные не сохраняются на сервере. Для реального CRUD используйте свой Django API.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Куда сохраняются мои токены?</button>
+        <div class="faq-a">
+          <p>В localStorage браузера. Это просто, но не самый безопасный способ — он уязвим для XSS: атакующий внедряет свой JavaScript и ворует токен.</p>
+          <p><strong>Паттерн для продакшена (гибрид):</strong></p>
+          <ul>
+            <li><code>access_token</code> — в памяти JS (React state), живёт 5–15 мин</li>
+            <li><code>refresh_token</code> — в httpOnly Secure SameSite=Strict cookie, живёт 7 дней</li>
+            <li><code>csrf_token</code> — в обычной cookie, читается JS и отправляется в заголовке</li>
+          </ul>
+          <p>Что это даёт: XSS не доберётся до refresh, CSRF защищён double-submit токеном, access короткий — при утечке ущерб минимален.</p>
+          <p>Требует на бэкенде: <code>CORS_ALLOW_CREDENTIALS = True</code>, конкретные origins в <code>CORS_ALLOWED_ORIGINS</code> (звёздочку нельзя), и <code>axios.defaults.withCredentials = true</code> на фронте.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Как запустить всё одной командой?</button>
+        <div class="faq-a">Создайте <code>run-all.sh</code> (см. раздел 15), который запускает оба сервера параллельно с помощью фоновых процессов и trap для Ctrl+C.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Что делать, если забыл пароль суперпользователя?</button>
+        <div class="faq-a">В терминале: <code>python manage.py changepassword admin</code>. Введите новый пароль дважды. Если забыли логин — <code>python manage.py shell</code>, затем <code>from django.contrib.auth.models import User; User.objects.filter(is_superuser=True).values_list('username', flat=True)</code>.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Как добавить новую модель?</button>
+        <div class="faq-a">Создайте класс в <code>models.py</code> → <code>python manage.py makemigrations</code> → <code>python manage.py migrate</code> → создайте сериализатор и представление. Django сам создаст таблицу в БД.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Как включить автообновление токенов на всех запросах?</button>
+        <div class="faq-a">Оно уже включено — интерцептор axios в <code>client.js</code> сам ловит 401 и обновляет токен. Ничего дополнительно делать не нужно.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Почему мои заметки видны другим пользователям?</button>
+        <div class="faq-a">По умолчанию API возвращает все заметки. Добавьте фильтр по owner в <code>get_queryset</code>: <code>Note.objects.filter(owner=self.request.user)</code> или используйте параметр <code>?mine=1</code> из расширенного примера.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Можно ли использовать TypeScript вместо JavaScript?</button>
+        <div class="faq-a">Да. При создании проекта: <code>npm create vite@latest frontend -- --template react-ts</code>. Код будет тот же, но с аннотациями типов. Для новичка JavaScript проще, для прода — TypeScript надёжнее.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Как поменять порт Django?</button>
+        <div class="faq-a"><code>python manage.py runserver 0.0.0.0:8080</code> — вместо 8000 будет 8080. В <code>vite.config.js</code> нужно тоже поправить target прокси.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Как очистить базу данных?</button>
+        <div class="faq-a">Удалите <code>db.sqlite3</code> и выполните <code>python manage.py migrate</code> заново. Все данные пропадут. Суперпользователя создайте снова через <code>createsuperuser</code>.</div>
+      </div>
+
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false">Что делать, если npm install долго висит?</button>
+        <div class="faq-a">Скорее всего проблемы с сетью. Проверьте <code>npm config get registry</code> — должно быть <code>https://registry.npmjs.org/</code>. Можно ускорить через зеркало: <code>npm config set registry https://registry.npmmirror.com/</code> (китайское зеркало, быстрее).</div>
+      </div>
+
+    </div>
+    <button type="button" class="mark-read" data-section="faq">Отметить как изученное</button>
+
+    <h2 id="cheatsheet">19. Cheat sheet — все команды в одном месте</h2>
+    <p>Сохраните эту страницу в закладки — пригодится каждый день.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Команда</th><th>Что делает</th></tr></thead>
+        <tbody>
+          <tr><td colspan="2" class="table-group">🐍 Django</td></tr>
+          <tr><td><code>source venv/bin/activate</code></td><td>Активировать venv</td></tr>
+          <tr><td><code>deactivate</code></td><td>Выйти из venv</td></tr>
+          <tr><td><code>python manage.py runserver</code></td><td>Запустить dev-сервер на 8000</td></tr>
+          <tr><td><code>python manage.py runserver 8001</code></td><td>Запустить на другом порту</td></tr>
+          <tr><td><code>python manage.py migrate</code></td><td>Применить миграции</td></tr>
+          <tr><td><code>python manage.py makemigrations</code></td><td>Создать миграции из моделей</td></tr>
+          <tr><td><code>python manage.py createsuperuser</code></td><td>Создать админа</td></tr>
+          <tr><td><code>python manage.py changepassword admin</code></td><td>Сменить пароль</td></tr>
+          <tr><td><code>python manage.py shell</code></td><td>Python-REPL с настройками Django</td></tr>
+          <tr><td><code>python manage.py dumpdata</code></td><td>Дамп данных в JSON</td></tr>
+          <tr><td><code>python manage.py loaddata</code></td><td>Загрузить дамп</td></tr>
+          <tr><td><code>python manage.py collectstatic</code></td><td>Собрать статику (для прода)</td></tr>
+
+          <tr><td colspan="2" class="table-group">⚛️ React / Vite</td></tr>
+          <tr><td><code>npm run dev</code></td><td>Запустить Vite dev-сервер</td></tr>
+          <tr><td><code>npm run build</code></td><td>Собрать прод-версию в dist/</td></tr>
+          <tr><td><code>npm run preview</code></td><td>Просмотр собранной версии</td></tr>
+          <tr><td><code>npm install &lt;pkg&gt;</code></td><td>Установить пакет</td></tr>
+          <tr><td><code>npm install &lt;pkg&gt; --save-dev</code></td><td>Установить как dev-зависимость</td></tr>
+          <tr><td><code>npm uninstall &lt;pkg&gt;</code></td><td>Удалить пакет</td></tr>
+          <tr><td><code>npm list --depth=0</code></td><td>Список установленных пакетов</td></tr>
+
+          <tr><td colspan="2" class="table-group">🔧 nvm / Node</td></tr>
+          <tr><td><code>nvm install --lts</code></td><td>Установить LTS Node</td></tr>
+          <tr><td><code>nvm install 18</code></td><td>Установить Node 18</td></tr>
+          <tr><td><code>nvm use 18</code></td><td>Переключиться на Node 18</td></tr>
+          <tr><td><code>nvm ls</code></td><td>Список установленных версий</td></tr>
+          <tr><td><code>nvm alias default 'lts/*'</code></td><td>Сделать LTS версией по умолчанию</td></tr>
+
+          <tr><td colspan="2" class="table-group">🌐 curl</td></tr>
+          <tr><td><code>curl -X GET &lt;url&gt;</code></td><td>GET-запрос</td></tr>
+          <tr><td><code>curl -X POST &lt;url&gt; -d '{...}' -H "Content-Type: application/json"</code></td><td>POST с JSON-телом</td></tr>
+          <tr><td><code>curl -X POST &lt;url&gt; -H "Authorization: Bearer $TOKEN"</code></td><td>POST с токеном</td></tr>
+          <tr><td><code>curl -X DELETE &lt;url&gt;</code></td><td>DELETE-запрос</td></tr>
+          <tr><td><code>curl -X PATCH &lt;url&gt; -d '{...}'</code></td><td>Частичное обновление</td></tr>
+          <tr><td><code>curl -I &lt;url&gt;</code></td><td>Только заголовки ответа</td></tr>
+          <tr><td><code>curl -v &lt;url&gt;</code></td><td>Полный вывод (с запросом и ответом)</td></tr>
+
+          <tr><td colspan="2" class="table-group">🔀 Git</td></tr>
+          <tr><td><code>git init</code></td><td>Инициализировать репозиторий</td></tr>
+          <tr><td><code>git status</code></td><td>Что изменилось</td></tr>
+          <tr><td><code>git add .</code></td><td>Добавить всё в индекс</td></tr>
+          <tr><td><code>git commit -m "..."</code></td><td>Закоммитить</td></tr>
+          <tr><td><code>git log --oneline</code></td><td>История одной строкой</td></tr>
+          <tr><td><code>git diff</code></td><td>Построчные изменения</td></tr>
+          <tr><td><code>git checkout -b branch-name</code></td><td>Создать и переключиться на ветку</td></tr>
+          <tr><td><code>git push origin main</code></td><td>Отправить в удалённый репо</td></tr>
+          <tr><td><code>git pull</code></td><td>Получить изменения</td></tr>
+
+          <tr><td colspan="2" class="table-group">🧪 Тесты</td></tr>
+          <tr><td><code>pytest</code></td><td>Все тесты</td></tr>
+          <tr><td><code>pytest -v</code></td><td>Подробный вывод</td></tr>
+          <tr><td><code>pytest -k register</code></td><td>Только тесты с "register" в имени</td></tr>
+          <tr><td><code>pytest --cov=api</code></td><td>С покрытием кода</td></tr>
+
+          <tr><td colspan="2" class="table-group">🐧 Полезное в РЕД ОС</td></tr>
+          <tr><td><code>pwd</code></td><td>Где я сейчас</td></tr>
+          <tr><td><code>ls -la</code></td><td>Файлы включая скрытые</td></tr>
+          <tr><td><code>cd ~/projects/fullstack-app</code></td><td>В папку проекта</td></tr>
+          <tr><td><code>cat filename</code></td><td>Показать содержимое</td></tr>
+          <tr><td><code>nano filename</code></td><td>Редактор в терминале</td></tr>
+          <tr><td><code>pkill -f runserver</code></td><td>Убить процесс Django</td></tr>
+          <tr><td><code>ps aux | grep python</code></td><td>Список python-процессов</td></tr>
+          <tr><td><code>df -h</code></td><td>Свободное место на дисках</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="mark-read" data-section="cheatsheet">Отметить как изученное</button>
+
+    <h2 id="summary">20. Итог</h2>
+    <p>Мы прошли путь от нуля до полноценного full-stack приложения <strong>без единой команды sudo</strong>:</p>
+    <ul>
+      <li>✅ Python-зависимости — через <code>venv</code></li>
+      <li>✅ Node.js — через <code>nvm</code></li>
+      <li>✅ Бэкенд на <strong>Django + DRF</strong> с JWT-аутентификацией</li>
+      <li>✅ Фронтенд на <strong>React + Vite + axios</strong></li>
+      <li>✅ Интеграция через <strong>прокси Vite</strong> — без CORS-головной боли</li>
+      <li>✅ Познакомились с <strong>jwt.io</strong> для разбора токенов</li>
+      <li>✅ Научились использовать <strong>JSONPlaceholder</strong> как заглушку</li>
+      <li>✅ Разобрали <strong>интерцепторы axios</strong> для автообновления токенов</li>
+      <li>✅ Написали <strong>run-all.sh</strong> для запуска в одну команду</li>
+      <li>✅ Поняли, как работает <strong>Git</strong>, <strong>тесты</strong> и <strong>.env</strong></li>
+    </ul>
+
+    <h4>Куда двигаться дальше</h4>
+    <ul>
+      <li><strong>Регистрация пользователей</strong> — эндпоинт <code>/api/register/</code> и форма</li>
+      <li><strong>Редактирование заметок</strong> — используйте уже готовый <code>NoteDetailView</code></li>
+      <li><strong>Фильтрация «только мои заметки»</strong> — фильтр по <code>owner</code> в <code>get_queryset</code></li>
+      <li><strong>Пагинация</strong> — <code>PageNumberPagination</code> в DRF</li>
+      <li><strong>Поиск</strong> — <code>SearchFilter</code> из DRF</li>
+      <li><strong>Стили</strong> — Tailwind CSS, MUI, styled-components</li>
+      <li><strong>State management</strong> — Redux Toolkit, Zustand, React Query</li>
+      <li><strong>TypeScript</strong> — типизация фронтенда</li>
+      <li><strong>Тесты</strong> — pytest + Vitest + покрытие</li>
+      <li><strong>WebSocket</strong> — Django Channels + React для real-time</li>
+      <li><strong>Docker</strong> — упаковка проекта в контейнеры</li>
+      <li><strong>Деплой</strong> — rootless Docker или PaaS</li>
+    </ul>
+
+    <h4>Полезные ссылки</h4>
+    <ul>
+      <li><a href="https://docs.djangoproject.com/" target="_blank" rel="noopener">Django docs</a> — официальная документация</li>
+      <li><a href="https://www.django-rest-framework.org/" target="_blank" rel="noopener">Django REST Framework</a> — DRF</li>
+      <li><a href="https://django-rest-framework-simplejwt.readthedocs.io/" target="_blank" rel="noopener">Simple JWT</a> — JWT для DRF</li>
+      <li><a href="https://react.dev/" target="_blank" rel="noopener">React docs</a> — новый сайт с гайдами</li>
+      <li><a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> — сборщик</li>
+      <li><a href="https://axios-http.com/" target="_blank" rel="noopener">Axios docs</a> — HTTP-клиент</li>
+      <li><a href="https://reactrouter.com/" target="_blank" rel="noopener">React Router</a> — роутинг в SPA</li>
+      <li><a href="https://www.jwt.io/" target="_blank" rel="noopener">jwt.io</a> — декодер JWT</li>
+      <li><a href="https://jsonplaceholder.typicode.com/" target="_blank" rel="noopener">JSONPlaceholder</a> — фейковый API</li>
+      <li><a href="https://realpython.com/" target="_blank" rel="noopener">Real Python</a> — качественные туториалы</li>
+      <li><a href="https://docs.pytest.org/" target="_blank" rel="noopener">pytest</a> — тесты</li>
+    </ul>
+    <button type="button" class="mark-read" data-section="summary">Отметить как изученное</button>
+
+    <h2 id="export">21. Экспорт гайда</h2>
+    <p>Этот гайд можно сохранить в PDF или DOCX прямо из браузера — стили для печати уже встроены.</p>
+
+    <h4>PDF</h4>
+    <ol>
+      <li>Нажмите <code>Ctrl+P</code> (или ⌘+P на Mac)</li>
+      <li>В настройках печати выберите <strong>«Сохранить в PDF»</strong></li>
+      <li>Обязательно включите <strong>«Печать фона»</strong> (Background graphics) — иначе цвета и градиенты не сохранятся</li>
+      <li>Отключите колонтитулы, если не нужны URL и номер страницы</li>
+      <li>Нажмите «Сохранить»</li>
+    </ol>
+
+    <h4>Word / DOCX</h4>
+    <ol>
+      <li>Откройте HTML-файл в <strong>LibreOffice Writer</strong> (он обычно предустановлен в РЕД ОС)</li>
+      <li>Или в Microsoft Word: Файл → Открыть → выбрать HTML</li>
+      <li>Сохранить как → формат <code>.docx</code></li>
+    </ol>
+
+    <h4>Markdown</h4>
+    <p>Скопируйте текст гайда, откройте в редакторе и оформите в Markdown. Или используйте <a href="https://pandoc.org/" target="_blank" rel="noopener">pandoc</a> для конвертации HTML → Markdown.</p>
+
+    <div class="callout tip">
+      <p><strong>Совет для PDF:</strong> перед печатью переключитесь на светлую тему (☀️ в шапке) — PDF будет легче читать на бумаге и в e-reader. Тёмные темы тратят много краски.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="export">Отметить как изученное</button>
+
+    <p class="footer-note">🌸 Гайд создан для РЕД ОС • Django • DRF • React • JWT • JSONPlaceholder 🌸</p>
+  </main>
+</div>
+
+<button type="button" id="totop" title="Наверх" aria-label="Вернуться наверх">↑</button>
+
+<div id="studyBar" role="region" aria-label="Прогресс изучения">
+  <div class="icon" id="studyIcon"><span id="studyIconPct">0%</span></div>
+  <div class="label">Прогресс: <strong><span id="studyDone">0</span> из <span id="studyTotal">0</span></strong></div>
+  <div class="bar-track"><div class="bar-fill" id="studyFill"></div></div>
+  <div class="spacer"></div>
+  <button type="button" class="bar-btn" id="exportBtn" title="Скачать прогресс">📥 <span class="txt">Экспорт</span></button>
+  <button type="button" class="bar-btn danger" id="studyReset" title="Сбросить">🔄 <span class="txt">Сбросить</span></button>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal-overlay" id="hotkeysModal" role="dialog" aria-modal="true" aria-label="Горячие клавиши">
+  <div class="modal">
+    <h2>Горячие клавиши</h2>
+    <div class="hotkey-row"><span>Поиск</span><kbd>Ctrl</kbd> + <kbd>K</kbd></div>
+    <div class="hotkey-row"><span>След/пред. совпадение</span><kbd>[</kbd> / <kbd>]</kbd></div>
+    <div class="hotkey-row"><span>Очистить поиск</span><kbd>Esc</kbd></div>
+    <div class="hotkey-row"><span>След/пред. секция</span><kbd>J</kbd> / <kbd>K</kbd></div>
+    <div class="hotkey-row"><span>Показать это окно</span><kbd>?</kbd></div>
+    <div class="hotkey-row"><span>Печать / PDF</span><kbd>Ctrl</kbd> + <kbd>P</kbd></div>
+    <div class="hotkey-row"><span>Наверх страницы</span><kbd>Home</kbd></div>
+    <div class="hotkey-row"><span>В самый низ</span><kbd>End</kbd></div>
+    <button type="button" class="modal-close">Закрыть</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="fontModal" role="dialog" aria-modal="true" aria-label="Выбор шрифта">
+  <div class="modal">
+    <h2>Шрифт гайда</h2>
+    <p class="muted small" style="margin:0 0 8px">Выберите пресет — выбор сохранится в браузере.</p>
+    <div class="font-grid">
+      <button type="button" class="font-opt" data-font-opt="modern">
+        <div><div class="name">Modern</div><div class="sample">Plus Jakarta Sans + Inter</div></div>
+        <div class="check"></div>
+      </button>
+      <button type="button" class="font-opt" data-font-opt="geometric">
+        <div><div class="name">Geometric</div><div class="sample">Manrope + Inter</div></div>
+        <div class="check"></div>
+      </button>
+      <button type="button" class="font-opt" data-font-opt="classic">
+        <div><div class="name">Classic</div><div class="sample">Fraunces + Inter (с засечками)</div></div>
+        <div class="check"></div>
+      </button>
+      <button type="button" class="font-opt" data-font-opt="system">
+        <div><div class="name">System</div><div class="sample">Нативные системные шрифты</div></div>
+        <div class="check"></div>
+      </button>
+    </div>
+    <button type="button" class="modal-close">Закрыть</button>
+  </div>
+</div>
+
+<script src="js/ui.js" defer></script>
+<script src="js/theme.js" defer></script>
+<script src="js/progress.js" defer></script>
+<script src="js/search.js" defer></script>
+<script src="js/toc.js" defer></script>
+<script src="js/main.js" defer></script>
+
+</body>
+</html>
