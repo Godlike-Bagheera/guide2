@@ -107,20 +107,8 @@
       wrap.appendChild(a);
     }
 
-    // Кнопку-закладку создаём здесь же, пока .mark-read ещё в исходном
-    // месте DOM: так order скриптов (toc.js → bookmarks.js) не влияет на
-    // результат. Закладка ставится ПЕРЕД «Отметить как изученное».
-    const markBtn = document.querySelector(`.mark-read[data-section="${h.id}"]`);
-    if (markBtn && !document.querySelector(`.bookmark-btn[data-section="${h.id}"]`)) {
-      const bmBtn = document.createElement('button');
-      bmBtn.type = 'button';
-      bmBtn.className = 'bookmark-btn';
-      bmBtn.dataset.section = h.id;
-      bmBtn.title = 'В закладки (B)';
-      bmBtn.setAttribute('aria-label', 'Добавить раздел в закладки');
-      bmBtn.append('☆', document.createTextNode(' Закладка'));
-      markBtn.before(bmBtn);
-    }
+    // Кнопки-закладки больше НЕ создаются в DOM страницы — они живут на
+    // отдельной странице bookmarks.html (там toc.js вообще не подключается).
 
     // Единый контейнер низа раздела: «Назад/Далее» + кнопки действий.
     // Кнопки НЕ перемещаем (перемещение ломало reveal-анимации и in-page
@@ -129,6 +117,7 @@
     footer.className = 'section-footer';
     footer.appendChild(wrap);
 
+    const markBtn = document.querySelector(`.mark-read[data-section="${h.id}"]`);
     if (markBtn) markBtn.before(footer);
     else h.after(footer); // нет кнопки — просто после заголовка
   });
