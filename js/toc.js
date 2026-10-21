@@ -41,26 +41,66 @@
   window.addEventListener('load', initActive, { once: true });
 
   /* ─── Плавный скролл по клику в меню ─── */
+  // Скроллим к НАЧАЛУ раздела (заголовок становится сразу под шапкой),
+  // а не к его концу — иначе сверху висел «хвост» предыдущего раздела
+  // с кнопкой «Отметить как изученное».
+  function scrollToSection(id) {
+    const target = document.getElementById(id + '-sec') || document.getElementById(id);
+    if (!target) return false;
+    window.scrollTo({
+      top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET),
+      behavior: 'smooth'
+    });
+    return true;
+  }
+
   tocLinks.forEach(a => {
     a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (!target) return;
-      e.preventDefault();
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
-      history.replaceState(null, '', a.getAttribute('href'));
+      if (a.classList.contains('toc-part')) return; // групповой заголовок — обычная ссылка
+      if (scrollToSection(a.getAttribute('href').slice(1))) {
+        e.preventDefault();
+        history.replaceState(null, '', a.getAttribute('href'));
+      }
     });
   });
 
-  /* ─── Полоска под h2 ровно по ширине текста заголовка ─── */
-  // Оборачиваем содержимое h2 в inline-блок; ::after span'а рисует полоску
-  // длиной ровно со слово (см. css/base.css).
+  /* ─── Точный переход при открытии страницы с якорем (part2-react.html#jwt,
+         прямая ссылка, «Назад» браузера). Нативный :target скроллит id заголовка
+         в самом конце раздела — под ним оставался хвост предыдущего раздела.
+         Поэтому на время загрузки запрещаем нативный скролл (:target стилизуются
+         через класс .anchor-sec у <section>) и скроллим сами к началу раздела. ─── */
+  const anchorIdRaw = decodeURIComponent(location.hash.slice(1));
+  const anchorSec = anchorIdRaw ? document.querySelector('section[id="' + anchorIdRaw + '"]') : null;
+  if (anchorSec) {
+    anchorSec.classList.add('anchor-sec');
+    history.scrollRestoration = 'manual';
+    requestAnimationFrame(() => scrollToSection(anchorSec.id));
+  }
+  function jumpToHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const sec = document.getElementById(id + '-sec');
+    if (sec && !sec.classList.contains('anchor-sec')) {
+      // обычный клик по TOC — уже отскроллили в обработчике
+    }
+    requestAnimationFrame(() => scrollToSection(id));
+  }
+  window.addEventListener('hashchange', jumpToHash);
+
+  /* ─── Полоска под h2/h3 ровно по ширине текста заголовка ─── */
+  // Оборачиваем содержимое заголовка в inline-блок; ::after span'а рисует
+  // полоску длиной ровно со слово (см. css/base.css).
   document.querySelectorAll('main h2[id]').forEach(h => {
     if (h.querySelector(':scope > .h2-line')) return;
     const span = document.createElement('span');
     span.className = 'h2-line';
+    while (h.firstChild) span.appendChild(h.firstChild);
+    h.appendChild(span);
+  });
+  document.querySelectorAll('main h3[id]').forEach(h => {
+    if (h.querySelector(':scope > .h3-line')) return;
+    const span = document.createElement('span');
+    span.className = 'h3-line';
     while (h.firstChild) span.appendChild(h.firstChild);
     h.appendChild(span);
   });

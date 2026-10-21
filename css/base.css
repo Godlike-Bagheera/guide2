@@ -94,7 +94,8 @@ h2 > .h2-line::after {
   content: "";
   position: absolute;
   bottom: -17px; left: 0; right: 0;
-  height: 2px;
+  height: 3px;
+  border-radius: 2px;
   background: var(--accent);
 }
 
@@ -105,7 +106,18 @@ h3 {
   color: var(--fg);
   position: relative;
   padding-left: 18px;
-  scroll-margin-top: 110px;
+  scroll-margin-top: 96px;
+}
+/* Тонкая акцентная полоска по ширине текста заголовков h3 — так же, как у h2.
+   JS оборачивает текст h3[id] в span.h3-line (см. js/toc.js). */
+h3 > .h3-line { display: inline-block; position: relative; }
+h3 > .h3-line::after {
+  content: "";
+  position: absolute;
+  bottom: -10px; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
 }
 h3::before {
   content: "";

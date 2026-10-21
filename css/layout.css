@@ -206,6 +206,15 @@ nav.toc a.active::before {
   border-radius: 2px;
 }
 
+/* Кнопка «Отметить как изученное» — скрыта до прихода в конец раздела.
+   Показывает её js/progress.js (класс .visible), когда пользователь дочитал
+   раздел: кнопка появляется ровно там, где закончился текст. */
+.mark-read { opacity: 0; visibility: hidden; }
+.mark-read.visible { opacity: 1; visibility: visible; }
+@media (prefers-reduced-motion: reduce) {
+  .mark-read { opacity: 1; visibility: visible; }
+}
+
 /* Групповые заголовки TOC — работают и для <a>, и для <span> */
 nav.toc .toc-part {
   display: block;

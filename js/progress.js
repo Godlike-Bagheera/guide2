@@ -115,6 +115,42 @@
 
   updateProgress();
 
+  /* ─── Кнопки «Отметить как изученное»: показывать только в дочитанном разделе ───
+     По умолчанию кнопки скрыты (CSS: .mark-read { opacity:0; visibility:hidden }),
+     чтобы при переходе по меню сверху не висел «хвост» чужого раздела.
+     Появляются, когда пользователь докрутил до конца раздела (или уже отметил его). */
+  const seenDone = new Set();
+  if ('IntersectionObserver' in window) {
+    const endObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const btn = e.target._markBtn;
+        if (!btn) return;
+        if (e.isIntersecting) {
+          seenDone.add(btn);
+          btn.classList.add('visible');
+        }
+      });
+    }, { rootMargin: '0px 0px -15% 0px', threshold: 0 });
+    markButtons.forEach(btn => {
+      const sec = document.getElementById(btn.dataset.section.split('@')[0] + '-sec')
+               || document.getElementById(btn.dataset.section.split('@')[0]);
+      if (sec) { sec._markBtn = btn; endObs.observe(sec); }
+      else { btn.classList.add('visible'); } // нет секции — показываем как раньше
+    });
+  } else {
+    markButtons.forEach(btn => btn.classList.add('visible'));
+  }
+  // Отмеченные разделы — кнопка видна всегда (можно снять отметку)
+  const _origUpdate = updateProgress;
+  updateProgress = function () {
+    _origUpdate();
+    const st = loadState();
+    markButtons.forEach(btn => {
+      if (isDone(st, btn.dataset.section)) btn.classList.add('visible');
+    });
+  };
+  updateProgress();
+
   /* ─── Экспорт для объединённого scroll-хендлера ─── */
   window.updateReadingBar = () => {
     if (!readingBarFill) return;
