@@ -147,10 +147,18 @@ html[data-font="classic"] .hero h1 { letter-spacing: -.01em; }
 @media print {
   header, nav.toc, #totop, #studyBar, #readingBar, #toast,
   .modal-overlay, .mark-read, .next-section, .skip-link,
+  .bookmark-btn, .bookmarks-panel, .section-nav,
   pre .copy-btn, pre::before, pre .lang-tag,
   body::before, .hero::before, .hero::after {
     display: none !important;
   }
+  /* Подсветка кода в печати — всегда светлая тема, независимо от темы сайта */
+  #hljs-theme { display: none !important; }
+  pre code, pre code.hljs { color: #000 !important; background: transparent !important; }
+  .hljs-keyword, .hljs-built_in, .hljs-name, .hljs-type { font-weight: bold !important; }
+  .hljs-string, .hljs-attr, .hljs-symbol { color: #1a6b1a !important; }
+  .hljs-comment { color: #777 !important; font-style: italic !important; }
+  .hljs-number, .hljs-literal { color: #824a00 !important; }
   body { background: #fff; color: #000; padding: 0; font-size: 11pt; }
   .layout { display: block; padding: 0; max-width: none; }
   main {
@@ -185,4 +193,12 @@ html[data-font="classic"] .hero h1 { letter-spacing: -.01em; }
   h2, h3 { page-break-after: avoid; }
   table { page-break-inside: avoid; }
   a { color: #000; text-decoration: underline; }
+  /* Печать/PDF: показываем URL внешних ссылок прямо в тексте */
+  main a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8.5pt;
+    color: #555;
+    text-decoration: none;
+    word-break: break-all;
+  }
 }

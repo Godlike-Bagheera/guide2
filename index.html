@@ -53,38 +53,42 @@
       <li><a href="#no-sudo" data-track>2. Почему без sudo</a></li>
       <li><a href="#python" data-track>3. Python и venv</a></li>
       <li><a href="#django" data-track>4. Django-проект</a></li>
-      <li><a href="#django-bootstrap5" data-track>5. Django + Bootstrap 5</a></li>
-      <li><a href="#api" data-track>6. Модель и API</a></li>
-      <li><a href="#test-api" data-track>7. Тестирование API</a></li>
-      <li><a href="#jsonplaceholder" data-track>8. JSONPlaceholder</a></li>
-      <li><a href="#deeper" data-track>9. Что под капотом DRF</a></li>
+      <li><a href="#django-admin" data-track>5. Django Admin</a></li>
+      <li><a href="#django-bootstrap5" data-track>6. Django + Bootstrap 5</a></li>
+      <li><a href="#api" data-track>7. Модель и API</a></li>
+      <li><a href="#test-api" data-track>8. Тестирование API</a></li>
+      <li><a href="#jsonplaceholder" data-track>9. JSONPlaceholder</a></li>
+      <li><a href="#deeper" data-track>10. Что под капотом DRF</a></li>
 
       <li><a href="#part2" class="toc-part">Часть 2. Фронтенд</a></li>
-      <li><a href="#nvm" data-track>10. Node.js через nvm</a></li>
-      <li><a href="#react" data-track>11. React-приложение</a></li>
-      <li><a href="#proxy" data-track>12. Прокси Vite</a></li>
-      <li><a href="#react-code" data-track>13. Код React</a></li>
-      <li><a href="#jwt" data-track>14. JWT и jwt.io</a></li>
-      <li><a href="#test" data-track>15. Тестирование</a></li>
-      <li><a href="#run-all" data-track>16. Запуск одним скриптом</a></li>
+      <li><a href="#nvm" data-track>11. Node.js через nvm</a></li>
+      <li><a href="#react" data-track>12. React-приложение</a></li>
+      <li><a href="#proxy" data-track>13. Прокси Vite</a></li>
+      <li><a href="#react-code" data-track>14. Код React</a></li>
+      <li><a href="#jwt" data-track>15. JWT и jwt.io</a></li>
+      <li><a href="#test" data-track>16. Тестирование</a></li>
+      <li><a href="#run-all" data-track>17. Запуск одним скриптом</a></li>
 
       <li><span class="toc-part">Продвинутое</span></li>
-      <li><a href="#git-intro" data-track>17. Git</a></li>
-      <li><a href="#extended-model" data-track>18. Теги и категории</a></li>
-      <li><a href="#auth-register" data-track>19. Регистрация</a></li>
-      <li><a href="#tests" data-track>20. Тесты Django</a></li>
-      <li><a href="#env-config" data-track>21. Переменные окружения</a></li>
-      <li><a href="#db-schema" data-track>22. Схема БД</a></li>
-      <li><a href="#auth-compare" data-track>23. Сравнение auth</a></li>
-      <li><a href="#db-python" data-track>24. База данных на Python</a></li>
+      <li><a href="#git-intro" data-track>18. Git</a></li>
+      <li><a href="#extended-model" data-track>19. Теги и категории</a></li>
+      <li><a href="#auth-register" data-track>20. Регистрация</a></li>
+      <li><a href="#tests" data-track>21. Тесты Django</a></li>
+      <li><a href="#env-config" data-track>22. Переменные окружения</a></li>
+      <li><a href="#db-schema" data-track>23. Схема БД</a></li>
+      <li><a href="#auth-compare" data-track>24. Сравнение auth</a></li>
+      <li><a href="#db-python" data-track>25. База данных на Python</a></li>
+      <li><a href="#postgresql" data-track>26. PostgreSQL</a></li>
+      <li><a href="#deploy" data-track>27. Деплой</a></li>
+      <li><a href="#cors-deep" data-track>28. CORS глубоко</a></li>
 
       <li><span class="toc-part">Справочник</span></li>
-      <li><a href="#troubleshooting" data-track>25. Troubleshooting</a></li>
-      <li><a href="#glossary" data-track>26. Глоссарий</a></li>
-      <li><a href="#faq" data-track>27. FAQ</a></li>
-      <li><a href="#cheatsheet" data-track>28. Cheat sheet</a></li>
-      <li><a href="#summary" data-track>29. Итог</a></li>
-      <li><a href="#export" data-track>30. Экспорт</a></li>
+      <li><a href="#troubleshooting" data-track>29. Troubleshooting</a></li>
+      <li><a href="#glossary" data-track>30. Глоссарий</a></li>
+      <li><a href="#faq" data-track>31. FAQ</a></li>
+      <li><a href="#cheatsheet" data-track>32. Cheat sheet</a></li>
+      <li><a href="#summary" data-track>33. Итог</a></li>
+      <li><a href="#export" data-track>34. Экспорт</a></li>
     </ul>
   </nav>
 
@@ -414,10 +418,97 @@ SIMPLE_JWT = {
     </div>
     <button type="button" class="mark-read" data-section="django">Отметить как изученное</button>
 
-    <h3 id="django-bootstrap5">5. Django + Bootstrap 5 — django_bootstrap5</h3>
+    <h3 id="django-admin">5. Django Admin — готовая админка из коробки</h3>
+    <p>Одна из главных «киллер-фич» Django: панель администратора создаётся <strong>автоматически</strong> из ваших моделей. Не нужно писать HTML, forms и CRUD-логику — Django сгенерирует интерфейс для добавления, редактирования и удаления записей. Идеально, чтобы быстро наполнять базу данными и смотреть, как работают модели.</p>
+
+    <h4>5.1. Включён ли Admin?</h4>
+    <p>В свежем проекте всё уже включено по умолчанию. Проверьте два файла:</p>
+<pre><code># backend/settings.py
+INSTALLED_APPS = [
+    ...
+    'django.contrib.admin',       # ← сама админка
+    'django.contrib.auth',        # ← пользователи и права
+    ...
+]
+
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # ← без него admin не пустит
+    ...
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout info">
+      <p><strong>Как это работает:</strong> админка построена на тех же моделях, что и ваш сайт. Таблица в браузере — это буквально <code>Model.objects.all()</code>, а форма редактирования автоматически строится из полей модели (CharField → текстовое поле, DateTimeField → виджет с календарём и т.д.).</p>
+    </div>
+
+    <h4>5.2. Создайте суперпользователя</h4>
+    <p>В админку может зайти только staff-пользователь. Создаём его одной командой:</p>
+<pre><code>python manage.py createsuperuser</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Django спросит имя, email и пароль (минимум 8 символов, пароль нельзя использовать как логин). Если модель ещё не создана — сначала выполните <code>makemigrations</code> и <code>migrate</code>.</p>
+
+    <h4>5.3. Вход в админку</h4>
+<pre><code># запустите сервер
+python manage.py runserver</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Откройте в браузере: <strong><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener">http://127.0.0.1:8000/admin/</a></strong> — увидите форму входа. URL задаётся в <code>backend/urls.py</code>:</p>
+<pre><code># backend/urls.py
+from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),   # ← вся админка живёт здесь
+    path('api/', include('api.urls')),
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>5.4. Зарегистрируйте модель</h4>
+    <p>По умолчанию в админке видны только Группы и Пользователи. Чтобы появились ваши заметки, зарегистрируйте модель в <code>api/admin.py</code>:</p>
+<pre><code># api/admin.py
+from django.contrib import admin
+from .models import Note
+
+
+@admin.register(Note)
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'owner', 'created_at')  # колонки списка
+    list_filter = ('created_at', 'owner')                  # фильтры сбоку
+    search_fields = ('title', 'content')                   # строка поиска
+    ordering = ('-created_at',)                            # сортировка по умолчанию
+    readonly_fields = ('created_at',)                      # только для чтения</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <p>Старый стиль регистрации — <code>admin.site.register(Note)</code> — тоже работает, но класс с настройками удобнее. После сохранения страницы обновите админку: в разделе «Api» появится «Заметки» со списком, поиском и кнопкой «Добавить».</p>
+
+    <h4>5.5. Что умеет админка</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Функция</th><th>Как выглядит</th><th>Настройка</th></tr></thead>
+        <tbody>
+          <tr><td>CRUD без кода</td><td>Список + форма добавления/изменения</td><td>автоматически из модели</td></tr>
+          <tr><td>Поиск и фильтры</td><td>строка сверху, панель справа</td><td><code>search_fields</code>, <code>list_filter</code></td></tr>
+          <tr><td>Массовые действия</td><td>выделить галочками → «Удалить выбранные»</td><td><code>actions = ['delete_selected']</code></td></tr>
+          <tr><td>Права по ролям</td><td>у обычного staff нет кнопки «Пользователи»</td><td>Группы → права (view/add/change/delete)</td></tr>
+          <tr><td>Inline-редактирование</td><td>дочерние записи прямо в форме родителя</td><td><code>admin.StackedInline</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Пример inline — теги заметки редактируются в её же форме:</p>
+<pre><code>class NoteTagInline(admin.TabularInline):
+    model = Note.tags.through   # промежуточная таблица ManyToMany
+    extra = 1                    # одна пустая строка для нового тега
+
+
+@admin.register(Note)
+class NoteAdmin(admin.ModelAdmin):
+    inlines = [NoteTagInline]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <div class="callout warn">
+      <p><strong>Не выставляйте /admin/ в интернет без настройки!</strong> Смените путь <code>path('admin/', ...)</code> на нестандартный, включите <code>DEBUG=False</code>, держите сильный пароль и выдавайте staff-права только нужным группам. Админка — самый лакомый объект для брутфорса.</p>
+    </div>
+    <div class="callout ok">
+      <p><strong>Итого:</strong> <code>createsuperuser</code> → заход на <code>/admin/</code> → регистрация модели через <code>@admin.register</code> — и у вас полноценная CMS для проекта за 5 минут. На этом этапе можно руками добавить тестовые заметки и проверить API-эндпоинты на реальных данных.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="django-admin">Отметить как изученное</button>
+
+    <h3 id="django-bootstrap5">6. Django + Bootstrap 5 — django_bootstrap5</h3>
     <p>Пока React — это про API и SPA, многие задачи решаются проще: обычные страницы рендерит сам Django через <strong>шаблоны</strong>. Чтобы сайт выглядел красиво, используем <strong>Bootstrap 5</strong> — самый популярный CSS-фреймворк, а для интеграции с Django — пакет <code>django_bootstrap5</code>.</p>
 
-    <h4>5.1. Установка django_bootstrap5</h4>
+    <h4>6.1. Установка django_bootstrap5</h4>
     <p>Убедитесь, что окружение <code>(venv)</code> активно (раздел 3), и выполните:</p>
 <pre><code>pip install django-bootstrap5</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <div class="callout tip">
@@ -443,7 +534,7 @@ DJANGO_BOOTSTRAP5 = {
     'css_bundle': 'dist',      # или 'core' — только CSS без JS-плагинов
 }</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>5.2. Базовый шаблон base.html</h4>
+    <h4>6.2. Базовый шаблон base.html</h4>
     <p>Создайте папку и файл шаблона:</p>
 <pre><code>mkdir -p api/templates/api
 nano api/templates/api/base.html</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
@@ -477,7 +568,7 @@ nano api/templates/api/base.html</code><button type="button" class="copy-btn">К
       </table>
     </div>
 
-    <h4>5.3. Простейшая страница через view</h4>
+    <h4>6.3. Простейшая страница через view</h4>
     <p>Добавьте представление в <code>api/views.py</code>:</p>
 <pre><code>from django.shortcuts import render
 
@@ -517,7 +608,7 @@ urlpatterns = [
 <pre><code>python manage.py runserver</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <p>Откройте <code>http://127.0.0.1:8000/</code> — увидите аккуратную карточку со стилизованной кнопкой. Ноль собственного CSS!</p>
 
-    <h4>5.4. Сайт как конструктор: берём готовые куски кода с сайта Bootstrap</h4>
+    <h4>6.4. Сайт как конструктор: берём готовые куски кода с сайта Bootstrap</h4>
     <p>Главная фишка Bootstrap — <strong>готовые компоненты</strong>: навбары, карточки, формы входа, футеры, hero-блоки. Их не нужно писать руками — их можно <strong>копировать прямо с официального сайта</strong> и вставлять в наши шаблоны Django. <code>django_bootstrap5</code> уже подключил нужные CSS и JS, поэтому скопированный HTML заработает «из коробки» — это и есть сборка сайта как из кубиков LEGO.</p>
     <p><strong>Где брать готовые куски кода:</strong></p>
     <ul>
@@ -576,9 +667,9 @@ urlpatterns = [
     </div>
     <button type="button" class="mark-read" data-section="django-bootstrap5">Отметить как изученное</button>
 
-    <h3 id="api">6. Модель, сериализатор, представления</h3>
+    <h3 id="api">7. Модель, сериализатор, представления</h3>
 
-    <h4>6.1. Модель <code>api/models.py</code></h4>
+    <h4>7.1. Модель <code>api/models.py</code></h4>
     <p>Модель — это Python-класс, который описывает таблицу в БД. Django сам создаёт SQL-таблицу на основе класса.</p>
 <pre><code>from django.db import models
 
@@ -614,7 +705,7 @@ class Note(models.Model):
       <p><code>ForeignKey</code> создаёт связь «многие к одному» — у одного пользователя много заметок. <code>on_delete=CASCADE</code> означает: при удалении пользователя удалятся его заметки. <code>related_name='notes'</code> позволяет обращаться к заметкам как <code>user.notes.all()</code>.</p>
     </div>
 
-    <h4>6.2. Сериализатор <code>api/serializers.py</code></h4>
+    <h4>7.2. Сериализатор <code>api/serializers.py</code></h4>
     <p>Создайте файл <code>api/serializers.py</code>. Сериализатор конвертирует объекты Python ↔ JSON.</p>
 <pre><code>from rest_framework import serializers
 from .models import Note
@@ -631,7 +722,7 @@ class NoteSerializer(serializers.ModelSerializer):
       <p><code>ReadOnlyField</code> для <code>owner</code> означает: клиент не может подделать владельца — он всегда берётся из <code>request.user</code> на сервере.</p>
     </div>
 
-    <h4>6.3. Представления <code>api/views.py</code></h4>
+    <h4>7.3. Представления <code>api/views.py</code></h4>
 <pre><code>from rest_framework import generics, permissions
 from .models import Note
 from .serializers import NoteSerializer
@@ -656,7 +747,7 @@ class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>6.4. URL-маршруты <code>api/urls.py</code></h4>
+    <h4>7.4. URL-маршруты <code>api/urls.py</code></h4>
     <p>Создайте файл <code>api/urls.py</code>:</p>
 <pre><code>from django.urls import path
 from .views import NoteListCreateView, NoteDetailView
@@ -675,7 +766,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>6.5. Подключите URL-ы в главном <code>backend/urls.py</code></h4>
+    <h4>7.5. Подключите URL-ы в главном <code>backend/urls.py</code></h4>
 <pre><code>from django.contrib import admin
 from django.urls import path, include
 
@@ -685,7 +776,7 @@ urlpatterns = [
     path('api/', include('api.urls')),   # ← все маршруты api
 ]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>6.6. Регистрация в админке <code>api/admin.py</code></h4>
+    <h4>7.6. Регистрация в админке <code>api/admin.py</code></h4>
 <pre><code>from django.contrib import admin
 from .models import Note
 
@@ -696,7 +787,7 @@ class NoteAdmin(admin.ModelAdmin):
     list_filter = ['created_at', 'owner']
     search_fields = ['title', 'content']</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>6.7. Миграции и запуск</h4>
+    <h4>7.7. Миграции и запуск</h4>
 <pre><code>python manage.py makemigrations api
 python manage.py migrate
 python manage.py runserver</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
@@ -706,10 +797,10 @@ python manage.py runserver</code><button type="button" class="copy-btn">Копи
     </div>
     <button type="button" class="mark-read" data-section="api">Отметить как изученное</button>
 
-    <h3 id="test-api">7. Тестирование API через curl</h3>
+    <h3 id="test-api">8. Тестирование API через curl</h3>
     <p>Откройте <strong>второй терминал</strong> (не закрывая тот, где работает Django). Проверим все 5 операций CRUD.</p>
 
-    <h4>7.1. Получение JWT-токена</h4>
+    <h4>8.1. Получение JWT-токена</h4>
 <pre><code>curl -X POST http://127.0.0.1:8000/api/token/ \
   -H "Content-Type: application/json" \
   -d '{"username": "admin", "password": "ваш_пароль"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
@@ -722,7 +813,7 @@ python manage.py runserver</code><button type="button" class="copy-btn">Копи
 <pre><code>TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 echo $TOKEN</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>7.2. Create — создание заметки</h4>
+    <h4>8.2. Create — создание заметки</h4>
 <pre><code>curl -X POST http://127.0.0.1:8000/api/notes/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
@@ -731,25 +822,25 @@ echo $TOKEN</code><button type="button" class="copy-btn">Копировать</b
 <pre><code>{"id": 1, "title": "Первая заметка", "content": "Привет, мир!",
  "created_at": "2026-01-15T12:34:56Z", "owner": "admin"}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">json</span></pre>
 
-    <h4>7.3. Read — список заметок</h4>
+    <h4>8.3. Read — список заметок</h4>
 <pre><code>curl http://127.0.0.1:8000/api/notes/ \
   -H "Authorization: Bearer $TOKEN"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>7.4. Read — одна заметка</h4>
+    <h4>8.4. Read — одна заметка</h4>
 <pre><code>curl http://127.0.0.1:8000/api/notes/1/ \
   -H "Authorization: Bearer $TOKEN"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>7.5. Update — редактирование</h4>
+    <h4>8.5. Update — редактирование</h4>
 <pre><code>curl -X PATCH http://127.0.0.1:8000/api/notes/1/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
   -d '{"title": "Обновлённый заголовок"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>7.6. Delete — удаление</h4>
+    <h4>8.6. Delete — удаление</h4>
 <pre><code>curl -X DELETE http://127.0.0.1:8000/api/notes/1/ \
   -H "Authorization: Bearer $TOKEN"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>7.7. Проверка защиты</h4>
+    <h4>8.7. Проверка защиты</h4>
     <p>Попробуйте создать заметку <strong>без токена</strong> — получите 401:</p>
 <pre><code>curl -X POST http://127.0.0.1:8000/api/notes/ \
   -H "Content-Type: application/json" \
@@ -760,10 +851,10 @@ echo $TOKEN</code><button type="button" class="copy-btn">Копировать</b
     </div>
     <button type="button" class="mark-read" data-section="test-api">Отметить как изученное</button>
 
-    <h3 id="jsonplaceholder">8. JSONPlaceholder</h3>
+    <h3 id="jsonplaceholder">9. JSONPlaceholder</h3>
     <p><strong>JSONPlaceholder</strong> (<a href="https://jsonplaceholder.typicode.com/" target="_blank" rel="noopener">jsonplaceholder.typicode.com</a>) — бесплатный фейковый REST API для тестирования и прототипирования. Не требует регистрации и API-ключей.</p>
 
-    <h4>8.1. Основные эндпоинты</h4>
+    <h4>9.1. Основные эндпоинты</h4>
 <pre><code># Список постов (100 штук)
 curl https://jsonplaceholder.typicode.com/posts
 
@@ -779,7 +870,7 @@ curl https://jsonplaceholder.typicode.com/users
 # Пагинация через query-параметры
 curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>8.2. Таблица возможностей</h4>
+    <h4>9.2. Таблица возможностей</h4>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Метод</th><th>URL</th><th>Что делает</th><th>Сохраняет?</th></tr></thead>
@@ -795,7 +886,7 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
       </table>
     </div>
 
-    <h4>8.3. Пример POST-запроса</h4>
+    <h4>9.3. Пример POST-запроса</h4>
 <pre><code>curl -X POST https://jsonplaceholder.typicode.com/posts \
   -H "Content-Type: application/json" \
   -d '{"title": "Тест", "body": "Содержимое", "userId": 1}'
@@ -811,10 +902,10 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
     </div>
     <button type="button" class="mark-read" data-section="jsonplaceholder">Отметить как изученное</button>
 
-    <h3 id="deeper">9. Углубляемся: что такое DRF под капотом</h3>
+    <h3 id="deeper">10. Углубляемся: что такое DRF под капотом</h3>
     <p>Разберёмся, что именно делают <code>generics.ListCreateAPIView</code> и <code>ModelSerializer</code> — вы будете видеть их постоянно.</p>
 
-    <h4>9.1. Что делает <code>ListCreateAPIView</code></h4>
+    <h4>10.1. Что делает <code>ListCreateAPIView</code></h4>
     <p>Он объединяет два класса: <code>ListModelMixin</code> (GET-список) и <code>CreateModelMixin</code> (POST). Когда приходит запрос:</p>
     <ol>
       <li>Срабатывает <code>get_queryset()</code> — возвращает объекты из БД</li>
@@ -823,7 +914,7 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
       <li>Для POST вызывается <code>perform_create()</code> — там мы задаём <code>owner</code></li>
     </ol>
 
-    <h4>9.2. Что делает <code>ModelSerializer</code></h4>
+    <h4>10.2. Что делает <code>ModelSerializer</code></h4>
     <p>Он автоматически:</p>
     <ul>
       <li>Читает поля из модели (title, content, created_at...)</li>
@@ -849,7 +940,7 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
         return instance</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
     <p>ModelSerializer делает то же самое за 5 строк вместо 15 — и это только для одной модели.</p>
 
-    <h4>9.3. Permission-классы</h4>
+    <h4>10.3. Permission-классы</h4>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Класс</th><th>Кто может</th></tr></thead>
@@ -865,20 +956,20 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
 
     <h2 id="part2">Часть 2. Фронтенд на React</h2>
 
-    <h3 id="nvm">10. Установка Node.js через nvm (без sudo)</h3>
+    <h3 id="nvm">11. Установка Node.js через nvm (без sudo)</h3>
     <p>Системный Node.js в РЕД ОС ставится через <code>dnf</code> — а это требует sudo. Используем <strong>nvm (Node Version Manager)</strong> — устанавливается в <code>~/.nvm</code>, позволяет держать несколько версий Node одновременно.</p>
 
-    <h4>10.1. Проверьте, нет ли Node</h4>
+    <h4>11.1. Проверьте, нет ли Node</h4>
 <pre><code>node --version
 npm --version</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>10.2. Установите nvm</h4>
+    <h4>11.2. Установите nvm</h4>
 <pre><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <p>Если curl не установлен — попробуйте <code>wget -qO- ...</code>. Скрипт добавит строки в <code>~/.bashrc</code>. Активируйте их:</p>
 <pre><code>source ~/.bashrc
 nvm --version   # 0.40.1</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>10.3. Установите LTS Node</h4>
+    <h4>11.3. Установите LTS Node</h4>
 <pre><code>nvm install --lts
 nvm use --lts
 nvm alias default 'lts/*'
@@ -890,25 +981,25 @@ npm --version    # 10.x или выше</code><button type="button" class="copy-
     </div>
     <button type="button" class="mark-read" data-section="nvm">Отметить как изученное</button>
 
-    <h3 id="react">11. Создание React-приложения</h3>
+    <h3 id="react">12. Создание React-приложения</h3>
 
-    <h4>11.1. Возвращайтесь в папку проекта</h4>
+    <h4>12.1. Возвращайтесь в папку проекта</h4>
 <pre><code>cd ~/projects/fullstack-app</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>11.2. Создайте проект через Vite</h4>
+    <h4>12.2. Создайте проект через Vite</h4>
 <pre><code>npm create vite@latest frontend -- --template react
 cd frontend
 npm install</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <p>Vite быстрее и современнее, чем <code>create-react-app</code> (последний официально устарел в 2023).</p>
 
-    <h4>11.3. Дополнительные библиотеки</h4>
+    <h4>12.3. Дополнительные библиотеки</h4>
 <pre><code>npm install axios react-router-dom</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <ul>
       <li><code>axios</code> — HTTP-клиент с интерцепторами (удобнее fetch)</li>
       <li><code>react-router-dom</code> — маршрутизация SPA</li>
     </ul>
 
-    <h4>11.4. Запустите dev-сервер</h4>
+    <h4>12.4. Запустите dev-сервер</h4>
 <pre><code>npm run dev</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <p>Откройте <code>http://localhost:5173/</code> — увидите страницу с логотипами Vite + React.</p>
     <div class="callout tip">
@@ -916,7 +1007,7 @@ npm install</code><button type="button" class="copy-btn">Копировать</b
     </div>
     <button type="button" class="mark-read" data-section="react">Отметить как изученное</button>
 
-    <h3 id="proxy">12. Настройка прокси Vite к Django API</h3>
+    <h3 id="proxy">13. Настройка прокси Vite к Django API</h3>
     <p>Чтобы React (порт 5173) мог обращаться к Django (порт 8000) без CORS-проблем, настроим прокси в Vite.</p>
     <p>Откройте <code>frontend/vite.config.js</code>:</p>
 <pre><code>import { defineConfig } from 'vite'
@@ -939,7 +1030,7 @@ export default defineConfig({
     </div>
     <button type="button" class="mark-read" data-section="proxy">Отметить как изученное</button>
 
-    <h3 id="react-code">13. Код React-приложения</h3>
+    <h3 id="react-code">14. Код React-приложения</h3>
     <p>Структура файлов, которую мы создадим:</p>
 <pre><code>frontend/src/
 ├── api/
@@ -955,7 +1046,7 @@ export default defineConfig({
 ├── main.jsx                # точка входа
 └── index.css               # глобальные стили</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
 
-    <h4>13.1. axios-клиент с интерцепторами <code>src/api/client.js</code></h4>
+    <h4>14.1. axios-клиент с интерцепторами <code>src/api/client.js</code></h4>
 <pre><code>import axios from 'axios';
 
 const api = axios.create({
@@ -1009,7 +1100,7 @@ export default api;</code><button type="button" class="copy-btn">Копиров�
       <p><strong>Как это работает:</strong> интерцепторы — это middleware для axios. Request-интерцептор выполняется <em>до</em> каждого запроса, response-интерцептор — <em>после</em> каждого ответа. Мы используем их, чтобы не дублировать логику работы с токенами в каждом компоненте.</p>
     </div>
 
-    <h4>13.2. Контекст аутентификации <code>src/context/AuthContext.jsx</code></h4>
+    <h4>14.2. Контекст аутентификации <code>src/context/AuthContext.jsx</code></h4>
 <pre><code>import { createContext, useContext, useState } from 'react';
 import api from '../api/client';
 
@@ -1042,7 +1133,7 @@ export function AuthProvider({ children }) {
 
 export const useAuth = () => useContext(AuthContext);</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
 
-    <h4>13.3. Приватный маршрут <code>src/components/PrivateRoute.jsx</code></h4>
+    <h4>14.3. Приватный маршрут <code>src/components/PrivateRoute.jsx</code></h4>
 <pre><code>import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -1051,7 +1142,7 @@ export default function PrivateRoute({ children }) {
   return token ? children : &lt;Navigate to="/login" replace /&gt;;
 }</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
 
-    <h4>13.4. Страница входа <code>src/pages/Login.jsx</code></h4>
+    <h4>14.4. Страница входа <code>src/pages/Login.jsx</code></h4>
 <pre><code>import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -1100,7 +1191,7 @@ export default function Login() {
   );
 }</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
 
-    <h4>13.5. Страница заметок <code>src/pages/Notes.jsx</code></h4>
+    <h4>14.5. Страница заметок <code>src/pages/Notes.jsx</code></h4>
 <pre><code>import { useEffect, useState } from 'react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -1175,7 +1266,7 @@ export default function Notes() {
   );
 }</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
 
-    <h4>13.6. App.jsx — роутинг</h4>
+    <h4>14.6. App.jsx — роутинг</h4>
 <pre><code>import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
@@ -1203,7 +1294,7 @@ export default function App() {
   );
 }</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">jsx</span></pre>
 
-    <h4>13.7. main.jsx — точка входа</h4>
+    <h4>14.7. main.jsx — точка входа</h4>
 <pre><code>import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -1218,16 +1309,16 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <p>После сохранения файлов Vite перезагрузит браузер автоматически. Откройте <code>http://localhost:5173/</code> — вас перекинет на <code>/login</code>.</p>
     <button type="button" class="mark-read" data-section="react-code">Отметить как изученное</button>
 
-    <h3 id="jwt">14. Что такое JWT — разбор на примере jwt.io</h3>
+    <h3 id="jwt">15. Что такое JWT — разбор на примере jwt.io</h3>
     <p>Откройте <a href="https://www.jwt.io/" target="_blank" rel="noopener">jwt.io</a> — это официальный сайт со встроенным <strong>декодером JWT</strong>.</p>
 
-    <h4>14.1. Скопируйте свой access-токен</h4>
+    <h4>15.1. Скопируйте свой access-токен</h4>
     <p>После логина откройте DevTools (F12) → Application → Local Storage → скопируйте значение <code>access_token</code>. Или через <code>curl</code>:</p>
 <pre><code>curl -X POST http://127.0.0.1:8000/api/token/ \
   -H "Content-Type: application/json" \
   -d '{"username": "ваш_логин", "password": "ваш_пароль"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>14.2. Вставьте токен в jwt.io</h4>
+    <h4>15.2. Вставьте токен в jwt.io</h4>
     <p>Вы увидите три части, разделённые точками:</p>
 <pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 . eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM4... . SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
        HEADER                                        PAYLOAD                              SIGNATURE</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
@@ -1238,7 +1329,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <li><strong>Signature</strong> — подпись. Если поменять хоть один символ в payload — подпись станет невалидной</li>
     </ul>
 
-    <h4>14.3. Что внутри</h4>
+    <h4>15.3. Что внутри</h4>
     <p><strong>Header:</strong></p>
 <pre><code>{
   "alg": "HS256",
@@ -1259,7 +1350,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </div>
     <button type="button" class="mark-read" data-section="jwt">Отметить как изученное</button>
 
-    <h3 id="test">15. Тестирование полного цикла</h3>
+    <h3 id="test">16. Тестирование полного цикла</h3>
     <p>У вас работают три терминала. Пройдите сценарий:</p>
     <ol>
       <li><strong>Терминал 1</strong>: Django на <code>http://127.0.0.1:8000</code></li>
@@ -1281,7 +1372,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </div>
     <button type="button" class="mark-read" data-section="test">Отметить как изученное</button>
 
-    <h3 id="run-all">16. Запуск одним скриптом</h3>
+    <h3 id="run-all">17. Запуск одним скриптом</h3>
     <p>Создайте файл <code>~/projects/fullstack-app/run-all.sh</code>:</p>
 <pre><code>#!/bin/bash
 # Запуск Django и React одновременно в текущем терминале
@@ -1317,10 +1408,10 @@ wait</code><button type="button" class="copy-btn">Копировать</button><
 ./run-all.sh</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <button type="button" class="mark-read" data-section="run-all">Отметить как изученное</button>
 
-    <h3 id="git-intro">17. Git с самого начала</h3>
+    <h3 id="git-intro">18. Git с самого начала</h3>
     <p>Инициализируйте репозиторий <strong>до</strong> установки пакетов — так вы сразу зафиксируете «нулевую точку» проекта.</p>
 
-    <h4>17.1. Первый коммит</h4>
+    <h4>18.1. Первый коммит</h4>
 <pre><code>cd ~/projects/fullstack-app
 git init
 git config user.name "Ваше Имя"
@@ -1350,7 +1441,7 @@ EOF
 git add .
 git commit -m "Initial commit"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
-    <h4>17.2. Типичный workflow</h4>
+    <h4>18.2. Типичный workflow</h4>
 <pre><code>git status                    # что изменилось
 git diff                      # построчный diff
 git add backend/api/views.py  # добавить файл в индекс
@@ -1364,10 +1455,10 @@ git push origin main          # в удалённый репо</code><button typ
     </div>
     <button type="button" class="mark-read" data-section="git-intro">Отметить как изученное</button>
 
-    <h3 id="extended-model">18. Расширенная модель: теги и категории</h3>
+    <h3 id="extended-model">19. Расширенная модель: теги и категории</h3>
     <p>Плоский список заметок — это скучно. Добавим <strong>категории</strong> (Many-to-One) и <strong>теги</strong> (Many-to-Many), чтобы понять, как работать со связями в Django ORM.</p>
 
-    <h4>18.1. Обновлённая модель <code>api/models.py</code></h4>
+    <h4>19.1. Обновлённая модель <code>api/models.py</code></h4>
 <pre><code>from django.db import models
 from django.utils.text import slugify
 
@@ -1441,7 +1532,7 @@ class Note(models.Model):
       • <code>auto_now=True</code> — поле обновляется при каждом <code>save()</code>.</p>
     </div>
 
-    <h4>18.2. Обновлённый сериализатор</h4>
+    <h4>19.2. Обновлённый сериализатор</h4>
 <pre><code>from rest_framework import serializers
 from .models import Note, Category, Tag
 
@@ -1501,7 +1592,7 @@ class NoteSerializer(serializers.ModelSerializer):
             instance.tags.set(tags)
         return instance</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>18.3. Пагинация и фильтрация</h4>
+    <h4>19.3. Пагинация и фильтрация</h4>
 <pre><code># settings.py — добавьте в REST_FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -1568,7 +1659,7 @@ class TagListCreateView(generics.ListCreateAPIView):
       • <code>?tag=python</code> — только с тегом</p>
     </div>
 
-    <h4>18.4. Обновлённые URL-ы</h4>
+    <h4>19.4. Обновлённые URL-ы</h4>
 <pre><code># api/urls.py
 from django.urls import path
 from .views import (
@@ -1590,10 +1681,10 @@ urlpatterns = [
 python manage.py migrate</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <button type="button" class="mark-read" data-section="extended-model">Отметить как изученное</button>
 
-    <h3 id="auth-register">19. Регистрация пользователей</h3>
+    <h3 id="auth-register">20. Регистрация пользователей</h3>
     <p>Пока пользователи создаются только через админку. Добавим публичную регистрацию.</p>
 
-    <h4>19.1. Сериализатор регистрации <code>api/serializers.py</code></h4>
+    <h4>20.1. Сериализатор регистрации <code>api/serializers.py</code></h4>
 <pre><code>from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
@@ -1632,7 +1723,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>19.2. View и URL</h4>
+    <h4>20.2. View и URL</h4>
 <pre><code># api/views.py
 from rest_framework import status
 from rest_framework.response import Response
@@ -1660,7 +1751,7 @@ from .views import RegisterView
 
 path('register/', RegisterView.as_view(), name='register'),</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>19.3. Проверка через curl</h4>
+    <h4>20.3. Проверка через curl</h4>
 <pre><code>curl -X POST http://127.0.0.1:8000/api/register/ \
   -H "Content-Type: application/json" \
   -d '{"username": "alice", "email": "alice@example.com", "password": "SecurePass123!", "password2": "SecurePass123!"}'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
@@ -1670,10 +1761,10 @@ path('register/', RegisterView.as_view(), name='register'),</code><button type="
     </div>
     <button type="button" class="mark-read" data-section="auth-register">Отметить как изученное</button>
 
-    <h3 id="tests">20. Тесты Django</h3>
+    <h3 id="tests">21. Тесты Django</h3>
     <p>Тесты — то, что отличает пет-проект от рабочего кода. Django даёт готовый TestCase, для DRF — APITestCase.</p>
 
-    <h4>20.1. Установка и настройка</h4>
+    <h4>21.1. Установка и настройка</h4>
 <pre><code>pip install pytest pytest-django pytest-cov</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
 
 <pre><code># pytest.ini — создайте в корне проекта (рядом с manage.py)
@@ -1682,7 +1773,7 @@ DJANGO_SETTINGS_MODULE = backend.settings
 python_files = tests.py test_*.py *_tests.py
 addopts = --reuse-db -q --cov=api --cov-report=term-missing</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">ini</span></pre>
 
-    <h4>20.2. Первые тесты <code>api/tests.py</code></h4>
+    <h4>21.2. Первые тесты <code>api/tests.py</code></h4>
 <pre><code>import pytest
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
@@ -1765,7 +1856,7 @@ class TestRegisterAPI:
         })
         assert r.status_code == status.HTTP_400_BAD_REQUEST</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
 
-    <h4>20.3. Запуск тестов</h4>
+    <h4>21.3. Запуск тестов</h4>
 <pre><code>pytest                    # все тесты
 pytest api/tests.py       # конкретный файл
 pytest -k register        # только тесты с "register" в имени
@@ -1780,7 +1871,7 @@ pytest --cov=api          # с покрытием</code><button type="button" cl
     </div>
     <button type="button" class="mark-read" data-section="tests">Отметить как изученное</button>
 
-    <h3 id="env-config">21. Переменные окружения (.env)</h3>
+    <h3 id="env-config">22. Переменные окружения (.env)</h3>
     <p>SECRET_KEY, DEBUG, пароль БД — не должны попадать в git. Используем <code>.env</code> и <code>python-decouple</code>.</p>
 
 <pre><code>pip install python-decouple</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
@@ -1818,9 +1909,9 @@ ALLOWED_HOSTS=127.0.0.1,localhost
 CORS_ORIGINS=http://localhost:5173</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">env</span></pre>
     <button type="button" class="mark-read" data-section="env-config">Отметить как изученное</button>
 
-    <h3 id="db-schema">22. Схема БД и жизненный цикл запроса</h3>
+    <h3 id="db-schema">23. Схема БД и жизненный цикл запроса</h3>
 
-    <h4>22.1. Таблицы в БД</h4>
+    <h4>23.1. Таблицы в БД</h4>
     <div class="arch">
 <pre>┌──────────────────┐         ┌──────────────────────┐
 │  auth_user       │         │  api_category        │
@@ -1858,7 +1949,7 @@ CORS_ORIGINS=http://localhost:5173</code><button type="button" class="copy-btn">
       └─────────────────────────┘</pre>
     </div>
 
-    <h4>22.2. Что происходит при POST /api/notes/</h4>
+    <h4>23.2. Что происходит при POST /api/notes/</h4>
     <div class="arch">
 <pre>1. Браузер (React)
    └─► axios.post('/api/notes/', {title, content}, headers={Authorization})
@@ -1919,7 +2010,7 @@ CORS_ORIGINS=http://localhost:5173</code><button type="button" class="copy-btn">
    └─► React обновляет state → UI перерисовывается</pre>
     </div>
 
-    <h4>22.3. HTTP-коды, которые вы встретите</h4>
+    <h4>23.3. HTTP-коды, которые вы встретите</h4>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Код</th><th>Что значит</th><th>Где сработает</th></tr></thead>
@@ -1942,7 +2033,7 @@ CORS_ORIGINS=http://localhost:5173</code><button type="button" class="copy-btn">
     </div>
     <button type="button" class="mark-read" data-section="db-schema">Отметить как изученное</button>
 
-    <h3 id="auth-compare">23. Аутентификация: сравнение подходов</h3>
+    <h3 id="auth-compare">24. Аутентификация: сравнение подходов</h3>
     <p>JWT — не единственный способ. Вот три самых популярных:</p>
 
     <div class="table-wrap">
@@ -1979,7 +2070,7 @@ CORS_ORIGINS=http://localhost:5173</code><button type="button" class="copy-btn">
       • HTTPS обязателен, иначе любой может перехватить токен</p>
     </div>
 
-    <h4>23.1. Как добавить blacklist refresh-токенов</h4>
+    <h4>24.1. Как добавить blacklist refresh-токенов</h4>
 <pre><code># settings.py
 INSTALLED_APPS += ['rest_framework_simplejwt.token_blacklist']
 
@@ -2012,10 +2103,10 @@ class LogoutView(APIView):
             return Response({'detail': 'Токен невалиден'}, status=400)</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
     <button type="button" class="mark-read" data-section="auth-compare">Отметить как изученное</button>
 
-    <h3 id="db-python">24. База данных «на Python»: модели и миграции</h3>
+    <h3 id="db-python">25. База данных «на Python»: модели и миграции</h3>
     <p>В Django базу данных <strong>не нужно создавать руками в SQL</strong>. Вы пишете обычный Python-код — классы-модели, — а Django сам превращает их в таблицы. Файл называется <code>models.py</code> (частая ошибка новичков — искать его по имени <em>modules.py</em>; правильно — <strong>models</strong>, от слова «модель»). Лежит он в папке приложения: <code>api/models.py</code>.</p>
 
-    <h4>24.1. Как это работает: модель → миграция → таблица</h4>
+    <h4>25.1. Как это работает: модель → миграция → таблица</h4>
     <div class="arch">
 <pre>1. Пишете Python-класс в api/models.py
         │  python manage.py makemigrations api
@@ -2056,7 +2147,7 @@ python manage.py migrate              # применить их к БД</code><b
 &lt;QuerySet ['Чистый код']&gt;</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
     <p>Никакого SQL — весь запрос к базе написан на Python. Это и есть <strong>Django ORM</strong>.</p>
 
-    <h4>24.2. Популярные типы полей</h4>
+    <h4>25.2. Популярные типы полей</h4>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Поле Python</th><th>Тип в БД</th><th>Для чего</th></tr></thead>
@@ -2073,7 +2164,7 @@ python manage.py migrate              # применить их к БД</code><b
       </table>
     </div>
 
-    <h4>24.3. Запросы к базе на Python (ORM)</h4>
+    <h4>25.3. Запросы к базе на Python (ORM)</h4>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Что нужно</th><th>Python-код</th><th>SQL-эквивалент</th></tr></thead>
@@ -2090,7 +2181,7 @@ python manage.py migrate              # применить их к БД</code><b
       </table>
     </div>
 
-    <h4>24.4. Где физически живёт база</h4>
+    <h4>25.4. Где физически живёт база</h4>
     <p>Настройки базы — в <code>settings.py</code>, переменная <code>DATABASES</code>. По умолчанию там SQLite — база лежит в одном файле рядом с проектом:</p>
 <pre><code>DATABASES = {
     'default': {
@@ -2120,7 +2211,297 @@ python manage.py migrate              # применить их к БД</code><b
     </div>
     <button type="button" class="mark-read" data-section="db-python">Отметить как изученное</button>
 
-    <h2 id="troubleshooting">25. Troubleshooting: типичные ошибки</h2>
+    <h3 id="postgresql">26. PostgreSQL — серьёзная база данных для продакшена</h3>
+    <p><strong>PostgreSQL</strong> (или «Постгрес») — мощная открытая СУБД, которую в реальном проекте используют вместо SQLite. Django работает с ней «из коробки»: достаточно поменять настройки и поставить один Python-пакет. Все ваши модели, миграции и ORM-запросы останутся <em>абсолютно теми же</em> — это главное преимущество ORM.</p>
+
+    <h4>26.1. Когда что использовать</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>SQLite</th><th>PostgreSQL</th></tr></thead>
+        <tbody>
+          <tr><td>Где живёт</td><td>один файл <code>db.sqlite3</code></td><td>отдельный сервер-процесс</td></tr>
+          <tr><td>Разработка / обучение</td><td>✅ идеально — ноль настройки</td><td>опционально</td></tr>
+          <tr><td>Продакшен</td><td>❌ плохо: блокировки при конкурентной записи</td><td>✅ стандарт индустрии</td></tr>
+          <tr><td>Конкурентность</td><td>мало одновременных писателей</td><td>тысячи соединений, MVCC</td></tr>
+          <tr><td>Типы данных</td><td>базовые</td><td>JSONB, массивы, геометрия, полнотекстовый поиск</td></tr>
+          <tr><td>Резервные копии</td><td>скопировать файл</td><td><code>pg_dump</code>, репликация, point-in-time recovery</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>26.2. Установка сервера (зависит от прав)</h4>
+    <p>Сервер PostgreSQL ставится администратором системы — это единственный шаг в гайде, где может понадобиться sudo:</p>
+<pre><code># РЕД ОС / RHEL-подобные (от root или через администратора)
+sudo dnf install postgresql-server postgresql
+sudo postgresql-setup --initdb
+sudo systemctl enable --now postgresql</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout info">
+      <p><strong>Нет sudo?</strong> Три обходных пути: 1) попросить администратора один раз поднять сервер; 2) запускать PostgreSQL в контейнере без root — <code>podman run -d -e POSTGRES_PASSWORD=secret -p 5432:5432 postgres:16</code>; 3) оставить SQLite в разработке и включить PostgreSQL только при деплое (раздел 27).</p>
+    </div>
+
+    <h4>26.3. Создание базы и пользователя</h4>
+    <p>Как и в случае с venv, всё создаём внутри своей «песочницы» — отдельную базу и отдельного юзера с паролем:</p>
+<pre><code># заходим в системного пользователя postgres (нужны права)
+sudo -u postgres psql</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+<pre><code>-- SQL-команды внутри psql (окончание ; обязательно)
+CREATE USER myuser WITH PASSWORD 'strong_password_123';
+CREATE DATABASE mydb OWNER myuser;
+GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser;
+\q   -- выход</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">sql</span></pre>
+    <p>Проверить соединение из терминала:</p>
+<pre><code>psql -h localhost -U myuser -d mydb
+# пароль: strong_password_123 → должно появиться приглашение mydb=&gt;</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>26.4. Подключаем Django к PostgreSQL</h4>
+    <p>Ставим драйвер в окружение и меняем <code>DATABASES</code> в <code>settings.py</code>:</p>
+<pre><code>pip install psycopg[binary]
+pip freeze &gt; requirements.txt</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+<pre><code># backend/settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydb',
+        'USER': 'myuser',
+        'PASSWORD': 'strong_password_123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout tip">
+      <p><strong>Не храните пароль в коде.</strong> Вынесите значения в <code>.env</code> (раздел 22): <code>DB_NAME</code>, <code>DB_USER</code>, <code>DB_PASSWORD</code>, <code>DB_HOST</code>, <code>DB_PORT</code>, а в settings читайте через <code>config('DB_NAME')</code>. Тогда один и тот же проект спокойно работает на SQLite дома и на PostgreSQL на сервере.</p>
+    </div>
+    <p>Переносим структуру на чистую базу той же командой из раздела 25:</p>
+<pre><code>python manage.py migrate
+python manage.py createsuperuser</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Да, миграции применятся к PostgreSQL без единого изменения в коде моделей. Проверить можно так: <code>python manage.py dbshell</code> — откроется psql, привязанный к вашему проекту; <code>\dt</code> покажет все таблицы Django.</p>
+
+    <h4>26.5. Перенос данных с SQLite на PostgreSQL</h4>
+    <p>Если на SQLite уже есть данные, их можно переехать без экспорта-импорта руками:</p>
+<pre><code># 1. дамп данных текущей базы в JSON
+python manage.py dumpdata --natural-foreign --natural-primary \
+  -e contenttypes -e auth.permission &gt; backup.json
+
+# 2. в settings.py переключить DATABASES на PostgreSQL, затем:
+python manage.py migrate
+python manage.py loaddata backup.json</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn">
+      <p><strong>Частые ошибки подключения:</strong> <code>FATAL: role "..." does not exist</code> — не создан пользователь (шаг 26.3); <code>could not connect to server</code> — сервис не запущен (<code>systemctl status postgresql</code>) или неверный HOST/PORT; <code>OperationalError: ... authentication failed</code> — пароль в settings не совпадает с тем, что задали <code>CREATE USER</code>.</p>
+    </div>
+    <div class="callout ok">
+      <p><strong>Итого:</strong> для Django PostgreSQL — это просто ещё 5 строк в <code>DATABASES</code> и пакет <code>psycopg</code>. Модели, миграции, ORM-код и админка не меняются вообще. Начинайте на SQLite, переходите на PostgreSQL перед продакшеном.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="postgresql">Отметить как изученное</button>
+
+    <h3 id="deploy">27. Деплой: выкладываем сайт в интернет</h3>
+    <p><code>runserver</code> — это учебный сервер: он однопоточный, небезопасный и не предназначен для интернета. Настоящий запуск — <strong>gunicorn</strong> (WSGI-сервер) + <strong>nginx</strong> (раздача статики и прокси) + правильные настройки. Разберём чек-лист перехода из «работает на ноуте» в «работает на сервере».</p>
+
+    <h4>27.1. Настройки, которые MUST быть изменены</h4>
+<pre><code># backend/settings.py — прод-версия
+DEBUG = False                      # ← ГЛАВНЫЙ ФЛАГ. Никогда не True в проде!
+
+ALLOWED_HOSTS = ['ваш-домен.ru', 'www.ваш-домен.ru', '111.22.33.44']
+
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']   # ключ из окружения, не из кода
+
+CSRF_TRUSTED_ORIGINS = ['https://ваш-домен.ru']
+
+# статика собирается в одну папку для nginx
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+SECURE_HSTS_SECONDS = 31536000     # HTTPS везде (если есть сертификат)
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout danger">
+      <p><strong>Почему DEBUG=False обязателен:</strong> при <code>DEBUG=True</code> любая ошибка показывает полный стек-трейс, переменные окружения и фрагменты settings — подарок для атакующего. Плюс страницы ошибок утекают по памяти. Проверьте себя: <code>python manage.py check --deploy</code> — Django сам просканирует настройки и выдаст список предупреждений (W004 — DEBUG, W002 — ALLOWED_HOSTS и т.д.).</p>
+    </div>
+
+    <h4>27.2. Gunicorn — настоящий WSGI-сервер</h4>
+<pre><code>pip install gunicorn
+pip freeze &gt; requirements.txt
+
+# проверка локально: 3 воркера должны заменить runserver
+gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Формула числа воркеров: <code>2 × ядер CPU + 1</code>. Для small-VPS (1 ядро, 1 ГБ RAM) хватит двух. Сам проект при этом не меняется: gunicorn импортирует тот же <code>backend/wsgi.py</code>, что использует любой WSGI-сервер.</p>
+
+    <h4>27.3. systemd — чтобы сервис переживал перезагрузку</h4>
+    <p>Файл <code>/etc/systemd/system/myapp.service</code> (создаётся администратором/root один раз):</p>
+<pre><code>[Unit]
+Description=Gunicorn для Django-проекта
+After=network.target
+
+[Service]
+User=myuser
+Group=myuser
+WorkingDirectory=/home/myuser/projects/fullstack-app/backend
+Environment="PATH=/home/myuser/projects/fullstack-app/venv/bin"
+ExecStart=/home/myuser/projects/fullstack-app/venv/bin/gunicorn \
+    backend.wsgi:application --bind 127.0.0.1:8000 --workers 3
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">ini</span></pre>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl enable --now myapp
+systemctl status myapp        # active (running) — успех</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>27.4. Nginx как reverse-proxy</h4>
+    <p>Браузер ходит на nginx (порт 80/443), а он передаёт динамические запросы на gunicorn (127.0.0.1:8000) и сам отдаёт статику:</p>
+<pre><code>server {
+    listen 80;
+    server_name ваш-домен.ru;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias /home/myuser/projects/fullstack-app/backend/staticfiles/;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">nginx</span></pre>
+<pre><code>python manage.py collectstatic --noinput   # собрать статику в STATIC_ROOT
+sudo nginx -t && sudo systemctl reload nginx
+
+# бесплатный HTTPS-сертификат
+sudo certbot --nginx -d ваш-домен.ru</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+
+    <h4>27.5. Фронтенд: React в продакшен</h4>
+    <p>Для SPA отдельно собираем статику — <code>npm run build</code> кладет готовые файлы в <code>frontend/dist/</code>:</p>
+<pre><code>cd ~/projects/fullstack-app/frontend
+npm run build
+# результат: dist/index.html + dist/assets/*.js — это можно отдать nginx
+# location / { try_files $uri /index.html; root .../frontend/dist; }</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Прокси Vite на проде не работает (это dev-инструмент) — либо nginx проксирует <code>/api</code> на Django, либо фронт обращается к API по полному URL. Во втором случае не забудьте обновить <code>CORS_ALLOWED_ORIGINS</code> (раздел 28).</p>
+
+    <h4>27.6. Чек-лист перед запуском</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>✓</th><th>Пункт</th><th>Команда / настройка</th></tr></thead>
+        <tbody>
+          <tr><td>☐</td><td>DEBUG выключен</td><td><code>DEBUG = False</code></td></tr>
+          <tr><td>☐</td><td>Домены разрешены</td><td><code>ALLOWED_HOSTS</code> — домен и IP</td></tr>
+          <tr><td>☐</td><td>Секретный ключ спрятан</td><td><code>SECRET_KEY</code> из env, ротация при утечке</td></tr>
+          <tr><td>☐</td><td>Проверка пройдена</td><td><code>python manage.py check --deploy</code></td></tr>
+          <tr><td>☐</td><td>Миграции применены</td><td><code>python manage.py migrate</code></td></tr>
+          <tr><td>☐</td><td>Статика собрана</td><td><code>python manage.py collectstatic</code></td></tr>
+          <tr><td>☐</td><td>БД — PostgreSQL</td><td>раздел 26</td></tr>
+          <tr><td>☐</td><td>requirements актуальны</td><td><code>pip freeze &gt; requirements.txt</code> на сервере: <code>pip install -r requirements.txt</code></td></tr>
+          <tr><td>☐</td><td>HTTPS работает</td><td>certbot + редирект с http</td></tr>
+          <tr><td>☐</td><td>Логи пишутся</td><td><code>journalctl -u myapp -f</code>, nginx access/error log</td></tr>
+          <tr><td>☐</td><td>Бэкапы БД настроены</td><td><code>pg_dump mydb | gzip &gt; backup.sql.gz</code> по cron</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip">
+      <p><strong>Проще вариант для первого раза:</strong> PaaS-площадки (Render, Railway и аналоги) делают пункты 27.2–27.4 за вас — достаточно указать <code>requirements.txt</code> и команду запуска <code>gunicorn backend.wsgi:application</code>. Но понимать, что происходит «под капотом», полезно — поэтому разбираем ручной путь.</p>
+    </div>
+    <div class="callout ok">
+      <p><strong>Итого:</strong> прод = <code>DEBUG=False</code> + ALLOWED_HOSTS + секреты из окружения + gunicorn + nginx + PostgreSQL + collectstatic. После каждого изменения кода: <code>git pull → pip install -r requirements.txt → migrate → collectstatic → systemctl restart myapp</code>.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="deploy">Отметить как изученное</button>
+
+    <h3 id="cors-deep">28. CORS глубоко: как браузер решает, кому можно ходить на ваш API</h3>
+    <p>Мы уже подключали <code>django-cors-headers</code> в разделе 4 и делали прокси в разделе 13 — здесь наконец разбираем, <strong>что именно</strong> происходит. CORS (Cross-Origin Resource Sharing) — механизм браузера, который запрещает странице с одного адреса («origin») делать запросы на другой, если сервер явно не разрешил.</p>
+
+    <h4>28.1. Что такое origin</h4>
+    <p>Origin = протокол + домен + порт. Даже при одном домене разные порты — разные origins:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>URL</th><th>Origin</th><th>Совпадает с Django (http://127.0.0.1:8000)?</th></tr></thead>
+        <tbody>
+          <tr><td><code>http://localhost:5173</code></td><td>localhost:5173</td><td>❌ другой порт → CORS-проверка</td></tr>
+          <tr><td><code>http://127.0.0.1:5173</code></td><td>127.0.0.1:5173</td><td>❌ другой порт → CORS-проверка</td></tr>
+          <tr><td><code>https://mysite.ru</code></td><td>mysite.ru:443</td><td>❌ другой домен → CORS-проверка</td></tr>
+          <tr><td><code>http://127.0.0.1:8000/app/</code></td><td>127.0.0.1:8000</td><td>✅ same-origin, CORS не нужен</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Важно: CORS блокирует <strong>браузер</strong>, а не сервер. curl и Postman всегда получают ответ — поэтому API «работает из curl, но падает в React». Классическая путаница новичков.</p>
+
+    <h4>28.2. Preflight-запрос OPTIONS</h4>
+    <p>Для «непростых» запросов (JSON-тело, заголовок Authorization, методы PUT/DELETE) браузер сначала шлёт служебный <code>OPTIONS</code>-запрос — «можно тебе такое?» — и только получив разрешение, отправляет основной:</p>
+    <div class="arch">
+<pre>React (localhost:5173)                    Django (127.0.0.1:8000)
+        │                                          │
+        │  1. OPTIONS /api/notes/                  │
+        │     Origin: http://localhost:5173        │
+        │     Access-Control-Request-Method: POST  │
+        ├─────────────────────────────────────────►│
+        │  2. Access-Control-Allow-Origin:         │
+        │     http://localhost:5173                │
+        │     Access-Control-Allow-Headers: ...    │◄── CorsMiddleware отвечает
+        │◄─────────────────────────────────────────┤      сам, ДО views и JWT
+        │  3. POST /api/notes/  (реальный запрос)  │
+        │     Authorization: Bearer eyJ...         │
+        ├─────────────────────────────────────────►│
+        │  4. 201 Created + CORS-заголовок         │
+        │◄─────────────────────────────────────────┤</pre>
+    </div>
+    <p>Именно поэтому <code>CorsMiddleware</code> стоит <strong>первым</strong> в <code>MIDDLEWARE</code> — он должен перехватывать OPTIONS раньше, чем Django дойдёт до маршрутизации, проверок токенов и вернёт 403/405 без CORS-заголовков.</p>
+
+    <h4>28.3. Полный набор настроек django-cors-headers</h4>
+<pre><code># backend/settings.py
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://mysite.ru',
+]
+
+# вместо списка выше — регулярки (например, поддомены)
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://[a-z-]+\.mysite\.ru$',
+]
+
+CORS_ALLOW_CREDENTIALS = True     # если фронтеш шлет cookies (withCredentials)
+
+CORS_ALLOW_HEADERS = [
+    'accept', 'accept-encoding', 'authorization',
+    'content-type', 'dnt', 'origin', 'user-agent',
+    'x-csrftoken', 'x-requested-with',
+]
+
+CORS_EXPOSE_HEADERS = ['content-range']  # какие заголовки видны JS-коду
+CORS_PREFLIGHT_MAX_AGE = 86400           # кэш preflight в браузере, сек</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout warn">
+      <p><strong>Звёздочка — зло.</strong> <code>CORS_ALLOW_ALL_ORIGINS = True</code> удобно в разработке, но в проде открывает ваш API любому сайту: вредоносная страница сможет читать данные авторизованных пользователей (при <code>CORS_ALLOW_CREDENTIALS = True</code> звёздочка вообще не работает — браузер её отвергает). Также нельзя смешивать <code>*</code> с конкретными origins.</p>
+    </div>
+
+    <h4>28.4. Как диагностировать</h4>
+    <ol>
+      <li><strong>Console браузера:</strong> «Access to XMLHttpRequest … has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header» — значит сервер не прислал заголовок для этого origin.</li>
+      <li><strong>Network-вкладка (F12):</strong> найдите красный OPTIONS-запрос → Headers → сверьте <code>Origin:</code> со списком <code>CORS_ALLOWED_ORIGINS</code> — часто разница в <code>localhost</code> vs <code>127.0.0.1</code> или в слэше/протоколе.</li>
+      <li><strong>Проверка с терминала:</strong> эмулируем браузер:</li>
+    </ol>
+<pre><code>curl -i -X OPTIONS http://127.0.0.1:8000/api/notes/ \
+  -H "Origin: http://localhost:5173" \
+  -H "Access-Control-Request-Method: POST"</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>В ответе должны быть строки <code>Access-Control-Allow-Origin: http://localhost:5173</code> и <code>Access-Control-Allow-Methods</code>. Нет — corsheaders не подключён, не первый в MIDDLEWARE или origin не в списке.</p>
+
+    <h4>28.5. CORS vs прокси: когда что применять</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Прокси Vite (раздел 13)</th><th>CORS-заголовки</th></tr></thead>
+        <tbody>
+          <tr><td>Работает</td><td>только в dev (npm run dev)</td><td>везде</td></tr>
+          <tr><td>Суть</td><td>Vite перешлёт запрос сам — origin для браузера не меняется</td><td>сервер разрешает чужой origin напрямую</td></tr>
+          <tr><td>Нужен ли</td><td>удобно, но дублирует CORS</td><td>обязателен на проде, когда фронт и API на разных доменах</td></tr>
+          <tr><td>Когда без него можно</td><td>—</td><td>фронт и API на одном домене (nginx раздаёт оба пути) — same-origin</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Практика: в разработке держим и то, и другое (прокси спасает от мелких различий origins), на проде выбираем архитектуру — либо один домен с путями <code>/</code> и <code>/api/</code> (CORS не нужен вовсе), либо два домена и честный белый список origins.</p>
+    <div class="callout ok">
+      <p><strong>Итого:</strong> CORS — это диалог браузера с сервером через HTTP-заголовки. Ваш чек-лист: middleware первым, точный список origins (без звёздочки), credentials только с конкретными доменами, диагностика через F12 и curl-OPTIONS.</p>
+    </div>
+    <button type="button" class="mark-read" data-section="cors-deep">Отметить как изученное</button>
+
+    <h2 id="troubleshooting">29. Troubleshooting: типичные ошибки</h2>
     <p>Собрали все проблемы, с которыми вы столкнётесь при первом запуске. Если что-то не работает — сначала ищите здесь.</p>
 
     <p>В колонке «Сторона» — где искать причину:</p>
@@ -2174,7 +2555,7 @@ python manage.py migrate              # применить их к БД</code><b
     </div>
     <button type="button" class="mark-read" data-section="troubleshooting">Отметить как изученное</button>
 
-    <h2 id="glossary">26. Глоссарий</h2>
+    <h2 id="glossary">30. Глоссарий</h2>
     <div class="card-grid">
       <div class="card"><h4>venv</h4><p>Virtual Environment — изолированная папка с Python-зависимостями, не засоряет системный Python.</p></div>
       <div class="card"><h4>nvm</h4><p>Node Version Manager — менеджер версий Node.js, устанавливается в <code>~/.nvm</code> без sudo.</p></div>
@@ -2196,10 +2577,15 @@ python manage.py migrate              # применить их к БД</code><b
       <div class="card"><h4>Bootstrap 5</h4><p>CSS-фреймворк с готовыми компонентами. Их можно копировать с официального сайта и вставлять в шаблоны Django — сайт собирается как конструктор.</p></div>
       <div class="card"><h4>django_bootstrap5</h4><p>Python-пакет, который подключает Bootstrap 5 к Django-шаблонам тегами <code>{% bootstrap_css %}</code> и <code>{% bootstrap_javascript %}</code>. Ставится командой <code>pip install django-bootstrap5</code>.</p></div>
       <div class="card"><h4>models.py</h4><p>Файл приложения Django с классами-моделями на Python. Каждый класс — таблица в базе данных; из него по командам <code>makemigrations</code> и <code>migrate</code> создаётся реальная БД.</p></div>
+      <div class="card"><h4>Django Admin</h4><p>Готовая панель управления (/admin/), которую Django генерирует из моделей. Включается <code>createsuperuser</code> + регистрация модели в <code>admin.py</code>.</p></div>
+      <div class="card"><h4>PostgreSQL</h4><p>Мощная открытая СУБД для продакшена. В Django подключается пакетом <code>psycopg</code> и 5 строками в <code>DATABASES</code> — код моделей не меняется.</p></div>
+      <div class="card"><h4>Gunicorn (WSGI)</h4><p>Продуктивный WSGI-сервер для Python-приложений. Заменяет учебный <code>runserver</code>; запускают обычно за nginx: <code>gunicorn backend.wsgi:application</code>.</p></div>
+      <div class="card"><h4>Reverse-proxy (nginx)</h4><p>Сервер-посредник перед приложением: принимает HTTP/HTTPS, раздаёт статику и проксирует динамические запросы на gunicorn.</p></div>
+      <div class="card"><h4>Preflight (OPTIONS)</h4><p>Служебный запрос браузера перед «непростым» CORS-запросом: спрашивает сервер, разрешены ли метод и заголовки.</p></div>
     </div>
     <button type="button" class="mark-read" data-section="glossary">Отметить как изученное</button>
 
-    <h2 id="faq">27. FAQ — частые вопросы</h2>
+    <h2 id="faq">31. FAQ — частые вопросы</h2>
     <div class="faq">
 
       <div class="faq-item">
@@ -2244,7 +2630,7 @@ python manage.py migrate              # применить их к БД</code><b
 
       <div class="faq-item">
         <button type="button" class="faq-q" aria-expanded="false">Как запустить всё одной командой?</button>
-        <div class="faq-a">Создайте <code>run-all.sh</code> (см. раздел 15), который запускает оба сервера параллельно с помощью фоновых процессов и trap для Ctrl+C.</div>
+        <div class="faq-a">Создайте <code>run-all.sh</code> (см. раздел 17), который запускает оба сервера параллельно с помощью фоновых процессов и trap для Ctrl+C.</div>
       </div>
 
       <div class="faq-item">
@@ -2289,18 +2675,18 @@ python manage.py migrate              # применить их к БД</code><b
 
       <div class="faq-item">
         <button type="button" class="faq-q" aria-expanded="false">Можно ли делать сайт на Django без React — и при этом красиво?</button>
-        <div class="faq-a">Да! Если не нужна SPA-логика, достаточно шаблонов Django + <strong>Bootstrap 5</strong> через пакет <code>django_bootstrap5</code> (<code>pip install django-bootstrap5</code>). Готовые блоки (навбары, карточки, формы) копируете прямо с сайта <a href="https://getbootstrap.com/docs/5.3/components/" target="_blank" rel="noopener">getbootstrap.com</a> в шаблоны — и сайт собирается как конструктор. См. раздел 5.</div>
+        <div class="faq-a">Да! Если не нужна SPA-логика, достаточно шаблонов Django + <strong>Bootstrap 5</strong> через пакет <code>django_bootstrap5</code> (<code>pip install django-bootstrap5</code>). Готовые блоки (навбары, карточки, формы) копируете прямо с сайта <a href="https://getbootstrap.com/docs/5.3/components/" target="_blank" rel="noopener">getbootstrap.com</a> в шаблоны — и сайт собирается как конструктор. См. раздел 6.</div>
       </div>
 
       <div class="faq-item">
         <button type="button" class="faq-q" aria-expanded="false">Правда, что базу данных в Django можно создавать «питоновским кодом»?</button>
-        <div class="faq-a">Чистая правда. Вы описываете таблицы классами Python в файле <code>models.py</code> (не «modules» — частая ошибка в названии), затем двумя командами <code>python manage.py makemigrations</code> и <code>python manage.py migrate</code> Django сам создаёт реальную базу (по умолчанию — файл <code>db.sqlite3</code>). Подробно — раздел 24.</div>
+        <div class="faq-a">Чистая правда. Вы описываете таблицы классами Python в файле <code>models.py</code> (не «modules» — частая ошибка в названии), затем двумя командами <code>python manage.py makemigrations</code> и <code>python manage.py migrate</code> Django сам создаёт реальную базу (по умолчанию — файл <code>db.sqlite3</code>). Подробно — раздел 25.</div>
       </div>
 
     </div>
     <button type="button" class="mark-read" data-section="faq">Отметить как изученное</button>
 
-    <h2 id="cheatsheet">28. Cheat sheet — все команды в одном месте</h2>
+    <h2 id="cheatsheet">32. Cheat sheet — все команды в одном месте</h2>
     <p>Сохраните эту страницу в закладки — пригодится каждый день.</p>
 
     <div class="table-wrap">
@@ -2364,6 +2750,23 @@ python manage.py migrate              # применить их к БД</code><b
           <tr><td><code>git push origin main</code></td><td>Отправить в удалённый репо</td></tr>
           <tr><td><code>git pull</code></td><td>Получить изменения</td></tr>
 
+          <tr><td colspan="2" class="table-group">🐘 PostgreSQL</td></tr>
+          <tr><td><code>sudo -u postgres psql</code></td><td>Консоль PostgreSQL от имени сервисного юзера</td></tr>
+          <tr><td><code>\dt</code> / <code>\l</code> / <code>\q</code></td><td>Таблицы / список баз / выход в psql</td></tr>
+          <tr><td><code>python manage.py dbshell</code></td><td>psql, привязанный к базе проекта</td></tr>
+          <tr><td><code>pg_dump mydb &gt; backup.sql</code></td><td>Резервная копия базы</td></tr>
+          <tr><td><code>psql -d mydb -f backup.sql</code></td><td>Восстановление из копии</td></tr>
+
+          <tr><td colspan="2" class="table-group">🚀 Деплой (прод)</td></tr>
+          <tr><td><code>gunicorn backend.wsgi:application --bind 127.0.0.1:8000 --workers 3</code></td><td>Запуск вместо runserver</td></tr>
+          <tr><td><code>python manage.py check --deploy</code></td><td>Аудит прод-настроек (DEBUG, hosts, секреты)</td></tr>
+          <tr><td><code>python manage.py collectstatic --noinput</code></td><td>Собрать статику в STATIC_ROOT для nginx</td></tr>
+          <tr><td><code>sudo systemctl enable --now myapp</code></td><td>Автозапуск сервиса (systemd)</td></tr>
+          <tr><td><code>sudo systemctl restart myapp</code></td><td>Перезапуск после git pull</td></tr>
+          <tr><td><code>journalctl -u myapp -f</code></td><td>Живые логи приложения</td></tr>
+          <tr><td><code>sudo nginx -t &amp;&amp; sudo systemctl reload nginx</code></td><td>Проверка и перезагрузка конфига nginx</td></tr>
+          <tr><td><code>sudo certbot --nginx -d домен.ru</code></td><td>Бесплатный HTTPS-сертификат</td></tr>
+
           <tr><td colspan="2" class="table-group">🧪 Тесты</td></tr>
           <tr><td><code>pytest</code></td><td>Все тесты</td></tr>
           <tr><td><code>pytest -v</code></td><td>Подробный вывод</td></tr>
@@ -2384,7 +2787,7 @@ python manage.py migrate              # применить их к БД</code><b
     </div>
     <button type="button" class="mark-read" data-section="cheatsheet">Отметить как изученное</button>
 
-    <h2 id="summary">29. Итог</h2>
+    <h2 id="summary">33. Итог</h2>
     <p>Мы прошли путь от нуля до полноценного full-stack приложения <strong>без единой команды sudo</strong>:</p>
     <ul>
       <li>✅ Python-зависимости — через <code>venv</code></li>
@@ -2436,7 +2839,7 @@ python manage.py migrate              # применить их к БД</code><b
     </ul>
     <button type="button" class="mark-read" data-section="summary">Отметить как изученное</button>
 
-    <h2 id="export">30. Экспорт гайда</h2>
+    <h2 id="export">34. Экспорт гайда</h2>
     <p>Этот гайд можно сохранить в PDF или DOCX прямо из браузера — стили для печати уже встроены.</p>
 
     <h4>PDF</h4>
@@ -2487,6 +2890,7 @@ python manage.py migrate              # применить их к БД</code><b
     <div class="hotkey-row"><span>След/пред. совпадение</span><kbd>[</kbd> / <kbd>]</kbd></div>
     <div class="hotkey-row"><span>Очистить поиск</span><kbd>Esc</kbd></div>
     <div class="hotkey-row"><span>След/пред. секция</span><kbd>J</kbd> / <kbd>K</kbd></div>
+    <div class="hotkey-row"><span>Добавить раздел в закладки</span><kbd>B</kbd></div>
     <div class="hotkey-row"><span>Показать это окно</span><kbd>?</kbd></div>
     <div class="hotkey-row"><span>Печать / PDF</span><kbd>Ctrl</kbd> + <kbd>P</kbd></div>
     <div class="hotkey-row"><span>Наверх страницы</span><kbd>Home</kbd></div>
@@ -2526,6 +2930,8 @@ python manage.py migrate              # применить их к БД</code><b
 <script src="js/progress.js" defer></script>
 <script src="js/search.js" defer></script>
 <script src="js/toc.js" defer></script>
+<script src="js/bookmarks.js" defer></script>
+<script src="js/highlight.js" defer></script>
 <script src="js/main.js" defer></script>
 
 </body>

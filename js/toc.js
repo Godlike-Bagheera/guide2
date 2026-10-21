@@ -54,32 +54,57 @@
     });
   });
 
-  /* ─── Кнопки «Далее» ─── */
-  const mainSections = [...document.querySelectorAll('main > h2, main > h3')];
-  mainSections.forEach((h, i) => {
-    const next = mainSections[i + 1];
-    if (!next || !next.id) return;
+  /* ─── Навигация «Назад / Далее» внизу каждого раздела ─── */
+  function cleanTitle(h) {
+    return h.textContent.replace(/Отметить как изученное|Изучено/g, '').replace(/\s+/g, ' ').trim();
+  }
 
-    const markBtn = document.querySelector(`.mark-read[data-section="${h.id}"]`);
-    const container = markBtn ? markBtn.parentElement : h.parentElement;
-    if (!container) return;
-
-    const btn = document.createElement('a');
-    btn.className = 'next-section';
-    btn.href = '#' + next.id;
-    btn.textContent = 'Далее: ' + next.textContent.split(' ').slice(0, 4).join(' ');
-
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      window.scrollTo({
-        top: next.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
-      history.replaceState(null, '', '#' + next.id);
+  function goTo(target) {
+    window.scrollTo({
+      top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
+      behavior: 'smooth'
     });
+    history.replaceState(null, '', '#' + target.id);
+  }
 
-    if (markBtn) markBtn.after(btn);
-    else h.after(btn);
+  const mainSections = [...document.querySelectorAll('main > h2[id], main > h3[id]')];
+  mainSections.forEach((h, i) => {
+    const prev = mainSections.slice(0, i).reverse().find(s => s !== h);
+    const next = mainSections[i + 1];
+    if (!prev && !next) return;
+
+    const wrap = document.createElement('nav');
+    wrap.className = 'section-nav';
+    wrap.setAttribute('aria-label', 'Навигация по разделам');
+
+    if (prev) {
+      const a = document.createElement('a');
+      a.className = 'section-nav-link prev';
+      a.href = '#' + prev.id;
+      a.innerHTML = '<span class="dir">← Назад</span><span class="ttl"></span>';
+      a.querySelector('.ttl').textContent = cleanTitle(prev);
+      a.addEventListener('click', e => { e.preventDefault(); goTo(prev); });
+      wrap.appendChild(a);
+    } else {
+      const span = document.createElement('span');
+      span.className = 'section-nav-spacer';
+      wrap.appendChild(span);
+    }
+
+    if (next) {
+      const a = document.createElement('a');
+      a.className = 'section-nav-link next';
+      a.href = '#' + next.id;
+      a.innerHTML = '<span class="dir">Далее →</span><span class="ttl"></span>';
+      a.querySelector('.ttl').textContent = cleanTitle(next);
+      a.addEventListener('click', e => { e.preventDefault(); goTo(next); });
+      wrap.appendChild(a);
+    }
+
+    // вставляем перед кнопкой «Отметить как изученное», если она есть — иначе после заголовка
+    const markBtn = document.querySelector(`.mark-read[data-section="${h.id}"]`);
+    if (markBtn) markBtn.before(wrap);
+    else h.after(wrap);
   });
 
   /* ─── Публичный API для main.js (J/K навигация) ─── */
