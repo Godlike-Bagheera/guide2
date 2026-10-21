@@ -969,3 +969,62 @@ nav.toc a { display: flex; align-items: center; justify-content: space-between; 
   border-radius: 8px; background: var(--accent, #d6336c); color: #fff;
   font-size: 10px; font-weight: 700; line-height: 15px; text-align: center;
 }
+
+/* ═══════════ PAGE CARDS (обложка index.html после разбивки на страницы) ═══════════ */
+.page-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0 8px;
+}
+.page-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 24px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: border-color .18s, box-shadow .18s, transform .18s;
+}
+.page-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow);
+}
+.page-card-icon { font-size: 1.9rem; line-height: 1; }
+.page-card h3 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.page-card h3 a { color: var(--fg); text-decoration: none; }
+.page-card h3 a:hover { color: var(--accent, #d6336c); }
+.page-card p { margin: 0; color: var(--fg-muted); font-size: .9rem; line-height: 1.5; }
+.page-card details {
+  border-top: 1px dashed var(--border);
+  padding-top: 8px;
+  font-size: .88rem;
+}
+.page-card summary {
+  cursor: pointer;
+  color: var(--fg-muted);
+  font-weight: 600;
+  user-select: none;
+}
+.page-card summary:hover { color: var(--fg); }
+.page-card-sections {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.page-card-sections a { color: var(--accent, #d6336c); text-decoration: none; }
+.page-card-sections a:hover { text-decoration: underline; }
+.page-card-open {
+  margin-top: auto;
+  align-self: flex-start;
+}

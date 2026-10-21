@@ -5,7 +5,33 @@
   'use strict';
 
   const KEY = 'guide.bookmarks.v1';
+  // Гайд разбит на страницы — страница раздела берётся из js/idmap.js
+  // (window.GUIDE_ID_MAP), fallback — index.html.
   const GUIDE = 'index.html';
+
+  function pageFor(id) {
+    return (window.GUIDE_ID_MAP && window.GUIDE_ID_MAP[id]) || GUIDE;
+  }
+  function hrefFor(id) {
+    return `${pageFor(id)}#${id}`;
+  }
+
+  // Миграция старых закладок: ключи могли сохраняться как "id@старая-страница"
+  // или как "id@part1-django.html" после разбивки — приводим к чистому id,
+  // иначе дубли в списке и рассинхрон со звёздочками.
+  function normalize(s) {
+    let changed = false;
+    Object.keys(s).forEach(k => {
+      if (k.includes('@')) {
+        const pure = k.split('@')[0];
+        delete s[k];
+        s[pure] = true;
+        changed = true;
+      }
+    });
+    if (changed) save(s);
+    return s;
+  }
 
   function load() {
     try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
@@ -18,60 +44,59 @@
   // Название раздела берём из оглавления index.html — оно статично и не
   // зависит от загрузки самой страницы гайда.
   const TOC_TITLES = {
-    'intro-all': 'Введение',
-    'prerequisites': 'Prerequisites — что нужно знать до старта',
-    'architecture': 'Архитектура приложения',
-    'part1': 'Часть 1. Бэкенд на Django',
-    'intro': '1. Введение в бэкенд',
-    'no-sudo': '2. Почему без sudo и как это работает',
-    'python': '3. Проверка Python и создание виртуального окружения',
-    'django': '4. Создание Django-проекта',
-    'django-admin': '5. Django Admin — готовая админка из коробки',
-    'django-bootstrap5': '6. Django + Bootstrap 5 — django_bootstrap5',
-    'api': '7. Модель, сериализатор, представления',
-    'test-api': '8. Тестирование API через curl',
-    'jsonplaceholder': '9. JSONPlaceholder',
-    'deeper': '10. Углубляемся: что такое DRF под капотом',
-    'part2': 'Часть 2. Фронтенд на React',
-    'nvm': '11. Установка Node.js через nvm (без sudo)',
-    'react': '12. Создание React-приложения',
-    'proxy': '13. Настройка прокси Vite к Django API',
-    'react-code': '14. Код React-приложения',
-    'jwt': '15. Что такое JWT — разбор на примере jwt.io',
-    'test': '16. Тестирование полного цикла',
-    'run-all': '17. Запуск одним скриптом',
-    'git-intro': '18. Git с самого начала',
-    'extended-model': '19. Расширенная модель: теги и категории',
-    'auth-register': '20. Регистрация пользователей',
-    'tests': '21. Тесты Django',
-    'env-config': '22. Переменные окружения (.env)',
-    'db-schema': '23. Схема БД и жизненный цикл запроса',
-    'auth-compare': '24. Аутентификация: сравнение подходов',
-    'db-python': '25. База данных «на Python»: модели и миграции',
-    'postgresql': '26. PostgreSQL — серьёзная база данных для продакшена',
-    'deploy': '27. Деплой: выкладываем сайт в интернет',
-    'cors-deep': '28. CORS глубоко',
-    'troubleshooting': '29. Troubleshooting: типичные ошибки',
-    'glossary': '30. Глоссарий',
-    'faq': '31. FAQ — частые вопросы',
-    'cheatsheet': '32. Cheat sheet — все команды в одном месте',
-    'summary': '33. Итог',
-    'export': '34. Экспорт гайда',
+    'intro-all': "Введение",
+    'prerequisites': "Prerequisites — что нужно знать до старта",
+    'architecture': "Архитектура приложения",
+    'part1': "Часть 1. Бэкенд на Django",
+    'intro': "1. Введение в бэкенд",
+    'no-sudo': "2. Почему без sudo и как это работает",
+    'python': "3. Проверка Python и создание виртуального окружения",
+    'django': "4. Создание Django-проекта",
+    'django-admin': "5. Django Admin — готовая админка из коробки",
+    'django-bootstrap5': "6. Django + Bootstrap 5 — django_bootstrap5",
+    'api': "7. Модель, сериализатор, представления",
+    'test-api': "8. Тестирование API через curl",
+    'jsonplaceholder': "9. JSONPlaceholder",
+    'deeper': "10. Углубляемся: что такое DRF под капотом",
+    'part2': "Часть 2. Фронтенд на React",
+    'nvm': "11. Установка Node.js через nvm (без sudo)",
+    'react': "12. Создание React-приложения",
+    'proxy': "13. Настройка прокси Vite к Django API",
+    'react-code': "14. Код React-приложения",
+    'jwt': "15. Что такое JWT — разбор на примере jwt.io",
+    'test': "16. Тестирование полного цикла",
+    'run-all': "17. Запуск одним скриптом",
+    'git-intro': "18. Git с самого начала",
+    'extended-model': "19. Расширенная модель: теги и категории",
+    'auth-register': "20. Регистрация пользователей",
+    'tests': "21. Тесты Django",
+    'env-config': "22. Переменные окружения (.env)",
+    'db-schema': "23. Схема БД и жизненный цикл запроса",
+    'auth-compare': "24. Аутентификация: сравнение подходов",
+    'db-python': "25. База данных «на Python»: модели и миграции",
+    'postgresql': "26. PostgreSQL — серьёзная база данных для продакшена",
+    'deploy': "27. Деплой: выкладываем сайт в интернет",
+    'cors-deep': "28. CORS глубоко: как браузер решает, кому можно ходить на ваш API",
+    'troubleshooting': "29. Troubleshooting: типичные ошибки",
+    'glossary': "30. Глоссарий",
+    'faq': "31. FAQ — частые вопросы",
+    'cheatsheet': "32. Cheat sheet — все команды в одном месте",
+    'summary': "33. Итог",
+    'export': "34. Экспорт гайда",
   };
 
   /* ─── Оглавление в сайдбаре (как на главной), со звёздочками-закладками ─── */
   const TOC_STRUCTURE = [
     { part: true, id: 'intro-all' },
-    { part: true, id: 'part1' },
     ['prerequisites', 'architecture'],
-    ['python', 'django', 'django-admin', 'django-bootstrap5', 'api', 'test-api', 'jsonplaceholder'],
+    { part: true, id: 'part1' },
+    ['intro', 'no-sudo', 'python', 'django', 'django-admin', 'django-bootstrap5', 'api', 'test-api', 'jsonplaceholder', 'deeper'],
     { part: true, id: 'part2' },
-    ['nvm', 'react', 'proxy', 'react-code', 'jwt', 'test'],
+    ['nvm', 'react', 'proxy', 'react-code', 'jwt', 'test', 'run-all'],
     { part: 'Продвинутое' },
-    ['run-all', 'git-intro', 'extended-model', 'auth-register', 'tests', 'env-config',
-     'db-schema', 'auth-compare', 'db-python', 'postgresql', 'deploy', 'cors-deep', 'troubleshooting'],
+    ['git-intro', 'extended-model', 'auth-register', 'tests', 'env-config', 'db-schema', 'auth-compare', 'db-python', 'postgresql', 'deploy', 'cors-deep'],
     { part: 'Справочник' },
-    ['glossary', 'faq', 'cheatsheet', 'summary', 'export'],
+    ['troubleshooting', 'glossary', 'faq', 'cheatsheet', 'summary', 'export'],
   ];
 
   function buildToc() {
@@ -96,7 +121,7 @@
 
   function tocLink(id, isPart) {
     const a = document.createElement('a');
-    a.href = `${GUIDE}#${id}`;
+    a.href = hrefFor(id);
     if (isPart) a.className = 'toc-part';
     // Короткое имя: нумерация + первые слова, как в оглавлении гайда
     const full = TOC_TITLES[id] || id;
@@ -157,7 +182,7 @@
 
   function render() {
     if (!listEl) return;
-    const state = load();
+    const state = normalize(load());
     const ids = ORDER.filter(id => state[id]);
 
     if (countEl) countEl.textContent = ids.length ? String(ids.length) : '';
@@ -172,7 +197,7 @@
 
       const a = document.createElement('a');
       a.className = 'bm-title';
-      a.href = `${GUIDE}#${id}`;
+      a.href = hrefFor(id);
       a.textContent = TOC_TITLES[id] || id;
       li.appendChild(a);
 

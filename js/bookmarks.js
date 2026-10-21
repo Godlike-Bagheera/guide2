@@ -8,6 +8,10 @@
 
   const KEY = 'guide.bookmarks.v1';
 
+  // Гайд разбит на страницы: в localStorage закладки хранятся под чистым id
+  // раздела, а data-section кнопок может быть "id@страница" — нормализуем.
+  function pureId(id) { return id.split('@')[0]; }
+
   function load() {
     try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
     catch { return {}; }
@@ -51,7 +55,7 @@
     const state = load();
     const count = Object.keys(state).filter(id => state[id]).length;
     document.querySelectorAll('.bm-star').forEach(s => {
-      const on = !!state[s.dataset.section];
+      const on = !!state[pureId(s.dataset.section)];
       s.classList.toggle('active', on);
       s.textContent = on ? '★' : '☆';
       s.setAttribute('aria-label', on ? 'Убрать раздел из закладок' : 'Добавить раздел в закладки');

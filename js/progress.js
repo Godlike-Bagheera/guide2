@@ -6,6 +6,12 @@
   const readingBarFill = document.getElementById('readingBarFill');
   const markButtons = document.querySelectorAll('.mark-read');
   const trackLinks = document.querySelectorAll('nav.toc a[data-track]');
+  // Ключ раздела: "id@страница" (после разбивки гайда) или чистый id.
+  // Считаем и старые, и новые ключи, чтобы прогресс не потерялся.
+  function sectionKeys(sec) {
+    return sec.includes('@') ? [sec, sec.split('@')[0]] : [sec, sec + '@' + location.pathname.split('/').pop()];
+  }
+  function isDone(state, sec) { return sectionKeys(sec).some(k => !!state[k]); }
   const studyFill   = document.getElementById('studyFill');
   const studyDone   = document.getElementById('studyDone');
   const studyTotal  = document.getElementById('studyTotal');
@@ -27,7 +33,9 @@
 
   function updateProgress() {
     const state = loadState();
-    const done = Object.values(state).filter(Boolean).length;
+    const doneKeys = new Set();
+    markButtons.forEach(btn => { if (isDone(state, btn.dataset.section)) doneKeys.add(btn.dataset.section.split('@')[0]); });
+    const done = doneKeys.size;
     const pct = total ? Math.round(done / total * 100) : 0;
 
     if (studyFill) studyFill.style.width = pct + '%';
@@ -35,9 +43,9 @@
     if (studyIconPct) studyIconPct.textContent = pct + '%';
 
     markButtons.forEach(btn => {
-      const isDone = !!state[btn.dataset.section];
-      btn.classList.toggle('done', isDone);
-      btn.textContent = isDone ? 'Изучено' : 'Отметить как изученное';
+      const isBtnDone = isDone(state, btn.dataset.section);
+      btn.classList.toggle('done', isBtnDone);
+      btn.textContent = isBtnDone ? 'Изучено' : 'Отметить как изученное';
     });
 
     // НЕ скрываем — показываем поздравление
@@ -50,10 +58,11 @@
     btn.addEventListener('click', () => {
       const s = loadState();
       const key = btn.dataset.section;
-      s[key] = !s[key];
+      const on = !isDone(s, key);
+      sectionKeys(key).forEach(k => { if (on) s[k] = true; else delete s[k]; });
       saveState(s);
       updateProgress();
-      if (s[key] && typeof window.showToast === 'function') {
+      if (on && typeof window.showToast === 'function') {
         window.showToast('✅ Раздел отмечен');
       }
     });
