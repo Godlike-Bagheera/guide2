@@ -59,6 +59,94 @@
     'export': '34. Экспорт гайда',
   };
 
+  /* ─── Оглавление в сайдбаре (как на главной), со звёздочками-закладками ─── */
+  const TOC_STRUCTURE = [
+    { part: true, id: 'intro-all' },
+    { part: true, id: 'part1' },
+    ['prerequisites', 'architecture'],
+    ['python', 'django', 'django-admin', 'django-bootstrap5', 'api', 'test-api', 'jsonplaceholder'],
+    { part: true, id: 'part2' },
+    ['nvm', 'react', 'proxy', 'react-code', 'jwt', 'test'],
+    { part: 'Продвинутое' },
+    ['run-all', 'git-intro', 'extended-model', 'auth-register', 'tests', 'env-config',
+     'db-schema', 'auth-compare', 'db-python', 'postgresql', 'deploy', 'cors-deep', 'troubleshooting'],
+    { part: 'Справочник' },
+    ['glossary', 'faq', 'cheatsheet', 'summary', 'export'],
+  ];
+
+  function buildToc() {
+    const ul = document.getElementById('bmToc');
+    if (!ul) return;
+    TOC_STRUCTURE.forEach(item => {
+      const li = document.createElement('li');
+      if (Array.isArray(item)) {
+        item.forEach(id => li.appendChild(tocLink(id)));
+      } else if (item.part === true) {
+        li.appendChild(tocLink(item.id, true));
+      } else {
+        const span = document.createElement('span');
+        span.className = 'toc-part';
+        span.textContent = item.part;
+        li.appendChild(span);
+      }
+      ul.appendChild(li);
+    });
+    syncStars();
+  }
+
+  function tocLink(id, isPart) {
+    const a = document.createElement('a');
+    a.href = `${GUIDE}#${id}`;
+    if (isPart) a.className = 'toc-part';
+    // Короткое имя: нумерация + первые слова, как в оглавлении гайда
+    const full = TOC_TITLES[id] || id;
+    const shortName = full.length > 26 ? full.slice(0, 24).trimEnd() + '…' : full;
+    a.textContent = shortName;
+    a.title = full;
+    const star = document.createElement('span');
+    star.className = 'bm-star';
+    star.dataset.section = id;
+    star.title = 'В закладки / убрать';
+    star.setAttribute('role', 'button');
+    star.setAttribute('tabindex', '0');
+    star.setAttribute('aria-label', 'Добавить раздел в закладки');
+    star.textContent = '☆';
+    star.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggle(id);
+    });
+    star.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(id); }
+    });
+    a.appendChild(star);
+    return a;
+  }
+
+  function toggle(id) {
+    const s = load();
+    const on = !s[id];
+    if (on) s[id] = true; else delete s[id];
+    save(s);
+    syncStars();
+    render();
+    updateCounter();
+    if (typeof window.showToast === 'function') {
+      window.showToast(on ? `★ В закладках: ${TOC_TITLES[id] || id}` : '✖ Убрано из закладок');
+    }
+  }
+
+  function syncStars() {
+    const state = load();
+    document.querySelectorAll('.bm-star').forEach(s => {
+      const on = !!state[s.dataset.section];
+      s.textContent = on ? '★' : '☆';
+      s.classList.toggle('active', on);
+    });
+  }
+
+  window.addEventListener('storage', () => { syncStars(); render(); updateCounter(); });
+
   const listEl = document.getElementById('bmPageList');
   const emptyEl = document.getElementById('bmPageEmpty');
   const countEl = document.getElementById('bmPageCount');
@@ -75,6 +163,7 @@
     if (countEl) countEl.textContent = ids.length ? String(ids.length) : '';
     if (emptyEl) emptyEl.hidden = ids.length !== 0;
     if (clearBtn) clearBtn.style.display = ids.length ? '' : 'none';
+    updateCounter();
 
     listEl.innerHTML = '';
     ids.forEach(id => {
@@ -108,15 +197,26 @@
     });
   }
 
+  // Счётчик закладок в шапке/ссылке на страницу (обновляется при любом изменении)
+  function updateCounter() {
+    const n = Object.keys(load()).length;
+    document.querySelectorAll('.bm-counter').forEach(el => {
+      el.textContent = n ? String(n) : '';
+      el.style.display = n ? '' : 'none';
+    });
+  }
+
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       try { localStorage.removeItem(KEY); } catch {}
       render();
+      syncStars();
       if (typeof window.showToast === 'function') {
         window.showToast('🗑 Закладки очищены');
       }
     });
   }
 
+  buildToc();
   render();
 })();

@@ -953,3 +953,19 @@ code.has-tip:focus-visible {
   top: -5px;
   transform: translateX(-50%) rotate(-135deg);
 }
+/* ═══════ Закладки: звёздочки в оглавлении + страница bookmarks.html ═══════ */
+nav.toc a { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.bm-star {
+  flex: none; cursor: pointer; user-select: none;
+  color: var(--fg-muted); font-size: 0.85em; line-height: 1;
+  padding: 2px 3px; border-radius: 4px; transition: color .15s, transform .1s;
+}
+.bm-star:hover { color: #e6a817; transform: scale(1.2); }
+.bm-star.active { color: #f2b632; }
+.icon-btn.bm-page-link { text-decoration: none; position: relative; display: inline-flex; }
+.bm-counter {
+  position: absolute; top: -3px; right: -5px;
+  min-width: 15px; height: 15px; padding: 0 3px;
+  border-radius: 8px; background: var(--accent, #d6336c); color: #fff;
+  font-size: 10px; font-weight: 700; line-height: 15px; text-align: center;
+}

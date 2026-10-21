@@ -28,6 +28,7 @@
   <div class="brand"><span>Django + DRF + React</span></div>
   <input type="text" id="search" placeholder="Поиск... (Ctrl+K)" autocomplete="off" aria-label="Поиск по гайду">
   <div class="header-btns">
+    <a class="icon-btn bm-page-link" href="bookmarks.html" title="Мои закладки">⭐<span class="bm-counter"></span></a>
     <button type="button" class="icon-btn" id="fontBtn" title="Шрифт" aria-label="Выбрать шрифт">Aa</button>
     <button type="button" class="icon-btn" id="hotkeysBtn" title="Горячие клавиши" aria-label="Показать горячие клавиши">⌨</button>
     <div class="theme-switch" role="group" aria-label="Цветовая тема">
@@ -39,8 +40,14 @@
   </div>
 </header>
 
-<!-- Одна колонка: сайдбар на этой странице не нужен (класс layout-single) -->
-<div class="layout layout-single">
+<div class="layout">
+
+  <!-- Оглавление как на главной: JS-ссылки на index.html#раздел + ☆-закладки.
+       Сайдбар обязателен для класса .layout (сетка 2 колонки). -->
+  <nav class="toc" aria-label="Содержание гайда">
+    <h3>Содержание</h3>
+    <ul id="bmToc"></ul>
+  </nav>
 
   <main id="content">
     <section class="hero">
@@ -48,7 +55,7 @@
       <p>Разделы гайда, которые вы отметили для быстрого возврата</p>
       <div class="meta-info">
         <span>💾 Хранятся в этом браузере</span>
-        <span>⌨ Ставятся клавишей <code>B</code> или ☆ в оглавлении гайда</span>
+        <span>⌨ Ставятся клавишей <code>B</code> или ☆ в оглавлении</span>
       </div>
     </section>
 

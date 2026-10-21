@@ -57,6 +57,11 @@
       s.setAttribute('aria-label', on ? 'Убрать раздел из закладок' : 'Добавить раздел в закладки');
     });
     if (badge) badge.textContent = count ? String(count) : '';
+    // Счётчик на звёздочке в шапке (ссылка на страницу закладок)
+    document.querySelectorAll('.bm-counter').forEach(el => {
+      el.textContent = count ? String(count) : '';
+      el.style.display = count ? '' : 'none';
+    });
   }
 
   function toggle(id) {
