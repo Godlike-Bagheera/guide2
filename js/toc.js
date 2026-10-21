@@ -20,7 +20,7 @@
     tocLinks.forEach(a => {
       a.classList.toggle('active', a.getAttribute('href') === '#' + id);
     });
-    if (typeof updateDock === 'function') updateDock();
+    if (typeof updateDock === 'function') updateDock(); // фаза 1: до объявления — typeof безопасен, no-op
   }
 
   const spy = new IntersectionObserver(entries => {
@@ -146,13 +146,10 @@
   wrapSections(orderedSections.filter(h => h.tagName === 'H3'));
   wrapSections(orderedSections.filter(h => h.tagName === 'H2'));
 
-  /* ─── Единая панель «Назад / Далее» внизу экрана ───
-     Панели под каждым разделом убраны из потока документа — одна плавающая
-     панель снизу показывает соседей текущего читаемого раздела (scroll-spy
-     через setActive → updateDock). */
-  function cleanTitle(h) {
-    return h.textContent.replace(/Отметить как изученное|Изучено/g, '').replace(/\s+/g, ' ').trim();
-  }
+  /* ─── «Назад / Далее» как плавающая панель УБРАНА полностью ───
+     Она вставлялась под заголовок активного раздела и при переходах между
+     пунктами разных частей выглядела как прилипший блок с чужими названиями.
+     Навигация между разделами: дерево TOC слева + J/K (GuideTOC ниже). */
 
   function goTo(target) {
     // Скроллим к НАЧАЛУ раздела (секции), а не к id заголовка — иначе сверху
@@ -166,55 +163,6 @@
     setActive(target.id);
     history.replaceState(null, '', '#' + target.id);
   }
-
-  const dock = document.createElement('nav');
-  dock.className = 'section-nav-dock';
-  dock.setAttribute('aria-label', 'Навигация по разделам');
-
-  const prevLink = document.createElement('a');
-  prevLink.className = 'section-nav-link prev';
-  prevLink.innerHTML = '<span class="dir">← Назад</span><span class="ttl"></span>';
-  const spacer = document.createElement('span');
-  spacer.className = 'section-nav-spacer';
-  const nextLink = document.createElement('a');
-  nextLink.className = 'section-nav-link next';
-  nextLink.innerHTML = '<span class="dir">Далее →</span><span class="ttl"></span>';
-
-  function setNav(a, target) {
-    if (target) {
-      a.href = '#' + target.id;
-      a.querySelector('.ttl').textContent = cleanTitle(target);
-      a.style.visibility = '';
-    } else {
-      a.removeAttribute('href');
-      a.querySelector('.ttl').textContent = '';
-      a.style.visibility = 'hidden';
-    }
-  }
-  prevLink.addEventListener('click', e => {
-    const idx = orderedSections.findIndex(s => s.id === activeId);
-    const p = orderedSections[idx - 1];
-    if (p) { e.preventDefault(); goTo(p); }
-  });
-  nextLink.addEventListener('click', e => {
-    const idx = orderedSections.findIndex(s => s.id === activeId);
-    const n = orderedSections[idx + 1];
-    if (n) { e.preventDefault(); goTo(n); }
-  });
-
-  dock.appendChild(prevLink);
-  dock.appendChild(spacer);
-  dock.appendChild(nextLink);
-  document.body.appendChild(dock);
-
-  function updateDock() {
-    const idx = orderedSections.findIndex(s => s.id === activeId);
-    if (idx < 0) { dock.hidden = true; return; }
-    dock.hidden = false;
-    setNav(prevLink, orderedSections[idx - 1]);
-    setNav(nextLink, orderedSections[idx + 1]);
-  }
-  updateDock();
 
   /* ─── Публичный API для main.js (J/K навигация) ─── */
   window.GuideTOC = {

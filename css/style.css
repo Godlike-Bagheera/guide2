@@ -147,7 +147,7 @@ html[data-font="classic"] .hero h1 { letter-spacing: -.01em; }
 @media print {
   header, nav.toc, #totop, #studyBar, #readingBar, #toast,
   .modal-overlay, .mark-read, .skip-link,
-  .bm-star, .toc-bookmarks, .section-nav,
+  .bm-star, .toc-bookmarks, .section-nav, .section-nav-dock,
   pre .copy-btn, pre::before, pre .lang-tag,
   body::before, .hero::before, .hero::after {
     display: none !important;
