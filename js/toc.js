@@ -20,6 +20,7 @@
     tocLinks.forEach(a => {
       a.classList.toggle('active', a.getAttribute('href') === '#' + id);
     });
+    if (typeof updateDock === 'function') updateDock();
   }
 
   const spy = new IntersectionObserver(entries => {
@@ -37,13 +38,11 @@
     const firstSec = sections.find(s => s.id);
     if (firstSec) setActive(firstSec.id);
   }
-  initActive();
-  window.addEventListener('load', initActive, { once: true });
 
   /* ─── Плавный скролл по клику в меню ─── */
-  // Скроллим к НАЧАЛУ раздела (заголовок становится сразу под шапкой),
-  // а не к его концу — иначе сверху висел «хвост» предыдущего раздела
-  // с кнопкой «Отметить как изученное».
+  // Скроллим к НАЧАЛУ раздела (секции <section id="X-sec">), а не к id
+  // заголовка — иначе сверху под шапкой оставался «хвост» предыдущего
+  // раздела с кнопкой «Отметить как изученное».
   function scrollToSection(id) {
     const target = document.getElementById(id + '-sec') || document.getElementById(id);
     if (!target) return false;
@@ -51,6 +50,7 @@
       top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET),
       behavior: 'smooth'
     });
+    setActive(id);
     return true;
   }
 
@@ -65,25 +65,15 @@
   });
 
   /* ─── Точный переход при открытии страницы с якорем (part2-react.html#jwt,
-         прямая ссылка, «Назад» браузера). Нативный :target скроллит id заголовка
-         в самом конце раздела — под ним оставался хвост предыдущего раздела.
-         Поэтому на время загрузки запрещаем нативный скролл (:target стилизуются
-         через класс .anchor-sec у <section>) и скроллим сами к началу раздела. ─── */
-  const anchorIdRaw = decodeURIComponent(location.hash.slice(1));
-  const anchorSec = anchorIdRaw ? document.querySelector('section[id="' + anchorIdRaw + '"]') : null;
-  if (anchorSec) {
-    anchorSec.classList.add('anchor-sec');
-    history.scrollRestoration = 'manual';
-    requestAnimationFrame(() => scrollToSection(anchorSec.id));
-  }
+         прямая ссылка, «Назад» браузера). Браузер при загрузке скроллит к id
+         заголовка сам — и сверху остаётся «хвост» предыдущего раздела. Поэтому
+         отключаем восстановление скролла и перескролливаем сами к НАЧАЛУ
+         секции этого раздела. ─── */
+  history.scrollRestoration = 'manual';
   function jumpToHash() {
     const id = decodeURIComponent(location.hash.slice(1));
     if (!id) return;
-    const sec = document.getElementById(id + '-sec');
-    if (sec && !sec.classList.contains('anchor-sec')) {
-      // обычный клик по TOC — уже отскроллили в обработчике
-    }
-    requestAnimationFrame(() => scrollToSection(id));
+    scrollToSection(id);
   }
   window.addEventListener('hashchange', jumpToHash);
 
@@ -105,91 +95,138 @@
     h.appendChild(span);
   });
 
-  /* ─── Навигация «Назад / Далее» внизу каждого раздела (по оглавлению) ─── */
-  function cleanTitle(h) {
-    return h.textContent.replace(/Отметить как изученное|Изучено/g, '').replace(/\s+/g, ' ').trim();
-  }
-
-  function goTo(target) {
-    window.scrollTo({
-      top: target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-      behavior: 'smooth'
-    });
-    history.replaceState(null, '', '#' + target.id);
-  }
-
   // Порядок разделов = порядок ссылок в оглавлении; заголовки берём по href.
   const orderedSections = [...new Set(
     [...tocLinks]
       .map(a => document.querySelector(a.getAttribute('href')))
       .filter(Boolean)
   )];
+  const orderedSet = new Set(orderedSections.map(h => h.id));
 
-  orderedSections.forEach((h, i) => {
-    const prev = orderedSections[i - 1];
-    const next = orderedSections[i + 1];
-    if (!prev && !next) return;
+  /* ─── Разбивка на <section> и скролл к НАЧАЛУ раздела ───
+     Кнопка «Отметить как изученное» лежит в конце ПРЕДЫДУЩЕГО раздела — когда
+     браузер скроллит к id заголовка, она остаётся видимой над ним («хвост»
+     чужого раздела сверху). Поэтому:
+       1) каждый раздел оборачиваем в <section id="X-sec"> (от заголовка до
+          конца раздела) — кнопка живёт внутри своей секции;
+       2) все переходы идут через scrollToSection()/goTo(), которые скроллят
+          к началу секции: сразу под шапкой виден ровно заголовок выбранного
+          пункта. */
+  function wrapSections(list) {
+    list.forEach((h, i) => {
+      if (!h.id || h.closest('section')) return; // уже обёрнуто
+      const parent = h.parentNode;
+      const sec = document.createElement('section');
+      sec.id = h.id + '-sec';
+      parent.insertBefore(sec, h);
+      // Границы секции: любой следующий заголовок с id из порядка оглавления
+      // (в т.ч. h3-подраздел внутри h2-секции — он сам станет своей секцией),
+      // либо nav.toc / <hr class="part-sep"> — структурные разделители страниц.
+      // Раньше границей считался только заголовок из того же списка и только
+      // с тем же родителем — из-за этого в секцию затягивало соседние блоки
+      // («хвост» чужого раздела сверху при переходе по меню).
+      const isBoundary = n => {
+        if (n.nodeType !== 1) return false;
+        if (/^H[23]$/.test(n.tagName) && n.id && orderedSet.has(n.id)) return true;
+        // Дочерние заголовки без id (например «Минимальные требования» внутри
+        // блока .prereq) НЕ являются границами — они остаются в своём разделе.
+        if (n.classList && (n.classList.contains('toc') || n.matches('nav.toc'))) return true;
+        if (n.tagName === 'HR') return true;
+        return false;
+      };
+      let node = h.nextSibling;
+      sec.appendChild(h);
+      while (node && !isBoundary(node)) {
+        const move = node;
+        node = node.nextSibling;
+        sec.appendChild(move);
+      }
+    });
+  }
+  wrapSections(orderedSections.filter(h => h.tagName === 'H3'));
+  wrapSections(orderedSections.filter(h => h.tagName === 'H2'));
 
-    const wrap = document.createElement('nav');
-    wrap.className = 'section-nav';
-    wrap.setAttribute('aria-label', 'Навигация по разделам');
+  /* ─── Единая панель «Назад / Далее» внизу экрана ───
+     Панели под каждым разделом убраны из потока документа — одна плавающая
+     панель снизу показывает соседей текущего читаемого раздела (scroll-spy
+     через setActive → updateDock). */
+  function cleanTitle(h) {
+    return h.textContent.replace(/Отметить как изученное|Изучено/g, '').replace(/\s+/g, ' ').trim();
+  }
 
-    if (prev) {
-      const a = document.createElement('a');
-      a.className = 'section-nav-link prev';
-      a.href = '#' + prev.id;
-      a.innerHTML = '<span class="dir">← Назад</span><span class="ttl"></span>';
-      a.querySelector('.ttl').textContent = cleanTitle(prev);
-      a.addEventListener('click', e => { e.preventDefault(); goTo(prev); });
-      wrap.appendChild(a);
+  function goTo(target) {
+    // Скроллим к НАЧАЛУ раздела (секции), а не к id заголовка — иначе сверху
+    // под шапкой оставался «хвост» предыдущего раздела с кнопкой «Отметить».
+    const sec = document.getElementById(target.id + '-sec');
+    const t = sec || target;
+    window.scrollTo({
+      top: Math.max(0, t.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET),
+      behavior: 'smooth'
+    });
+    setActive(target.id);
+    history.replaceState(null, '', '#' + target.id);
+  }
+
+  const dock = document.createElement('nav');
+  dock.className = 'section-nav-dock';
+  dock.setAttribute('aria-label', 'Навигация по разделам');
+
+  const prevLink = document.createElement('a');
+  prevLink.className = 'section-nav-link prev';
+  prevLink.innerHTML = '<span class="dir">← Назад</span><span class="ttl"></span>';
+  const spacer = document.createElement('span');
+  spacer.className = 'section-nav-spacer';
+  const nextLink = document.createElement('a');
+  nextLink.className = 'section-nav-link next';
+  nextLink.innerHTML = '<span class="dir">Далее →</span><span class="ttl"></span>';
+
+  function setNav(a, target) {
+    if (target) {
+      a.href = '#' + target.id;
+      a.querySelector('.ttl').textContent = cleanTitle(target);
+      a.style.visibility = '';
     } else {
-      const span = document.createElement('span');
-      span.className = 'section-nav-spacer';
-      wrap.appendChild(span);
+      a.removeAttribute('href');
+      a.querySelector('.ttl').textContent = '';
+      a.style.visibility = 'hidden';
     }
-
-    if (next) {
-      const a = document.createElement('a');
-      a.className = 'section-nav-link next';
-      a.href = '#' + next.id;
-      a.innerHTML = '<span class="dir">Далее →</span><span class="ttl"></span>';
-      a.querySelector('.ttl').textContent = cleanTitle(next);
-      a.addEventListener('click', e => { e.preventDefault(); goTo(next); });
-      wrap.appendChild(a);
-    }
-
-    // Кнопки-закладки больше НЕ создаются в DOM страницы — они живут на
-    // отдельной странице bookmarks.html (там toc.js вообще не подключается).
-
-    // Единый контейнер низа раздела: «Назад/Далее» + кнопки действий.
-    // Кнопки НЕ перемещаем (перемещение ломало reveal-анимации и in-page
-    // ссылки) — wrap просто встаёт рядом с ними.
-    const footer = document.createElement('div');
-    footer.className = 'section-footer';
-    footer.appendChild(wrap);
-
-    const markBtn = document.querySelector(`.mark-read[data-section="${h.id}"]`);
-    if (markBtn) markBtn.before(footer);
-    else h.after(footer); // нет кнопки — просто после заголовка
+  }
+  prevLink.addEventListener('click', e => {
+    const idx = orderedSections.findIndex(s => s.id === activeId);
+    const p = orderedSections[idx - 1];
+    if (p) { e.preventDefault(); goTo(p); }
   });
+  nextLink.addEventListener('click', e => {
+    const idx = orderedSections.findIndex(s => s.id === activeId);
+    const n = orderedSections[idx + 1];
+    if (n) { e.preventDefault(); goTo(n); }
+  });
+
+  dock.appendChild(prevLink);
+  dock.appendChild(spacer);
+  dock.appendChild(nextLink);
+  document.body.appendChild(dock);
+
+  function updateDock() {
+    const idx = orderedSections.findIndex(s => s.id === activeId);
+    if (idx < 0) { dock.hidden = true; return; }
+    dock.hidden = false;
+    setNav(prevLink, orderedSections[idx - 1]);
+    setNav(nextLink, orderedSections[idx + 1]);
+  }
+  updateDock();
 
   /* ─── Публичный API для main.js (J/K навигация) ─── */
   window.GuideTOC = {
     next() {
-      const idx = sections.findIndex(s => s.id === activeId);
-      const next = sections[Math.min(idx + 1, sections.length - 1)];
-      if (next) window.scrollTo({
-        top: next.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
+      const idx = orderedSections.findIndex(s => s.id === activeId);
+      const next = orderedSections[Math.min(idx + 1, orderedSections.length - 1)];
+      if (next) goTo(next);
     },
     prev() {
-      const idx = sections.findIndex(s => s.id === activeId);
-      const prev = sections[Math.max(idx - 1, 0)];
-      if (prev) window.scrollTo({
-        top: prev.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET,
-        behavior: 'smooth'
-      });
+      const idx = orderedSections.findIndex(s => s.id === activeId);
+      const prev = orderedSections[Math.max(idx - 1, 0)];
+      if (prev) goTo(prev);
     },
   };
 })();

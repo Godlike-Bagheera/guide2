@@ -131,25 +131,28 @@
         }
       });
     }, { rootMargin: '0px 0px -15% 0px', threshold: 0 });
-    markButtons.forEach(btn => {
-      const sec = document.getElementById(btn.dataset.section.split('@')[0] + '-sec')
-               || document.getElementById(btn.dataset.section.split('@')[0]);
-      if (sec) { sec._markBtn = btn; endObs.observe(sec); }
-      else { btn.classList.add('visible'); } // нет секции — показываем как раньше
-    });
+    // Ждём разметки от toc.js: разделы оборачиваются в <section id="X-sec">.
+    window.addEventListener('load', () => {
+      markButtons.forEach(btn => {
+        const sec = document.getElementById(btn.dataset.section.split('@')[0] + '-sec')
+                 || document.getElementById(btn.dataset.section.split('@')[0]);
+        if (sec) { sec._markBtn = btn; endObs.observe(sec); }
+        else { btn.classList.add('visible'); } // нет секции — показываем как раньше
+      });
+    }, { once: true });
   } else {
     markButtons.forEach(btn => btn.classList.add('visible'));
   }
   // Отмеченные разделы — кнопка видна всегда (можно снять отметку)
   const _origUpdate = updateProgress;
-  updateProgress = function () {
+  window.updateProgressUI = function () {
     _origUpdate();
     const st = loadState();
     markButtons.forEach(btn => {
       if (isDone(st, btn.dataset.section)) btn.classList.add('visible');
     });
   };
-  updateProgress();
+  window.updateProgressUI();
 
   /* ─── Экспорт для объединённого scroll-хендлера ─── */
   window.updateReadingBar = () => {

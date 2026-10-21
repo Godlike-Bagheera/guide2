@@ -348,6 +348,35 @@ pre .copy-btn.copied::before { content: "✓"; }
   min-width: 0;
 }
 .section-nav-spacer { flex: 1; }
+
+/* Единая плавающая панель «Назад / Далее» внизу экрана (создаётся js/toc.js).
+   Панели под каждым разделом убраны из потока — одна dock-панель снизу
+   показывает соседей текущего читаемого раздела. */
+.section-nav-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(720px, calc(100vw - 32px));
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 12px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .14);
+}
+.section-nav-dock[hidden] { display: none; }
+.section-nav-dock .section-nav-link { flex: 0 1 46%; }
+@media (max-width: 900px) {
+  .section-nav-dock { bottom: 10px; }
+  .section-nav-dock .section-nav-link { padding: 9px 12px; }
+}
 .section-nav-link {
   flex: 0 1 48%;
   display: flex;
