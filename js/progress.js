@@ -20,7 +20,10 @@
   const exportBtn   = document.getElementById('exportBtn');
   const studyBar    = document.getElementById('studyBar');
 
-  const total = trackLinks.length;
+  // ОБЩИЙ прогресс по всему гайду, а не по текущей странице:
+  // всего разделов столько, сколько записей в карте id (js/idmap.js).
+  const TOTAL_SECTIONS = Object.keys(window.GUIDE_ID_MAP || {}).length || trackLinks.length;
+  const total = TOTAL_SECTIONS;
   if (studyTotal) studyTotal.textContent = total;
 
   function loadState() {
@@ -33,10 +36,22 @@
 
   function updateProgress() {
     const state = loadState();
-    const doneKeys = new Set();
-    markButtons.forEach(btn => { if (isDone(state, btn.dataset.section)) doneKeys.add(btn.dataset.section.split('@')[0]); });
-    const done = doneKeys.size;
-    const pct = total ? Math.round(done / total * 100) : 0;
+    // Считаем ПОЛНЫЙ прогресс по всем страницам (общий для всего гайда),
+    // а не только по кнопкам текущей страницы. Ключи в localStorage —
+    // чистые id разделов; берём все, что есть в карте id или отмечены.
+    const doneSet = new Set();
+    Object.keys(state).forEach(k => {
+      if (!state[k]) return;
+      const pure = k.split('@')[0];
+      if ((window.GUIDE_ID_MAP && pure in window.GUIDE_ID_MAP) || !window.GUIDE_ID_MAP) {
+        doneSet.add(pure);
+      }
+    });
+    markButtons.forEach(btn => {
+      if (isDone(state, btn.dataset.section)) doneSet.add(btn.dataset.section.split('@')[0]);
+    });
+    const done = doneSet.size;
+    const pct = total ? Math.min(100, Math.round(done / total * 100)) : 0;
 
     if (studyFill) studyFill.style.width = pct + '%';
     if (studyDone) studyDone.textContent = done;

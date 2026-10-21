@@ -962,13 +962,34 @@ nav.toc a { display: flex; align-items: center; justify-content: space-between; 
 }
 .bm-star:hover { color: #e6a817; transform: scale(1.2); }
 .bm-star.active { color: #f2b632; }
-.icon-btn.bm-page-link { text-decoration: none; position: relative; display: inline-flex; }
-.bm-counter {
-  position: absolute; top: -3px; right: -5px;
-  min-width: 15px; height: 15px; padding: 0 3px;
-  border-radius: 8px; background: var(--accent, #d6336c); color: #fff;
-  font-size: 10px; font-weight: 700; line-height: 15px; text-align: center;
+/* Кнопка «Мои закладки» в шапке: SVG-звезда + счётчик в одном flex-ряде,
+   ничего не наезжает друг на друга на любых темах/размерах. */
+.icon-btn.bm-page-link {
+  text-decoration: none;
+  width: auto;
+  min-width: 36px;
+  padding: 0 9px;
+  gap: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+.icon-btn.bm-page-link svg {
+  width: 17px; height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  flex: none;
+}
+.icon-btn.bm-page-link.has-bm svg { fill: #f2b632; stroke: #e6a817; }
+.bm-counter {
+  min-width: 16px; height: 16px; padding: 0 4px;
+  border-radius: 8px; background: var(--accent, #d6336c); color: #fff;
+  font-size: 10px; font-weight: 700; line-height: 16px; text-align: center;
+  font-family: var(--font-head, inherit);
+}
+.bm-counter:empty { display: none; }
 
 /* ═══════════ PAGE CARDS (обложка index.html после разбивки на страницы) ═══════════ */
 .page-card-list {
@@ -1003,24 +1024,29 @@ nav.toc a { display: flex; align-items: center; justify-content: space-between; 
 .page-card h3 a { color: var(--fg); text-decoration: none; }
 .page-card h3 a:hover { color: var(--accent, #d6336c); }
 .page-card p { margin: 0; color: var(--fg-muted); font-size: .9rem; line-height: 1.5; }
-.page-card details {
-  border-top: 1px dashed var(--border);
-  padding-top: 8px;
-  font-size: .88rem;
-}
-.page-card summary {
-  cursor: pointer;
-  color: var(--fg-muted);
-  font-weight: 600;
-  user-select: none;
-}
-.page-card summary:hover { color: var(--fg); }
 .page-card-sections {
-  margin: 8px 0 0;
-  padding-left: 18px;
+  margin: 4px 0 2px;
+  padding: 8px 0 0;
+  border-top: 1px dashed var(--border);
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
+  font-size: .88rem;
+}
+.page-card-sections li {
+  position: relative;
+  padding-left: 14px;
+  line-height: 1.35;
+}
+.page-card-sections li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .5em;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent, #d6336c);
+  opacity: .55;
 }
 .page-card-sections a { color: var(--accent, #d6336c); text-decoration: none; }
 .page-card-sections a:hover { text-decoration: underline; }

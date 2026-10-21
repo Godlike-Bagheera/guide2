@@ -277,3 +277,6 @@ main {
   border: 1px solid var(--border);
   transition: background var(--transition), border-color var(--transition);
 }
+/* Первый заголовок страницы — без гигантского отступа сверху */
+main > h2:first-of-type,
+main > section > h2:first-child { margin-top: 8px; }

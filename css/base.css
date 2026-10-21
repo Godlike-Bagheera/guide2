@@ -85,11 +85,16 @@ h2 {
   position: relative;
   scroll-margin-top: 110px;
 }
-h2::before {
+/* Полоска под заголовком h2 — ровно по ширине текста.
+   JS (js/toc.js) оборачивает текст h2 в <span class="h2-line">, полоска
+   рисуется через ::after этого span'а и ложится на border-bottom самого h2. */
+h2 { display: block; }
+h2 > .h2-line { display: inline-block; position: relative; }
+h2 > .h2-line::after {
   content: "";
   position: absolute;
-  bottom: -1px; left: 0;
-  width: 56px; height: 2px;
+  bottom: -17px; left: 0; right: 0;
+  height: 2px;
   background: var(--accent);
 }
 

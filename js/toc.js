@@ -54,6 +54,17 @@
     });
   });
 
+  /* ─── Полоска под h2 ровно по ширине текста заголовка ─── */
+  // Оборачиваем содержимое h2 в inline-блок; ::after span'а рисует полоску
+  // длиной ровно со слово (см. css/base.css).
+  document.querySelectorAll('main h2[id]').forEach(h => {
+    if (h.querySelector(':scope > .h2-line')) return;
+    const span = document.createElement('span');
+    span.className = 'h2-line';
+    while (h.firstChild) span.appendChild(h.firstChild);
+    h.appendChild(span);
+  });
+
   /* ─── Навигация «Назад / Далее» внизу каждого раздела (по оглавлению) ─── */
   function cleanTitle(h) {
     return h.textContent.replace(/Отметить как изученное|Изучено/g, '').replace(/\s+/g, ' ').trim();

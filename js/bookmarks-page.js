@@ -227,7 +227,9 @@
     const n = Object.keys(load()).length;
     document.querySelectorAll('.bm-counter').forEach(el => {
       el.textContent = n ? String(n) : '';
-      el.style.display = n ? '' : 'none';
+    });
+    document.querySelectorAll('a.bm-page-link').forEach(a => {
+      a.classList.toggle('has-bm', n > 0);
     });
   }
 

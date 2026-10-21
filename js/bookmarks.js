@@ -22,11 +22,15 @@
 
   /* ─── Звёздочки в оглавлении (по одной на ссылку toc) ─── */
   // Вставляются внутрь <a> как <span>, поэтому layout оглавления не меняется.
-  const tocAnchors = [...document.querySelectorAll('nav.toc ul a[data-star]')];
+  // Собираем ссылки оглавления: локальные (#id) и межстраничные (page.html#id).
+  const tocAnchors = [...document.querySelectorAll('nav.toc ul a[data-star], nav.toc ul a[href*="#"]')]
+    .filter(a => !/^(https?:|mailto:)/.test(a.getAttribute('href') || ''));
 
   tocAnchors.forEach(a => {
     if (a.querySelector('.bm-star')) return;
-    const id = (a.getAttribute('href') || '').slice(1);
+    const href = a.getAttribute('href') || '';
+    const hashIdx = href.indexOf('#');
+    const id = hashIdx >= 0 ? href.slice(hashIdx + 1) : '';
     if (!id) return;
     const star = document.createElement('span');
     star.className = 'bm-star';
@@ -64,7 +68,10 @@
     // Счётчик на звёздочке в шапке (ссылка на страницу закладок)
     document.querySelectorAll('.bm-counter').forEach(el => {
       el.textContent = count ? String(count) : '';
-      el.style.display = count ? '' : 'none';
+    });
+    // Заливаем SVG-звезду в шапке, если есть закладки
+    document.querySelectorAll('a.bm-page-link').forEach(a => {
+      a.classList.toggle('has-bm', count > 0);
     });
   }
 
