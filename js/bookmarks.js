@@ -93,20 +93,30 @@
     }
   }
 
-  /* ─── Кнопки ☆ рядом с кнопкой «Отметить как изученное» каждого раздела ─── */
-  // Разделы определяем по кнопкам .mark-read — так кнопки гарантированно
-  // попадают в flex-контейнер и не ломают вёрстку заголовков.
-  document.querySelectorAll('.mark-read[data-section]').forEach(markBtn => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'bookmark-btn';
-    btn.dataset.section = markBtn.dataset.section;
-    btn.title = 'В закладки (B)';
-    btn.setAttribute('aria-label', 'Добавить раздел в закладки');
-    btn.append('☆', document.createTextNode(' Закладка'));
-    btn.addEventListener('click', () => toggle(btn.dataset.section, false));
-    markBtn.before(btn);
-  });
+  /* ─── Привязка кликов к существующим кнопкам ☆ ─── */
+  // Сами кнопки создаёт toc.js рядом с .mark-read (в исходном месте DOM,
+  // без перемещения элементов — это ломало вёрстку). Здесь только навешиваем
+  // обработчики; если вдруг кнопки нет (например toc.js упал) — создаём сами.
+  function bindOrMake() {
+    let buttons = document.querySelectorAll('.bookmark-btn[data-section]');
+    if (!buttons.length) {
+      document.querySelectorAll('.mark-read[data-section]').forEach(markBtn => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'bookmark-btn';
+        btn.dataset.section = markBtn.dataset.section;
+        btn.title = 'В закладки (B)';
+        btn.setAttribute('aria-label', 'Добавить раздел в закладки');
+        btn.append('☆', document.createTextNode(' Закладка'));
+        markBtn.before(btn);
+      });
+      buttons = document.querySelectorAll('.bookmark-btn[data-section]');
+    }
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => toggle(btn.dataset.section, false));
+    });
+  }
+  bindOrMake();
 
   /* Горячая клавиша B — заложить текущий активный раздел */
   document.addEventListener('keydown', e => {
