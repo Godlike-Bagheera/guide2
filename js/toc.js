@@ -54,7 +54,7 @@
     });
   });
 
-  /* ─── Навигация «Назад / Далее» внизу каждого раздела ─── */
+  /* ─── Навигация «Назад / Далее» внизу каждого раздела (по оглавлению) ─── */
   function cleanTitle(h) {
     return h.textContent.replace(/Отметить как изученное|Изучено/g, '').replace(/\s+/g, ' ').trim();
   }
@@ -67,10 +67,16 @@
     history.replaceState(null, '', '#' + target.id);
   }
 
-  const mainSections = [...document.querySelectorAll('main > h2[id], main > h3[id]')];
-  mainSections.forEach((h, i) => {
-    const prev = mainSections.slice(0, i).reverse().find(s => s !== h);
-    const next = mainSections[i + 1];
+  // Порядок разделов = порядок ссылок в оглавлении; заголовки берём по href.
+  const orderedSections = [...new Set(
+    [...tocLinks]
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean)
+  )];
+
+  orderedSections.forEach((h, i) => {
+    const prev = orderedSections[i - 1];
+    const next = orderedSections[i + 1];
     if (!prev && !next) return;
 
     const wrap = document.createElement('nav');
@@ -101,10 +107,14 @@
       wrap.appendChild(a);
     }
 
-    // вставляем перед кнопкой «Отметить как изученное», если она есть — иначе после заголовка
+    // Собираем единый контейнер низа раздела: «Назад/Далее» + кнопки действий.
+    const footer = document.createElement('div');
+    footer.className = 'section-footer';
+    footer.appendChild(wrap);
+
     const markBtn = document.querySelector(`.mark-read[data-section="${h.id}"]`);
-    if (markBtn) markBtn.before(wrap);
-    else h.after(wrap);
+    if (markBtn) footer.appendChild(markBtn);
+    else h.after(footer); // нет кнопки — просто после заголовка
   });
 
   /* ─── Публичный API для main.js (J/K навигация) ─── */

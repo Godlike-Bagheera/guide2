@@ -287,7 +287,7 @@ pre .copy-btn.copied::before { content: "✓"; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 28px auto 10px;
+  margin: 2px 0 0;
   padding: 10px 22px;
   border: 1px solid var(--border-strong);
   background: var(--bg-alt);
@@ -330,12 +330,22 @@ pre .copy-btn.copied::before { content: "✓"; }
   border-color: #fff;
 }
 
+/* Контейнер низа раздела: «Назад/Далее» + кнопки закладки и «Отметить как изученное» */
+.section-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 26px 0 14px;
+}
 .section-nav {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   gap: 12px;
-  margin: 26px 0 14px;
+  flex: 1 1 100%;
+  min-width: 0;
 }
 .section-nav-spacer { flex: 1; }
 .section-nav-link {
@@ -380,28 +390,29 @@ pre .copy-btn.copied::before { content: "✓"; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  margin: 4px 0 0 10px;
-  padding: 0;
-  font-size: 1rem;
+  gap: 7px;
+  margin: 2px 0 0;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: .86rem;
+  font-weight: 600;
   line-height: 1;
   color: var(--fg-muted);
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-strong);
+  border-radius: 30px;
   cursor: pointer;
-  transition: border-color .15s, color .15s, transform .15s;
+  transition: border-color .15s, color .15s, background .15s;
   vertical-align: middle;
 }
 .bookmark-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: scale(1.1);
+  border-color: #f59e0b;
+  color: #b45309;
 }
 .bookmark-btn.active {
-  color: #f59e0b;
+  color: #b45309;
   border-color: #f59e0b;
+  background: color-mix(in srgb, #f59e0b 10%, var(--bg-alt));
 }
 
 .bookmarks-panel {
