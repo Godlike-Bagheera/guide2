@@ -397,11 +397,16 @@ pre .copy-btn.copied::before { content: "✓"; }
    (flex+auto-margin раньше давал разброс из-за переноса длинных названий). */
 nav.toc ul a[data-star] {
   display: grid;
-  /* 3 колонки: текст | фиксированная колонка звёзд (24px) | метка текущей стр. */
-  grid-template-columns: minmax(0, 1fr) 24px auto;
+  /* Ровно 2 колонки: текст | жёсткая колонка звёзд (24px).
+     Третья «auto» убрана — из-за неё ширина текстовой колонки отличалась
+     между ссылками с меткой текущей страницы и без неё, и звёзды гуляли
+     по горизонтали. Метка теперь позиционируется абсолютно и на сетку
+     не влияет. */
+  grid-template-columns: minmax(0, 1fr) 24px;
   align-items: center;
   column-gap: 6px;
   padding-right: 10px;
+  position: relative;
 }
 .bm-star {
   grid-column: 2;
@@ -424,9 +429,9 @@ nav.toc ul a[data-star] {
   transform-origin: 50% 50%;
   transition: opacity .15s, color .15s, transform .15s;
 }
-/* «активная» (сохранённая) закладка не уезжает вправо на 2px —
-   compensируем margin-left, чтобы все звёзды стояли строго в одной колонне */
-.bm-star.active { margin-left: -2px; }
+/* Сохранённая закладка: только цвет/яркость — без margin-смещений,
+   иначе звёзды разъезжаются по горизонтали. */
+.bm-star.active { margin-left: 0; }
 nav.toc ul a[data-star]:hover .bm-star { opacity: .9; }
 .bm-star:hover, .bm-star:focus-visible {
   color: #f59e0b;

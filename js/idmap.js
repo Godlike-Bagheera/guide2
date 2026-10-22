@@ -1,10 +1,11 @@
-/* Карта «id раздела -> страница гайда». Используется js/bookmarks-page.js,
-   чтобы ссылки из закладок вели на правильную страницу после разбивки. */
+/* Карта: id раздела -> файл страницы (после разбивки гайда на страницы). */
 
 window.GUIDE_ID_MAP = {
+  // --- intro.html ---
   'intro-all': 'intro.html',
   'prerequisites': 'intro.html',
   'architecture': 'intro.html',
+  // --- part1-django.html ---
   'part1': 'part1-django.html',
   'intro': 'part1-django.html',
   'no-sudo': 'part1-django.html',
@@ -16,6 +17,7 @@ window.GUIDE_ID_MAP = {
   'test-api': 'part1-django.html',
   'jsonplaceholder': 'part1-django.html',
   'deeper': 'part1-django.html',
+  // --- part2-react.html ---
   'part2': 'part2-react.html',
   'nvm': 'part2-react.html',
   'react': 'part2-react.html',
@@ -23,7 +25,8 @@ window.GUIDE_ID_MAP = {
   'react-code': 'part2-react.html',
   'jwt': 'part2-react.html',
   'test': 'part2-react.html',
-  'run-all': 'part2-react.html',
+  // --- advanced.html ---
+  'run-all': 'advanced.html',
   'git-intro': 'advanced.html',
   'extended-model': 'advanced.html',
   'auth-register': 'advanced.html',
@@ -34,7 +37,8 @@ window.GUIDE_ID_MAP = {
   'db-python': 'advanced.html',
   'postgresql': 'advanced.html',
   'deploy': 'advanced.html',
-  'cors-deep': 'advanced.html',
+  // --- reference.html ---
+  'cors-deep': 'reference.html',
   'troubleshooting': 'reference.html',
   'glossary': 'reference.html',
   'faq': 'reference.html',

@@ -227,26 +227,28 @@ cat requirements.txt</code><button type="button" class="copy-btn">Копиров
 cd backend
 python manage.py startapp api</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <p>Структура после этих команд:</p>
-<pre><code>backend/
-├── manage.py
-├── backend/          # настройки проекта
-│   ├── __init__.py
-│   ├── settings.py   # ← здесь будем править
-│   ├── urls.py       # ← и здесь
-│   ├── asgi.py
-│   └── wsgi.py
-└── api/              # наше приложение
-    ├── __init__.py
-    ├── admin.py      # ← регистрация в админке
-    ├── apps.py
-    ├── models.py     # ← модель Note
-    ├── tests.py
-    ├── views.py      # ← представления
-    └── migrations/</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
+<pre><code>fullstack-app/
+├── venv/                 # виртуальное окружение (создали в разделе 3)
+└── backend/              # Django-проект (создаём здесь)
+    ├── manage.py
+    ├── backend/          # настройки проекта
+    │   ├── __init__.py
+    │   ├── settings.py   # ← здесь будем править
+    │   ├── urls.py       # ← и здесь
+    │   ├── asgi.py
+    │   └── wsgi.py
+    └── api/              # наше приложение
+        ├── __init__.py
+        ├── admin.py      # ← регистрация в админке
+        ├── apps.py
+        ├── models.py     # ← модель Note
+        ├── tests.py
+        ├── views.py      # ← представления
+        └── migrations/</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
 
     <h4>4.2. Настройте settings.py</h4>
-    <p>Откройте файл <code>backend/backend/settings.py</code> в редакторе:</p>
-<pre><code>nano backend/backend/settings.py</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Откройте файл <code>backend/settings.py</code> в редакторе:</p>
+<pre><code>nano backend/settings.py</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <p>Найдите переменную <code>INSTALLED_APPS</code> и добавьте:</p>
 <pre><code>INSTALLED_APPS = [
     'django.contrib.admin',
@@ -422,11 +424,13 @@ class NoteAdmin(admin.ModelAdmin):
 
     <h4>6.1. Установка django_bootstrap5</h4>
     <p>Убедитесь, что окружение <code>(venv)</code> активно (раздел 3), и выполните:</p>
-<pre><code>pip install django-bootstrap5</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+<pre><code># вы в ~/projects/fullstack-app/backend, venv лежит на уровень выше
+source ../venv/bin/activate
+pip install django-bootstrap5</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
     <div class="callout tip">
       <p><strong>Не путайте имена!</strong> В <code>pip install</code> пакет пишется <code>django-bootstrap5</code> (через дефис), а в <code>settings.py</code> — <code>django_bootstrap5</code> (через подчёркивание). Это одно и то же.</p>
     </div>
-    <p>Затем откройте <code>backend/backend/settings.py</code> и добавьте приложение в <code>INSTALLED_APPS</code>:</p>
+    <p>Затем откройте <code>backend/settings.py</code> и добавьте приложение в <code>INSTALLED_APPS</code>:</p>
 <pre><code>INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -931,6 +935,7 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
 <script src="js/idmap.js" defer></script>
 <script src="js/ui.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script>window.GUIDE_SECTIONS=["intro-all","prerequisites","architecture","intro","no-sudo","python","django","django-admin","django-bootstrap5","api","test-api","jsonplaceholder","deeper","nvm","react","proxy","react-code","jwt","test","run-all","git-intro","extended-model","auth-register","tests","env-config","db-schema","auth-compare","db-python","postgresql","deploy","cors-deep","troubleshooting","glossary","faq","cheatsheet","summary","export"];</script>
 <script src="js/progress.js" defer></script>
 <script src="js/search.js" defer></script>
 <script src="js/toc.js" defer></script>

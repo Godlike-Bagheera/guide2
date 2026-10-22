@@ -20,9 +20,28 @@
   const exportBtn   = document.getElementById('exportBtn');
   const studyBar    = document.getElementById('studyBar');
 
-  // ОБЩИЙ прогресс по всему гайду, а не по текущей странице:
-  // всего разделов столько, сколько записей в карте id (js/idmap.js).
-  const TOTAL_SECTIONS = Object.keys(window.GUIDE_ID_MAP || {}).length || trackLinks.length;
+  // ОБЩИЙ прогресс по всему гайду, а не по текущей странице.
+  // ВАЖНО: total должен быть ОДИНАКОВЫМ на всех страницах — иначе счётчик
+  // «N из X» прыгает при переходе между страницами. Поэтому база одна и та
+  // же везде: полный список реальных изучаемых разделов гайда
+  // (window.GUIDE_SECTIONS — один и тот же массив, вшитый во все страницы).
+  // Из него ИСКЛЮЧЕНЫ служебные якоря частей («part1», «part2», «intro-all»)
+  // — они есть в карте id (js/idmap.js) для ссылок закладок, но это НЕ
+  // разделы для отметки «изучено». Фолбэки (если GUIDE_SECTIONS почему-то
+  // нет): кнопки текущей страницы → карта id минус служебные ключи.
+  const SERVICE_IDS = ['intro-all', 'part1', 'part2'];
+  const TRACKED_IDS = new Set();
+  if (Array.isArray(window.GUIDE_SECTIONS)) {
+    window.GUIDE_SECTIONS.forEach(k => TRACKED_IDS.add(String(k).split('@')[0]));
+  } else if (document.querySelectorAll('.mark-read[data-section]').length) {
+    Array.from(document.querySelectorAll('.mark-read[data-section]'))
+      .forEach(btn => TRACKED_IDS.add(btn.dataset.section.split('@')[0]));
+  } else {
+    Object.keys(window.GUIDE_ID_MAP || {})
+      .filter(k => SERVICE_IDS.indexOf(k) === -1)
+      .forEach(k => TRACKED_IDS.add(k));
+  }
+  const TOTAL_SECTIONS = TRACKED_IDS.size;
   const total = TOTAL_SECTIONS;
   if (studyTotal) studyTotal.textContent = total;
 
@@ -42,7 +61,8 @@
     const doneSet = new Set();
     Object.keys(state).forEach(k => {
       if (!state[k]) return;
-      const pure = k.split('@')[0];
+      const pure = k.lastIndexOf('@') >= 0 ? k.slice(0, k.lastIndexOf('@')) : k;
+      if (TRACKED_IDS.size && !TRACKED_IDS.has(pure)) return; // служебные/старые ключи не считаем
       if ((window.GUIDE_ID_MAP && pure in window.GUIDE_ID_MAP) || !window.GUIDE_ID_MAP) {
         doneSet.add(pure);
       }
