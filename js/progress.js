@@ -30,17 +30,14 @@
   // разделы для отметки «изучено». Фолбэки (если GUIDE_SECTIONS почему-то
   // нет): кнопки текущей страницы → карта id минус служебные ключи.
   const SERVICE_IDS = ['intro-all', 'part1', 'part2'];
+  // Фолбэк-копия списка разделов (синхронна с инлайн GUIDE_SECTIONS на всех
+  // страницах). Нужна на случай, если инлайн-скрипт не выполнится до этого
+  // файла — иначе счётчик «N из X» падал с ошибкой или показывал 0.
+  const FALLBACK_SECTIONS = ["intro-all","prerequisites","architecture","intro","no-sudo","python","django","django-admin","django-bootstrap5","quickstart","shop","api","test-api","jsonplaceholder","deeper","nvm","react","proxy","react-code","jwt","test","run-all","git-intro","extended-model","auth-register","tests","env-config","db-schema","auth-compare","db-python","postgresql","deploy","cors-deep","troubleshooting","glossary","faq","cheatsheet","summary","export"];
   const TRACKED_IDS = new Set();
-  if (Array.isArray(window.GUIDE_SECTIONS)) {
-    window.GUIDE_SECTIONS.forEach(k => TRACKED_IDS.add(String(k).split('@')[0]));
-  } else if (document.querySelectorAll('.mark-read[data-section]').length) {
-    Array.from(document.querySelectorAll('.mark-read[data-section]'))
-      .forEach(btn => TRACKED_IDS.add(btn.dataset.section.split('@')[0]));
-  } else {
-    Object.keys(window.GUIDE_ID_MAP || {})
-      .filter(k => SERVICE_IDS.indexOf(k) === -1)
-      .forEach(k => TRACKED_IDS.add(k));
-  }
+  const SECTIONS = Array.isArray(window.GUIDE_SECTIONS) && window.GUIDE_SECTIONS.length
+    ? window.GUIDE_SECTIONS : FALLBACK_SECTIONS;
+  SECTIONS.forEach(k => TRACKED_IDS.add(String(k).split('@')[0]));
   const TOTAL_SECTIONS = TRACKED_IDS.size;
   const total = TOTAL_SECTIONS;
   if (studyTotal) studyTotal.textContent = total;
