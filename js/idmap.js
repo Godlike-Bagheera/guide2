@@ -26,8 +26,8 @@ window.GUIDE_ID_MAP = {
   'react-code': 'part2-react.html',
   'jwt': 'part2-react.html',
   'test': 'part2-react.html',
+  'run-all': 'part2-react.html',
   // --- advanced.html ---
-  'run-all': 'advanced.html',
   'git-intro': 'advanced.html',
   'extended-model': 'advanced.html',
   'auth-register': 'advanced.html',
@@ -38,8 +38,8 @@ window.GUIDE_ID_MAP = {
   'db-python': 'advanced.html',
   'postgresql': 'advanced.html',
   'deploy': 'advanced.html',
+  'cors-deep': 'advanced.html',
   // --- reference.html ---
-  'cors-deep': 'reference.html',
   'troubleshooting': 'reference.html',
   'glossary': 'reference.html',
   'faq': 'reference.html',
