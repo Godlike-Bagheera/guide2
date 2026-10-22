@@ -13,6 +13,7 @@ window.GUIDE_ID_MAP = {
   'django': 'part1-django.html',
   'django-admin': 'part1-django.html',
   'django-bootstrap5': 'part1-django.html',
+  'quickstart': 'part1-django.html',
   'api': 'part1-django.html',
   'test-api': 'part1-django.html',
   'jsonplaceholder': 'part1-django.html',

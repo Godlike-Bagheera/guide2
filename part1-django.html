@@ -64,6 +64,7 @@
           <li><a href="#django" data-star>4. Создание Django-проекта</a></li>
           <li><a href="#django-admin" data-star>5. Django Admin — готовая админка из коробки</a></li>
           <li><a href="#django-bootstrap5" data-star>6. Django + Bootstrap 5 — django_bootstrap5</a></li>
+          <li><a href="#quickstart" data-star>6.5. Быстрый старт: Django + Bootstrap 5 за 8 шагов</a></li>
           <li><a href="#api" data-star>7. Модель, сериализатор, представления</a></li>
           <li><a href="#test-api" data-star>8. Тестирование API через curl</a></li>
           <li><a href="#jsonplaceholder" data-star>9. JSONPlaceholder</a></li>
@@ -583,6 +584,139 @@ urlpatterns = [
     </div>
     <button type="button" class="mark-read" data-section="django-bootstrap5@part1-django.html">Отметить как изученное</button>
 
+    <!-- section:quickstart -->
+    <h3 id="quickstart" class="mark-read-anchor">6.5. Быстрый старт: Django + Bootstrap 5 за 8 шагов (config + webapp)</h3>
+    <p>Это самостоятельная мини-инструкция «с нуля» — по ней можно собрать первый сайт на РЕД ОС без прав администратора. Она использует другую структуру проекта (<code>config</code> + <code>webapp</code>, точка в <code>startproject</code>) и дополняет разделы 3–6 выше: там мы строим полноценный API с DRF, а здесь — быстрый проверочный шаблонный сайт на Bootstrap 5.</p>
+
+    <h4>Шаг 1. Проверка предустановленного Python 3</h4>
+    <p>Интерпретатор Python 3 встроен в РЕД ОС по умолчанию. Откройте терминал и убедитесь в этом:</p>
+<pre><code>python3 --version</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p>Если команда возвращает версию (например, Python 3.8, 3.10 или выше), всё в порядке.</p>
+
+    <h4>Шаг 2. Создание папки и виртуального окружения</h4>
+    <p>Поскольку у нас нет прав sudo, мы создаем изолированное окружение внутри домашней директории пользователя. Все пакеты будут ставиться локально.</p>
+<pre><code># Создаем рабочую папку проекта в домашнем каталоге и переходим в нее
+mkdir ~/fullstack-app &amp;&amp; cd ~/fullstack-app
+
+# Создаем виртуальное окружение с именем venv
+python3 -m venv venv
+
+# Активируем виртуальное окружение в РЕД ОС
+source venv/bin/activate</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p>После активации в начале строки вашего терминала обязательно появится маркер <code>(venv)</code>.</p>
+
+    <h4>Шаг 3. Установка Django и правильной библиотеки Bootstrap 5</h4>
+    <p>Используем явный вызов через <code>python3 -m pip</code>, чтобы избежать конфликтов путей:</p>
+<pre><code># Обновляем локальный менеджер пакетов pip
+python3 -m pip install --upgrade pip
+
+# Устанавливаем Django и актуальную официальную библиотеку django-bootstrap5
+python3 -m pip install django django-bootstrap5</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+
+    <h4>Шаг 4. Инициализация структуры проекта Django</h4>
+    <p>Создаем каркас проекта. Обратите внимание на точку в конце второй команды — она развернет файлы конфигурации прямо в текущей папке:</p>
+<pre><code># Создаем конфигурационный пакет с именем config
+django-admin startproject config .
+
+# Создаем приложение для нашего веб-сайта
+python3 manage.py startapp webapp</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+
+    <h4>Шаг 5. Настройка конфигурации проекта (settings.py)</h4>
+    <p>Открыть файл <code>config/settings.py</code> в VSC и внести следующие изменения:</p>
+    <p>1. Найдите список <code>INSTALLED_APPS</code> и добавьте туда <code>'django_bootstrap5'</code> (через нижнее подчеркивание) и ваше приложение <code>'webapp'</code>:</p>
+<pre><code>INSTALLED_APPS = [
+    # ... базовые приложения Django ...
+    'django_bootstrap5',
+    'webapp',
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p>2. Спуститесь ниже и переключите язык интерфейса на русский:</p>
+<pre><code>LANGUAGE_CODE = 'ru-ru'
+TIME_ZONE = 'Europe/Moscow'  # или ваш регион</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+
+    <h4>Шаг 6. Создание логики и маршрутов</h4>
+    <p>1. <strong>Представление (View):</strong><br>
+    Открыть файл <code>webapp/views.py</code> в VSC и прописать логику отображения главной страницы:</p>
+<pre><code>from django.shortcuts import render
+
+def index(request):
+    return render(request, 'webapp/index.html')</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p>2. <strong>Маршруты приложения (URLs):</strong><br>
+    Создайте в папке <code>webapp</code> новый файл <code>urls.py</code>. Открыть файл в VSC и вставить в него код:</p>
+<pre><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p>3. <strong>Главные маршруты проекта:</strong><br>
+    Открыть файл <code>config/urls.py</code> в VSC и подключить туда маршруты из вашего приложения, приведя его структуру к следующему виду:</p>
+<pre><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('webapp.urls')),
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+
+    <h4>Шаг 7. Создание HTML-шаблона с Bootstrap 5</h4>
+    <p>Создаем правильную древовидную структуру папок для шаблонов Django в терминале РЕД ОС:</p>
+<pre><code>mkdir -p webapp/templates/webapp</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p>Создайте в этой папке файл <code>index.html</code>. Открыть файл в VSC и вставить готовый код страницы. Обратите внимание на правильный тег загрузки <code>{% load django_bootstrap5 %}</code> в первой строке:</p>
+<pre><code>{% load django_bootstrap5 %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Django на РЕД ОС&lt;/title&gt;
+    &lt;!-- Автоматическое подключение CSS стилей Bootstrap 5 --&gt;
+    {% bootstrap_css %}
+&lt;/head&gt;
+&lt;body class="bg-light"&gt;
+
+    &lt;!-- Навигационная панель Bootstrap 5 --&gt;
+    &lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4"&gt;
+        &lt;div class="container-fluid"&gt;
+            &lt;span class="navbar-brand"&gt;РЕД ОС Проект (User-space)&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/nav&gt;
+
+    &lt;!-- Основной контент --&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="p-5 mb-4 bg-white rounded-3 border shadow-sm"&gt;
+            &lt;h1 class="display-5 fw-bold text-success"&gt;Всё работает на РЕД ОС!&lt;/h1&gt;
+            &lt;p class="col-md-8 fs-4 text-muted"&gt;Окружение настроено без root-прав, библиотека django-bootstrap5 успешно подключена.&lt;/p&gt;
+            &lt;button class="btn btn-success btn-lg" type="button"&gt;Проверить компоненты&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Автоматическое подключение JS скриптов Bootstrap 5 --&gt;
+    {% bootstrap_javascript %}
+&lt;/body&gt;
+&lt;/html&gt;</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">html</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+
+    <h4>Шаг 8. Миграции и запуск локального сервера</h4>
+    <p>В качестве базы данных по умолчанию используется легковесный файл <code>db.sqlite3</code>. Для его создания и работы права администратора системы не требуются.</p>
+<pre><code># Применяем стандартные миграции Django
+python3 manage.py migrate
+
+# Запускаем встроенный веб-сервер
+python3 manage.py runserver</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <div class="callout warn"><p>Используйте код с осторожностью.</p></div>
+    <p><strong>Готово!</strong> Открывайте установленный в РЕД ОС браузер (например, Chromium или Яндекс.Браузер) и переходите по адресу: <strong><a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">http://127.0.0.1:8000/</a></strong>. Перед вами откроется адаптивная страница со стилями Bootstrap 5.</p>
+    <button type="button" class="mark-read" data-section="quickstart@part1-django.html">Отметить как изученное</button>
+
     <!-- section:api -->
     <h3 id="api" class="mark-read-anchor">7. Модель, сериализатор, представления</h3>
 
@@ -935,7 +1069,7 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
 <script src="js/idmap.js" defer></script>
 <script src="js/ui.js" defer></script>
 <script src="js/theme.js" defer></script>
-<script>window.GUIDE_SECTIONS=["intro-all","prerequisites","architecture","intro","no-sudo","python","django","django-admin","django-bootstrap5","api","test-api","jsonplaceholder","deeper","nvm","react","proxy","react-code","jwt","test","run-all","git-intro","extended-model","auth-register","tests","env-config","db-schema","auth-compare","db-python","postgresql","deploy","cors-deep","troubleshooting","glossary","faq","cheatsheet","summary","export"];</script>
+<script>window.GUIDE_SECTIONS=["intro-all","prerequisites","architecture","intro","no-sudo","python","django","django-admin","django-bootstrap5","quickstart","api","test-api","jsonplaceholder","deeper","nvm","react","proxy","react-code","jwt","test","run-all","git-intro","extended-model","auth-register","tests","env-config","db-schema","auth-compare","db-python","postgresql","deploy","cors-deep","troubleshooting","glossary","faq","cheatsheet","summary","export"];</script>
 <script src="js/progress.js" defer></script>
 <script src="js/search.js" defer></script>
 <script src="js/toc.js" defer></script>
