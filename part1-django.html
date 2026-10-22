@@ -64,7 +64,7 @@
           <li><a href="#django" data-star>4. Создание Django-проекта</a></li>
           <li><a href="#django-admin" data-star>5. Django Admin — готовая админка из коробки</a></li>
           <li><a href="#django-bootstrap5" data-star>6. Django + Bootstrap 5 — django_bootstrap5</a></li>
-          <li><a href="#quickstart" data-star>6.5. Быстрый старт: Django + Bootstrap 5 за 8 шагов</a></li>
+          <li><a href="#shop" data-star>6.6. Мини-интернет-магазин: товары, регистрация, вход и отзывы</a></li>
           <li><a href="#api" data-star>7. Модель, сериализатор, представления</a></li>
           <li><a href="#test-api" data-star>8. Тестирование API через curl</a></li>
           <li><a href="#jsonplaceholder" data-star>9. JSONPlaceholder</a></li>
@@ -717,6 +717,324 @@ python3 manage.py runserver</code><button type="button" class="copy-btn">Коп�
     <p><strong>Готово!</strong> Открывайте установленный в РЕД ОС браузер (например, Chromium или Яндекс.Браузер) и переходите по адресу: <strong><a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">http://127.0.0.1:8000/</a></strong>. Перед вами откроется адаптивная страница со стилями Bootstrap 5.</p>
     <button type="button" class="mark-read" data-section="quickstart@part1-django.html">Отметить как изученное</button>
 
+    <!-- section:shop -->
+    <h3 id="shop" class="mark-read-anchor">6.6. Мини-интернет-магазин: товары, регистрация, вход и отзывы</h3>
+
+    <p>Соберём на базе проекта из раздела 6.5 (<code>config</code> + <code>webapp</code>) настоящий мини-магазин: на главной — карточки товаров с отзывами, незарегистрированный пользователь может только читать, а зарегистрированный — оставлять свои отзывы. По пути закроем частый вопрос новичков: <strong>что делать, если файлов <code>views.py</code> или <code>urls.py</code> «нет»</strong>.</p>
+
+    <h4>Шаг 1. Файлы views.py и urls.py — понятная схема</h4>
+    <p>В Django маршрутизация запроса идёт по цепочке:</p>
+<pre><code>Браузер (URL)
+   |
+   v
+config/urls.py          &lt;- главный диспетчер: решает, какому ПРИЛОЖЕНИЮ отдать запрос
+   |  path('', include('webapp.urls'))
+   v
+webapp/urls.py          &lt;- карта приложения: URL -&gt; функция-представление
+   |  path('product/&lt;int:pk&gt;/', views.product_detail)
+   v
+webapp/views.py         &lt;- логика: берёт данные из БД (models.py) и отдаёт шаблон (.html)</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">text</span></pre>
+    <ul>
+      <li><strong>urls.py</strong> — только сопоставление адреса и представления, логики здесь нет.</li>
+      <li><strong>views.py</strong> — функции-обработчики: получают <code>request</code>, обращаются к моделям, возвращают <code>render(...)</code> или <code>redirect(...)</code>.</li>
+      <li><strong>models.py</strong> — таблицы БД (товары, отзывы).</li>
+    </ul>
+    <div class="callout info"><p><strong>Если файла нет — создайте его вручную.</strong> <code>views.py</code> Django создаёт сам при <code>startapp</code>, а вот <code>urls.py</code> для приложения — никогда: именно поэтому в разделе 6.5 (шаг 6) вы создавали его руками. Проверить наличие можно командой <code>ls webapp/</code>; создать пустой файл — <code>touch webapp/urls.py</code>. Пустой <code>urls.py</code> обязан содержать хотя бы <code>urlpatterns = []</code>, иначе Django упадёт с ошибкой «module urlpatterns not found».</p></div>
+
+    <h4>Шаг 2. Модели: товары и отзывы (<code>webapp/models.py</code>)</h4>
+<pre><code>from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+
+
+class Product(models.Model):
+    name = models.CharField('Название', max_length=200)
+    description = models.TextField('Описание')
+    price = models.DecimalField('Цена, руб.', max_digits=8, decimal_places=2)
+    image = models.URLField('Ссылка на картинку', blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                related_name='reviews', verbose_name='Товар')
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               verbose_name='Автор')
+    text = models.TextField('Текст отзыва', max_length=2000)
+    rating = models.PositiveSmallIntegerField('Оценка 1-5')
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Отзыв {self.author} к «{self.product}»'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <p><code>related_name='reviews'</code> позволяет из товара достать все его отзывы: <code>product.reviews.all()</code>. После изменения моделей не забудьте <code>makemigrations</code> и <code>migrate</code> (шаг 7).</p>
+
+    <h4>Шаг 3. Регистрация и вход — встроенные средства Django</h4>
+    <p>Регистрацию даём через готовый <code>UserCreationForm</code>, вход/выход — через стандартные view из <code>django.contrib.auth.views</code>. Форму положим в файл <code>webapp/forms.py</code> (его тоже создаём вручную: <code>touch webapp/forms.py</code>):</p>
+<pre><code>from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True, label='Электронная почта')
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <p>Полный набор маршрутов магазина — файл <code>webapp/urls.py</code>:</p>
+<pre><code>from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
+
+app_name = 'webapp'
+
+urlpatterns = [
+    # главная: товары + отзывы
+    path('', views.index, name='index'),
+    path('product/&lt;int:pk&gt;/', views.product_detail, name='product'),
+    path('product/&lt;int:pk&gt;/review/new/', views.add_review, name='add-review'),
+
+    # аккаунт
+    path('register/', views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='webapp/login.html'),
+         name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+]</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <p>Логика представлений — файл <code>webapp/views.py</code> (замените в нём функцию <code>index</code> из раздела 6.5):</p>
+<pre><code>from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from .forms import RegisterForm
+from .models import Product, Review
+
+
+def index(request):
+    products = Product.objects.prefetch_related('reviews__author').all()
+    return render(request, 'webapp/index.html', {'products': products})
+
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'webapp/product.html', {'product': product})
+
+
+@login_required
+def add_review(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        text = request.POST.get('text', '').strip()
+        try:
+            rating = int(request.POST.get('rating', 0))
+        except ValueError:
+            rating = 0
+        if text and 1 &lt;= rating &lt;= 5:
+            Review.objects.create(product=product, author=request.user,
+                                  text=text, rating=rating)
+        return redirect(reverse('webapp:product', args=[product.pk]))
+    return render(request, 'webapp/review_form.html', {'product': product})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()    # пароль будет хеширован автоматически
+            login(request, user)  # сразу заходим под новым аккаунтом
+            return redirect('webapp:index')
+    else:
+        form = RegisterForm()
+    return render(request, 'webapp/register.html', {'form': form})</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <div class="callout tip"><p><strong>Почему это безопасно без единой строчки про пароли:</strong> <code>UserCreationForm</code> проверяет сложность и совпадение двух полей пароля, <code>form.save()</code> хеширует пароль (pbkdf2/argon2/bcrypt — зависит от настроек), а декоратор <code>@login_required</code> не пустит анонима на страницу отзыва — вместо этого покажет форму входа (<code>LOGIN_URL</code> из шага 4). Выход из системы — только POST-запросом, чтобы сторонние сайты не могли «разлогинить» пользователя ссылкой-картинкой.</p></div>
+
+    <h4>Шаг 4. Настройки входа (<code>config/settings.py</code>)</h4>
+<pre><code># Куда редиректить после входа и куда вести ссылку "войдите, чтобы продолжить"
+LOGIN_REDIRECT_URL = 'webapp:index'
+LOGOUT_REDIRECT_URL = 'webapp:index'
+LOGIN_URL = 'webapp:login'</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>Шаг 5. Шаблоны</h4>
+    <p>Все файлы кладём в <code>webapp/templates/webapp/</code>. Общий каркас с меню «вход/регистрация/выход» — <code>base.html</code>:</p>
+<pre><code>{% load django_bootstrap5 %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;{% block title %}Магазин на РЕД ОС{% endblock %}&lt;/title&gt;
+    {% bootstrap_css %}
+&lt;/head&gt;
+&lt;body class="bg-light"&gt;
+&lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4"&gt;
+    &lt;div class="container-fluid"&gt;
+        &lt;a class="navbar-brand" href="{% url 'webapp:index' %}"&gt;MiniShop&lt;/a&gt;
+        &lt;div class="ms-auto d-flex gap-2 align-items-center"&gt;
+            {% if user.is_authenticated %}
+                &lt;span class="text-white-50"&gt;Привет, {{ user.username }}&lt;/span&gt;
+                &lt;form method="post" action="{% url 'webapp:logout' %}" class="d-inline"&gt;
+                    {% csrf_token %}
+                    &lt;button class="btn btn-outline-light btn-sm" type="submit"&gt;Выйти&lt;/button&gt;
+                &lt;/form&gt;
+            {% else %}
+                &lt;a class="btn btn-outline-light btn-sm" href="{% url 'webapp:login' %}"&gt;Вход&lt;/a&gt;
+                &lt;a class="btn btn-success btn-sm" href="{% url 'webapp:register' %}"&gt;Регистрация&lt;/a&gt;
+            {% endif %}
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+&lt;main class="container pb-5"&gt;{% block content %}{% endblock %}&lt;/main&gt;
+{% bootstrap_javascript %}
+&lt;/body&gt;
+&lt;/html&gt;</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">html</span></pre>
+    <p>Главная страница со списком товаров — <code>index.html</code>:</p>
+<pre><code>{% extends 'webapp/base.html' %}
+{% block title %}Товары — MiniShop{% endblock %}
+{% block content %}
+&lt;div class="row row-cols-1 row-cols-md-3 g-4"&gt;
+    {% for p in products %}
+    &lt;div class="col"&gt;
+        &lt;div class="card h-100 shadow-sm"&gt;
+            {% if p.image %}&lt;img src="{{ p.image }}" class="card-img-top" alt="{{ p.name }}"&gt;{% endif %}
+            &lt;div class="card-body"&gt;
+                &lt;h5 class="card-title"&gt;&lt;a href="{% url 'webapp:product' p.pk %}"&gt;{{ p.name }}&lt;/a&gt;&lt;/h5&gt;
+                &lt;p class="card-text text-muted"&gt;{{ p.description|truncatechars:80 }}&lt;/p&gt;
+                &lt;p class="fw-bold mb-0"&gt;{{ p.price }} ₽&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class="card-footer text-muted"&gt;Отзывов: {{ p.reviews.count }}&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    {% empty %}
+    &lt;p&gt;Товаров пока нет — добавьте их в админке (раздел 5 и шаг 6 ниже).&lt;/p&gt;
+    {% endfor %}
+&lt;/div&gt;
+{% endblock %}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">html</span></pre>
+    <p>Страница товара со списком отзывов и кнопкой написать отзыв — <code>product.html</code>:</p>
+<pre><code>{% extends 'webapp/base.html' %}
+{% block title %}{{ product.name }} — MiniShop{% endblock %}
+{% block content %}
+&lt;div class="p-4 bg-white rounded-3 border shadow-sm mb-4"&gt;
+    &lt;h1 class="h3"&gt;{{ product.name }}&lt;/h1&gt;
+    &lt;p&gt;{{ product.description }}&lt;/p&gt;
+    &lt;p class="fs-4 fw-bold text-success"&gt;{{ product.price }} ₽&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="d-flex justify-content-between align-items-center mb-3"&gt;
+    &lt;h2 class="h5 mb-0"&gt;Отзывы ({{ product.reviews.count }})&lt;/h2&gt;
+    {% if user.is_authenticated %}
+        &lt;a class="btn btn-success btn-sm" href="{% url 'webapp:add-review' product.pk %}"&gt;Написать отзыв&lt;/a&gt;
+    {% else %}
+        &lt;a class="btn btn-outline-secondary btn-sm"
+           href="{% url 'webapp:login' %}?next={% url 'webapp:add-review' product.pk %}"&gt;Войдите, чтобы оставить отзыв&lt;/a&gt;
+    {% endif %}
+&lt;/div&gt;
+
+{% for r in product.reviews.all %}
+&lt;div class="card mb-2"&gt;
+    &lt;div class="card-body py-2"&gt;
+        &lt;strong&gt;{{ r.author.username }}&lt;/strong&gt;
+        &lt;span class="text-warning"&gt;{% for i in r.rating|format_stars %}★{% endfor %}&lt;/span&gt;
+        &lt;small class="text-muted"&gt;{{ r.created_at|date:"d.m.Y H:i" }}&lt;/small&gt;
+        &lt;p class="mb-0 mt-1"&gt;{{ r.text }}&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+{% empty %}
+&lt;p class="text-muted"&gt;Отзывов ещё нет — станьте первым!&lt;/p&gt;
+{% endfor %}
+{% endblock %}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">html</span></pre>
+    <p>Форма отзыва — <code>review_form.html</code> (доступна только залогиненным благодаря <code>@login_required</code>):</p>
+<pre><code>{% extends 'webapp/base.html' %}
+{% block content %}
+&lt;h1 class="h4"&gt;Новый отзыв о «{{ product.name }}»&lt;/h1&gt;
+&lt;form method="post" class="mt-3"&gt;
+    {% csrf_token %}
+    &lt;div class="mb-3"&gt;
+        &lt;label class="form-label"&gt;Оценка (1–5)&lt;/label&gt;
+        &lt;select name="rating" class="form-select" style="max-width:120px"&gt;
+            &lt;option value="5"&gt;5 — отлично&lt;/option&gt;
+            &lt;option value="4"&gt;4&lt;/option&gt;
+            &lt;option value="3"&gt;3&lt;/option&gt;
+            &lt;option value="2"&gt;2&lt;/option&gt;
+            &lt;option value="1"&gt;1 — плохо&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3"&gt;
+        &lt;label class="form-label"&gt;Текст отзыва&lt;/label&gt;
+        &lt;textarea name="text" class="form-control" rows="4" required&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-success"&gt;Отправить&lt;/button&gt;
+&lt;/form&gt;
+{% endblock %}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">html</span></pre>
+    <p>Формы входа и регистрации — <code>login.html</code> и <code>register.html</code> (библиотека <code>django-bootstrap5</code> сама отрисует поля):</p>
+<pre><code>&lt;!-- webapp/templates/webapp/login.html --&gt;
+{% extends 'webapp/base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+&lt;h1 class="h4 mb-3"&gt;Вход&lt;/h1&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    &lt;input type="hidden" name="next" value="{{ next }}"&gt;
+    &lt;button type="submit" class="btn btn-dark"&gt;Войти&lt;/button&gt;
+    &lt;a class="ms-2" href="{% url 'webapp:register' %}"&gt;Нет аккаунта? Зарегистрируйтесь&lt;/a&gt;
+&lt;/form&gt;
+{% endblock %}
+
+&lt;!-- webapp/templates/webapp/register.html --&gt;
+{% extends 'webapp/base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+&lt;h1 class="h4 mb-3"&gt;Регистрация&lt;/h1&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    &lt;button type="submit" class="btn btn-success"&gt;Создать аккаунт&lt;/button&gt;
+&lt;/form&gt;
+{% endblock %}</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">html</span></pre>
+    <p>Фильтр <code>format_stars</code> для звёздочек рейтинга добавляем в <code>webapp/templatetags/shop_extras.py</code> (файл и пустой <code>__init__.py</code> в папке <code>templatetags</code> создаём вручную):</p>
+<pre><code>from django import template
+
+register = template.Library()
+
+
+@register.filter
+def format_stars(n):
+    return range(int(n or 0))</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+    <p>И подключаете библиотеку тегов в начале <code>product.html</code>: <code>{% load shop_extras %}</code>.</p>
+
+    <h4>Шаг 6. Товары через админку</h4>
+    <p>Регистрируем модели в <code>webapp/admin.py</code>, чтобы наполнять магазин из готовой админки (раздел 5):</p>
+<pre><code>from django.contrib import admin
+from .models import Product, Review
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'reviews_count')
+
+    def reviews_count(self, obj):
+        return obj.reviews.count()
+    reviews_count.short_description = 'Отзывов'
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('product', 'author', 'rating', 'created_at')</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">python</span></pre>
+
+    <h4>Шаг 7. Миграции и проверка цикла «регистрация → отзыв»</h4>
+<pre><code>source venv/bin/activate            # окружение из раздела 6.5
+python3 manage.py makemigrations webapp
+python3 manage.py migrate
+python3 manage.py createsuperuser   # админ: добавить пару товаров
+python3 manage.py runserver</code><button type="button" class="copy-btn">Копировать</button><span class="lang-tag">bash</span></pre>
+    <p>Проверьте себя как пользователь: откройте <code>http://127.0.0.1:8000/</code> → видите товары, кнопки «Написать отзыв» нет → «Регистрация» → создайте аккаунт (автоматически войдёте) → откройте товар → «Написать отзыв» → отправьте ★★★★★ → отзыв появился под именем вашего пользователя. Нажмите «Выйти» — текст отзыва виден по-прежнему, но кнопка сменилась на «Войдите, чтобы оставить отзыв». Именно так работает связка «модель Review → ForeignKey на User → @login_required».</p>
+    <div class="callout warn"><p>Используйте код с осторожностью. Для продакшена включите HTTPS, замените SQLite на PostgreSQL (раздел 26) и не забудьте <code>DEBUG = False</code> — правила из раздела деплоя (27).</p></div>
+    <button type="button" class="mark-read" data-section="shop@part1-django.html">Отметить как изученное</button>
+
     <!-- section:api -->
     <h3 id="api" class="mark-read-anchor">7. Модель, сериализатор, представления</h3>
 
@@ -1069,7 +1387,7 @@ curl "https://jsonplaceholder.typicode.com/posts?_limit=5&amp;_page=2"</code><bu
 <script src="js/idmap.js" defer></script>
 <script src="js/ui.js" defer></script>
 <script src="js/theme.js" defer></script>
-<script>window.GUIDE_SECTIONS=["intro-all","prerequisites","architecture","intro","no-sudo","python","django","django-admin","django-bootstrap5","quickstart","api","test-api","jsonplaceholder","deeper","nvm","react","proxy","react-code","jwt","test","run-all","git-intro","extended-model","auth-register","tests","env-config","db-schema","auth-compare","db-python","postgresql","deploy","cors-deep","troubleshooting","glossary","faq","cheatsheet","summary","export"];</script>
+<script>window.GUIDE_SECTIONS=["intro-all","prerequisites","architecture","intro","no-sudo","python","django","django-admin","django-bootstrap5","quickstart","shop","api","test-api","jsonplaceholder","deeper","nvm","react","proxy","react-code","jwt","test","run-all","git-intro","extended-model","auth-register","tests","env-config","db-schema","auth-compare","db-python","postgresql","deploy","cors-deep","troubleshooting","glossary","faq","cheatsheet","summary","export"];</script>
 <script src="js/progress.js" defer></script>
 <script src="js/search.js" defer></script>
 <script src="js/toc.js" defer></script>
